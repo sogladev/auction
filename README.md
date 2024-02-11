@@ -36,6 +36,15 @@
 
 TODO
 
+gorm ORM
+gin web framework
+
+playwright simple gui test
+
+https://apitest.dev/
+apitest
+
+
 ## Requirements
 go1.22.0 linux/amd64
 
