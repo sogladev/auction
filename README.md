@@ -37,8 +37,7 @@
 TODO
 
 ## Requirements
-
-to be listed
+go1.22.0 linux/amd64
 
 ## Resources
 to be added
