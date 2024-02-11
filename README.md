@@ -39,7 +39,14 @@ TODO
 gorm ORM
 gin web framework
 
+REST vs GraphQL
+use REST.small project, simple data, API users use the same data, only 1 source
+
 playwright simple gui test
+post
+
+zap logger
+https://github.com/uber-go/zap
 
 https://apitest.dev/
 apitest
@@ -53,15 +60,39 @@ to be added
 https://www.knowledgefactory.net/2022/01/go-lang-vuejs-mysql-crud-example.html
 https://github.com/vacaramin/Go-Websocket-ChatRoom
 
+https://www.youtube.com/watch?v=8uiZC0l4Ajw
+
+chat client massive
+https://github-com.translate.goog/GoBelieveIO/im_service/tree/master?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en
+
 ## Usage
 
 `/hlm p`
 
 https://github.com/Ella36/Hloot
 
-### Upload
+## Roadmap
+Addon export [x]
+- [x] Export game data
 
-## Setup upload
+Website [ ]
+
+philosophy: build like a CRUD app and then expand, add tests, basic CI
+
+- [ ] import JSON data
+- [ ] parse and reply with auctions to render
+- [ ] show data to listeners
+- [ ] print list of auctions
+- [ ] make a room
+- [ ] join room as viewer or lootmaster
+- [ ] authenticate viewer
+- [ ] authenticate lootmaster
+- [ ] join room with a code
+- [ ] show users that are listening
+
+Addon import
+- [ ] take JSON and import
+- [ ] add auctions as "sold" so they can be traded by addon
 
 ## Notes
 

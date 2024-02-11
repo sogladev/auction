@@ -1,4 +1,7 @@
 resources/
+.vscode
+backend/README.md # symlinked from root
+frontend/README.md # symlinked from root
 
 # Created by https://www.toptal.com/developers/gitignore/api/go,visualstudiocode,vuejs
 # Edit at https://www.toptal.com/developers/gitignore?templates=go,visualstudiocode,vuejs

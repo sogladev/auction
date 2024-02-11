@@ -2,3 +2,7 @@
 	path = addon
 	url = git@github.com:Ella36/HLoot.git
 	branch = export-pending-items
+[submodule "backend"]
+	path = backend
+	url = git@github.com:Ella36/auction-go.git
+	branch = main
