@@ -43,7 +43,11 @@ REST vs GraphQL
 use REST.small project, simple data, API users use the same data, only 1 source
 
 playwright simple gui test
-post
+postman
+
+swagger
+
+
 
 zap logger
 https://github.com/uber-go/zap
@@ -144,11 +148,60 @@ Info required: itemID, itemName?, minimumPrice
 TODO: since items are fixed aka always the same same
 TODO: format the session log better. Low prio
 TODO: format the addon different branch to disable or remote functionality not needed
+
+Add some ids for testing
+19137 18814 17076 18563 17069 17071 17105 17204
+-- class stuff
+16795 16808 16813 16821 16834 16842 16846 16854 16866
+
+-- goods
+18264 18260 17011
+
+Test string for /hlma
+```/hlma 19137 18814 17076 18563 17069 17071 17105 17204 16795 16808 16813 16821 16834 16842 16846 16854 16866 18264 18260 17011```
+
 ```csv
-date,itemID,itemName,player,salePrice
-10-02-2024,117,Tough Jerky,,0
-10-02-2024,6125,Brawler's harness,,0
-...
+id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice
+19137,1,3000
+19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000
+18814,1,3000
+18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000
+17076,1,3000
+17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000
+18563,1,3000
+18563,Bindings of the Windseeker,5,70,0,Miscellaneous,Junk,1,3000
+17069,1,3000
+17069,Striker's Mark,4,69,60,Weapon,Bows,1,3000
+17071,1,3000
+17071,Gutgore Ripper,4,69,60,Weapon,Daggers,1,3000
+17105,1,3000
+17105,Aurastone Hammer,4,69,60,Weapon,One-Handed Maces,1,3000
+17204,1,3000
+17204,Eye of Sulfuras,5,60,0,Trade Goods,Trade Goods,1,3000
+16795,1,3000
+16795,Arcanist Crown,4,66,60,Armor,Cloth,1,3000
+16808,1,3000
+16808,Felheart Horns,4,66,60,Armor,Cloth,1,3000
+16813,1,3000
+16813,Circlet of Prophecy,4,66,60,Armor,Cloth,1,3000
+16821,1,3000
+16821,Nightslayer Cover,4,66,60,Armor,Leather,1,3000
+16834,1,3000
+16834,Cenarion Helm,4,66,60,Armor,Leather,1,3000
+16842,1,3000
+16842,Earthfury Helmet,4,66,60,Armor,Mail,1,3000
+16846,1,3000
+16846,Giantstalker's Helmet,4,66,60,Armor,Mail,1,3000
+16854,1,3000
+16854,Lawbringer Helm,4,66,60,Armor,Plate,1,3000
+16866,1,3000
+16866,Helm of Might,4,66,60,Armor,Plate,1,3000
+18264,1,3000
+18264,Plans: Elemental Sharpening Stone,3,60,0,Recipe,Blacksmithing,1,3000
+18260,1,3000
+18260,Formula: Enchant Weapon - Healing Power,3,60,0,Recipe,Enchanting,1,3000
+17011,1,3000
+17011,Lava Core,3,60,0,Reagent,Reagent,1,3000
 ```
 
 1. Website
