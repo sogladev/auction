@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Menubar from 'primevue/menubar'
+import 'primeicons/primeicons.css'
 
 import { ref } from 'vue'
 
@@ -71,10 +72,7 @@ const items = ref([
 </script>
 
 <template>
-  <div class="card relative z-2">
-    <Menubar :model="items" />
-  </div>
-
+  <Menubar :model="items" />
 </template>
 
 <style scoped>

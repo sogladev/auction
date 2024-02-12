@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import TopNavigation from './components/TopNavigation.vue'
-
 </script>
 
 <template>
-  <div class="wrapper gap-3">
+  <header>
     <TopNavigation />
+</header>
+<body>
+<div>
     <RouterView />
 </div>
+</body>
 </template>
 
 <style scoped>
