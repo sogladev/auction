@@ -101,6 +101,12 @@ Addon import
 
 ## Notes
 
+data / schema
+
+https://dbdiagram.io/d/auction-65c9ab1aac844320aeec5e81
+
+![Db Diagram](./images/db_diagram.png.png)
+
 1. meta data
 ```mermaid
 flowchart LR;
@@ -171,7 +177,18 @@ rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice
 ![Ingame Import Screenshot](./images/game_import_screenshot.png)
 
 `/hlm i`
+
+itemIdreateForId(tonumber(elements[1]))
+  item.info = {
+    status = tonumber(elements[2]),
+    minPrice = tonumber(elements[3]),
+    exp = tonumber(elements[4]),
+    winner = elements[5],
+    salePrice = tonumber(elements[6])
+  }
+  item.guid = elements[7] -- Encode != Decode. Field is only needed to be decoded from GUI
 ```
+rowID,itemId,status,minPrice,exp,winner,salePrice,guid
 1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
 ```
 
