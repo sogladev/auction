@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import Menubar from 'primevue/menubar';
-import Topnav from './components/Topnav.vue'
+import { RouterView } from 'vue-router'
+import TopNavigation from './components/TopNavigation.vue'
 
 </script>
 
 <template>
-  <header>
-    <Topnav />
-  </header>
-  <RouterView />
+  <div class="wrapper gap-3">
+    <TopNavigation />
+    <RouterView />
+</div>
 </template>
 
 <style scoped>
