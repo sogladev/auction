@@ -112,7 +112,7 @@ https://dbdiagram.io/d/auction-65c9ab1aac844320aeec5e81
 flowchart LR;
     game-->in-->website-->out-->game
     in[(items.csv)]
-    out[(sold_items.csv)]
+    out[(encodedItems)]
     website([website])
 ```
 
