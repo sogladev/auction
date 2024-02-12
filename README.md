@@ -78,6 +78,7 @@ https://github.com/Ella36/Hloot
 ## Roadmap
 Addon export [x]
 - [x] Export game data
+- [x] Import game data
 
 Website [ ]
 
@@ -142,67 +143,38 @@ flowchart LR;
     export(["Session:ExportAllPendingAuctionsToGUI()"])
 ```
 
-![Ingame Input Screenshot](./images/game_input_screenshot.png)
+![Ingame Export Screenshot](./images/game_export_screenshot.png)
 
-Info required: itemID, itemName?, minimumPrice
-TODO: since items are fixed aka always the same same
-TODO: format the session log better. Low prio
-TODO: format the addon different branch to disable or remote functionality not needed
+`/hlm e` export
 
-Add some ids for testing
-19137 18814 17076 18563 17069 17071 17105 17204
--- class stuff
-16795 16808 16813 16821 16834 16842 16846 16854 16866
+Add items with hlma (from id) or with shift+click (from bags)
 
--- goods
-18264 18260 17011
+note: items created with /hlma do not have a guid and when importing are not auto-tradeable
+shift+click items to add. will export/import the guid and allow auto-trading
 
 Test string for /hlma
 ```/hlma 19137 18814 17076 18563 17069 17071 17105 17204 16795 16808 16813 16821 16834 16842 16846 16854 16866 18264 18260 17011```
+smaller
+```/hlma 19137 18814 17076```
 
-```csv
-id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice
-19137,1,3000
-19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000
-18814,1,3000
-18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000
-17076,1,3000
-17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000
-18563,1,3000
-18563,Bindings of the Windseeker,5,70,0,Miscellaneous,Junk,1,3000
-17069,1,3000
-17069,Striker's Mark,4,69,60,Weapon,Bows,1,3000
-17071,1,3000
-17071,Gutgore Ripper,4,69,60,Weapon,Daggers,1,3000
-17105,1,3000
-17105,Aurastone Hammer,4,69,60,Weapon,One-Handed Maces,1,3000
-17204,1,3000
-17204,Eye of Sulfuras,5,60,0,Trade Goods,Trade Goods,1,3000
-16795,1,3000
-16795,Arcanist Crown,4,66,60,Armor,Cloth,1,3000
-16808,1,3000
-16808,Felheart Horns,4,66,60,Armor,Cloth,1,3000
-16813,1,3000
-16813,Circlet of Prophecy,4,66,60,Armor,Cloth,1,3000
-16821,1,3000
-16821,Nightslayer Cover,4,66,60,Armor,Leather,1,3000
-16834,1,3000
-16834,Cenarion Helm,4,66,60,Armor,Leather,1,3000
-16842,1,3000
-16842,Earthfury Helmet,4,66,60,Armor,Mail,1,3000
-16846,1,3000
-16846,Giantstalker's Helmet,4,66,60,Armor,Mail,1,3000
-16854,1,3000
-16854,Lawbringer Helm,4,66,60,Armor,Plate,1,3000
-16866,1,3000
-16866,Helm of Might,4,66,60,Armor,Plate,1,3000
-18264,1,3000
-18264,Plans: Elemental Sharpening Stone,3,60,0,Recipe,Blacksmithing,1,3000
-18260,1,3000
-18260,Formula: Enchant Weapon - Healing Power,3,60,0,Recipe,Enchanting,1,3000
-17011,1,3000
-17011,Lava Core,3,60,0,Reagent,Reagent,1,3000
+
+`/hlm e`
 ```
+rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
+1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
+2,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid
+3,17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000,noguid
+4,12282,Worn Battleaxe,1,2,1,Weapon,Two-Handed Axes,1,3000,Item-5827-0-40000000C90648E0
+5,140,Brawler's Boots,1,1,0,Armor,Miscellaneous,1,3000,Item-5827-0-40000000C90648DE
+```
+
+![Ingame Import Screenshot](./images/game_import_screenshot.png)
+
+`/hlm i`
+```
+1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
+```
+
 
 1. Website
 TODO: itemName, icon, rarity from wowhead API
