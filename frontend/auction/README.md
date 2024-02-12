@@ -21,3 +21,4 @@ npm create vite@latestnpm install primevue✔ Project name: … auction
 ✔ Add Prettier for code formatting? … No / Yes
 ```
 
+npm install primevue
