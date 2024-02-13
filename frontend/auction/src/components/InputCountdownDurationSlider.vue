@@ -2,13 +2,13 @@
   <div class="q-pa-md">
     <q-icon name="timer" />
     <q-badge color="primary">
-      Bid Duration {{ value }}s {{ formatTime(value) }}(MM:SS)
+      Countdown Duration {{ value }}s {{ formatTime(value) }}(MM:SS)
     </q-badge>
 
     <q-slider
       v-model="value"
-      :min="0"
-      :max="720"
+      :min="20"
+      :max="120"
       :step="5"
       label
       :label-value="formatTime(value)"
@@ -22,7 +22,7 @@ import { defineComponent } from 'vue';
 import { ref } from 'vue';
 
 export default defineComponent({
-  name: 'BidDuration',
+  name: 'CountdownDuration',
   methods: {
     formatTime(seconds) {
       const minutes = Math.floor(seconds / 60);
@@ -32,7 +32,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      value: ref(240),
+      value: ref(40),
     };
   },
 });

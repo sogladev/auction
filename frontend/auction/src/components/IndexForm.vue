@@ -46,12 +46,8 @@
     </div>
 
     <div class="col-6 bg-blue-8">
-      <InputBidDurationField />
-      <InputCountdownDurationField />
-    </div>
-
-    <div class="col-6 bg-blue-8">
       <InputBidDurationSlider />
+      <InputCountdownDurationSlider />
     </div>
 
   </div>
@@ -69,10 +65,9 @@ import CreateRoomButton from './CreateRoomButton.vue';
 import CreatePlayRoomButton from './CreatePlayRoomButton.vue';
 import ShowPayoutToggle from './ShowPayoutToggle.vue';
 import ShowHighestBidderToggle from './ShowHighestBidderToggle.vue';
-import InputBidDurationField from './InputBidDurationField.vue';
-import InputCountdownDurationField from './InputCountdownDurationField.vue';
 import RestrictToEquipable from './RestrictToEquipable.vue';
 import InputBidDurationSlider from './InputBidDurationSlider.vue';
+import InputCountdownDurationSlider from './InputCountdownDurationSlider.vue';
 
 export default defineComponent({
   name: 'IndexForm',
@@ -86,8 +81,7 @@ export default defineComponent({
     CreatePlayRoomButton,
     ShowPayoutToggle,
     ShowHighestBidderToggle,
-    InputBidDurationField,
-    InputCountdownDurationField,
+    InputCountdownDurationSlider,
     RestrictToEquipable,
     InputBidDurationSlider
 },
