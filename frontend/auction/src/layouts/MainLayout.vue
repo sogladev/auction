@@ -2,16 +2,10 @@
   <q-layout view="hhh lpR fFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
         <q-toolbar-title> Auction App </q-toolbar-title>
+          <a href="#/">Home</a> |
+            <a href="#/about">About</a> |
+            <a href="#/room/1">Broken Link</a>
 
         <div>Quasar v{{ $q.version }}</div>
         <DarkModeToggle />

@@ -1,41 +1,28 @@
 import { RouteRecordRaw } from 'vue-router';
 
-
 const routes: RouteRecordRaw[] = [
   {
-    path: '/room',
-
+    path: '/',
     component: () => import('layouts/MainLayout.vue'),
-
-    children: [
-      {
-        //path: ':roomId(\\w{5})',
-        path: ':id',
-        component: import('pages/RoomPage.vue'),
-        props: (route) => ({ id: route.params.id }),
-      },
-    ],
+    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   },
   {
-    path: '/',
-
+    path: '/about',
     component: () => import('layouts/MainLayout.vue'),
-
-    children: [
-      {
-        path: 'about',
-        component: import('pages/AboutPage.vue'),
-      },
-      {
-        path: '',
-        component: import('pages/IndexPage.vue'),
-      },
-    ],
+    children: [{ path: '', component: () => import('pages/AboutPage.vue') }],
   },
+  {
+    path: '/room/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/RoomPage.vue') }],
+  },
+  // Always leave this as last one,
+  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
   },
 ];
+
 
 export default routes;

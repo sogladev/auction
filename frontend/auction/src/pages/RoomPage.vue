@@ -6,7 +6,7 @@
     :meta="meta"
   ></example-component>
   <h1>Welcome to a Room</h1>
-  <p>This is the main room page where auctions happen</p>
+  <p>This is the main room page {{ $route.params.id }} where auctions happen</p>
 </template>
 
 <script lang="ts">
