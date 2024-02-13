@@ -50,6 +50,10 @@
       <InputCountdownDurationField />
     </div>
 
+    <div class="col-6 bg-blue-8">
+      <InputBidDurationSlider />
+    </div>
+
   </div>
 </template>
 
@@ -68,6 +72,7 @@ import ShowHighestBidderToggle from './ShowHighestBidderToggle.vue';
 import InputBidDurationField from './InputBidDurationField.vue';
 import InputCountdownDurationField from './InputCountdownDurationField.vue';
 import RestrictToEquipable from './RestrictToEquipable.vue';
+import InputBidDurationSlider from './InputBidDurationSlider.vue';
 
 export default defineComponent({
   name: 'IndexForm',
@@ -83,7 +88,8 @@ export default defineComponent({
     ShowHighestBidderToggle,
     InputBidDurationField,
     InputCountdownDurationField,
-    RestrictToEquipable
+    RestrictToEquipable,
+    InputBidDurationSlider
 },
   props: {
     setup() {
