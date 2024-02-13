@@ -1,27 +1,53 @@
 <template>
-  <div id="parent" class="fit row text-center">
-    <div class="col-5 bg-grey-6" style="padding 2px">
+  <div id="parent" class="flex text-center">
+    <div class="col-2 bg-grey-6" style="padding 2px">
       <div style="padding-bottom: 5px">
         <CharacterNameField />
       </div>
-
     </div>
-    <div class="offset-1 col-5 bg-grey-6">
+    <div class="col-2 bg-grey-6">
       <div style="padding-bottom: 5px">
-      <OrganiserFeeInputField />
+        <OrganiserFeeInputField />
+      </div>
+    </div>
+
+    <div class="col-2 bg-grey-6">
+      <div style="padding-bottom: 5px">
+        <InputMinBidField />
+        <InputMinIncrementBidField />
       </div>
     </div>
 
     <div class="col-3 bg-grey-6">
       <div style="padding-bottom: 5px">
-      <InputMinBidField />
+        <DiscordProtectionToggle />
       </div>
     </div>
 
-    <div class="col-3 bg-grey-6">
-      <div style="padding-bottom: 5px">
-      <InputMinIncrementBidField />
-      </div>
+    <div class="col-6 bg-grey-6">
+      <CreateRoomButton />
+    </div>
+
+    <div class="col-6 bg-grey-6">
+      <CreatePlayRoomButton />
+    </div>
+
+    <div class="col-2 bg-grey-6">
+      <ShowPayoutToggle />
+    </div>
+
+    <!-- TODO: Make an array of these options -->
+    <div class="col-2 bg-grey-6">
+      <RestrictToEquipable />
+    </div>
+
+    <div class="col-2 bg-grey-6">
+      <ShowHighestBidderToggle />
+    </div>
+
+    <div class="col-6 bg-grey-6">
+      <InputBidDurationField />
+      <InputCountdownDurationField />
     </div>
 
   </div>
@@ -34,10 +60,31 @@ import CharacterNameField from './CharacterNameField.vue';
 import OrganiserFeeInputField from './OrganiserFeeInputField.vue';
 import InputMinBidField from './InputMinBidField.vue';
 import InputMinIncrementBidField from './InputMinIncrementBidField.vue';
+import DiscordProtectionToggle from './DiscordProtectionToggle.vue';
+import CreateRoomButton from './CreateRoomButton.vue';
+import CreatePlayRoomButton from './CreatePlayRoomButton.vue';
+import ShowPayoutToggle from './ShowPayoutToggle.vue';
+import ShowHighestBidderToggle from './ShowHighestBidderToggle.vue';
+import InputBidDurationField from './InputBidDurationField.vue';
+import InputCountdownDurationField from './InputCountdownDurationField.vue';
+import RestrictToEquipable from './RestrictToEquipable.vue';
 
 export default defineComponent({
   name: 'IndexForm',
-  components: { CharacterNameField, OrganiserFeeInputField, InputMinBidField, InputMinIncrementBidField },
+  components: {
+    CharacterNameField,
+    OrganiserFeeInputField,
+    InputMinBidField,
+    InputMinIncrementBidField,
+    DiscordProtectionToggle,
+    CreateRoomButton,
+    CreatePlayRoomButton,
+    ShowPayoutToggle,
+    ShowHighestBidderToggle,
+    InputBidDurationField,
+    InputCountdownDurationField,
+    RestrictToEquipable
+},
   props: {
     setup() {
       return {};
