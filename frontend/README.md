@@ -60,7 +60,8 @@ npm init quasar
 # TODO
 
 - [x] add dark theme so my eyes dont bleed 😎
-- [ ] status bar with some content = cut out the rest
+- [x] status bar with some content = cut out the rest
+- [ ] form page and navigate to a room
 - [ ] display auction
 - [ ] display a list of auctions
 - [ ] add buttons

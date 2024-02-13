@@ -5,19 +5,14 @@
     :todos="todos"
     :meta="meta"
   ></example-component>
+  <h1> Main Page</h1>
+  <p>This is the main index page used as a starting point</p>
 </template>
 
 <script lang="ts">
 import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
-
-//
-//  <q-layout view="hhh lpR fFf">
-//    <q-page-container>
-//      <router-view />
-//    </q-page-container>
-//  </q-layout>
 
 export default defineComponent({
   name: 'IndexPage',
