@@ -1,56 +1,71 @@
-# Auction
+# auction
 
-input:
-```
-rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
-1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
-2,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid
-3,17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000,noguid
-4,12282,Worn Battleaxe,1,2,1,Weapon,Two-Handed Axes,1,3000,Item-5827-0-40000000C90648E0
-5,140,Brawler's Boots,1,1,0,Armor,Miscellaneous,1,3000,Item-5827-0-40000000C90648DE
-```
-output
-```
-rowID,itemId,status,minPrice,exp,winner,salePrice,guid
-1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
-```
+This template should help get you started developing with Vue 3 in Vite.
 
-/ info page
-    form
-    join room
-    create room
-/raid/unique
-/rmt/unique
-/raid/unique
-    session
-    participate form
-    admin start/stop
-    list of items
-    buttons to control
-    interact with db
+## Recommended IDE Setup
 
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-# Tools installed
-Typescript
-JSX
-Vue Router
-Pinia
-Vitest
-E2E Playright
-ESLINT+Prettier
+## Type Support for `.vue` Imports in TS
 
-```
-npm create vite@latestnpm install primevue✔ Project name: … auction
-✔ Add TypeScript? … No / Yes
-✔ Add JSX Support? … No / Yes
-✔ Add Vue Router for Single Page Application development? … No / Yes
-✔ Add Pinia for state management? … No / Yes
-✔ Add Vitest for Unit Testing? … No / Yes
-✔ Add an End-to-End Testing Solution? › Playwright
-✔ Add ESLint for code quality? … No / Yes
-✔ Add Prettier for code formatting? … No / Yes
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+
+1. Disable the built-in TypeScript Extension
+    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
 ```
 
-# Notes
-npm install primevue
-difficult to do a simple task like basic navigation bar?
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Type-Check, Compile and Minify for Production
+
+```sh
+npm run build
+```
+
+### Run Unit Tests with [Vitest](https://vitest.dev/)
+
+```sh
+npm run test:unit
+```
+
+### Run End-to-End Tests with [Playwright](https://playwright.dev)
+
+```sh
+# Install browsers for the first run
+npx playwright install
+
+# When testing on CI, must build the project first
+npm run build
+
+# Runs the end-to-end tests
+npm run test:e2e
+# Runs the tests only on Chromium
+npm run test:e2e -- --project=chromium
+# Runs the tests of a specific file
+npm run test:e2e -- tests/example.spec.ts
+# Runs the tests in debug mode
+npm run test:e2e -- --debug
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
