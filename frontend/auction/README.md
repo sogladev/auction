@@ -1,5 +1,35 @@
 # Auction
 
+input:
+```
+rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
+1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
+2,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid
+3,17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000,noguid
+4,12282,Worn Battleaxe,1,2,1,Weapon,Two-Handed Axes,1,3000,Item-5827-0-40000000C90648E0
+5,140,Brawler's Boots,1,1,0,Armor,Miscellaneous,1,3000,Item-5827-0-40000000C90648DE
+```
+output
+```
+rowID,itemId,status,minPrice,exp,winner,salePrice,guid
+1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
+```
+
+/ info page
+    form
+    join room
+    create room
+/raid/unique
+/rmt/unique
+/raid/unique
+    session
+    participate form
+    admin start/stop
+    list of items
+    buttons to control
+    interact with db
+
+
 # Tools installed
 Typescript
 JSX
@@ -21,4 +51,6 @@ npm create vite@latestnpm install primevue✔ Project name: … auction
 ✔ Add Prettier for code formatting? … No / Yes
 ```
 
+# Notes
 npm install primevue
+difficult to do a simple task like basic navigation bar?
