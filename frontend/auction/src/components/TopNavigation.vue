@@ -72,9 +72,15 @@ const items = ref([
 </script>
 
 <template>
-  <Menubar :model="items" />
+  <Menubar id="topnavigationbar" :model="items" />
 </template>
 
 <style scoped>
+#topnavigationbar {
+  background-color: var(--primary-color);
+  color: var(--primary-color-text);
+  display: flex;
+  align-items: center;
+}
 </style>
 
