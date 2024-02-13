@@ -11,9 +11,11 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> Auction App </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
+        <DarkModeToggle />
+
       </q-toolbar>
     </q-header>
 
@@ -38,6 +40,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
+import DarkModeToggle from 'src/components/DarkModeToggle.vue';
 
 const linksList = [
   {
@@ -88,7 +91,7 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink,
+    EssentialLink, DarkModeToggle,
   },
 
   setup() {

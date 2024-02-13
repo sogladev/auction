@@ -54,3 +54,20 @@ npm create vite@latestnpm install primevue✔ Project name: … auction
 # Notes
 npm install primevue
 difficult to do a simple task like basic navigation bar?npm create vite@latest
+
+npm init quasar
+
+# TODO
+
+- [x] add dark theme so my eyes dont bleed 😎
+- [ ] status bar with some content = cut out the rest
+- [ ] display auction
+- [ ] display a list of auctions
+- [ ] add buttons
+- [ ] make scrollable list for many auctions
+- [ ] Keep footer or a header on top for data / filtering
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]

@@ -3,7 +3,6 @@
     v-model="isDarkMode"
     checked-icon="dark_mode"
     color="black"
-    label="Different icon for each state"
     unchecked-icon="light_mode"
     size="lg"
     :value="true"
