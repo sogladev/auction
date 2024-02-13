@@ -2,7 +2,7 @@
   <div class="flex flex-center column">
     <div class="text-h6">Flex playground example</div>
     <div
-      class="row bg-blue-grey-2"
+      class="row bg-blue-10"
       style="min-height: 320; max-width: 95%; padding: 24px"
     >
       <div id="parent" class="fit row wrap text-center content-start">
@@ -14,9 +14,8 @@
           :todos="todos"
           :meta="meta"
         ></example-component>
-        <p>This is the main index page used as a starting point</p>
 
-        <div class="col-12 bg-grey-6" style="overflow: auto">
+        <div class="col-12 bg-blue-8" style="overflow: auto">
           <q-field outlined label="Outlined" stack-label>
             <template v-slot:control>
               <div class="self-center full-width no-outline" tabindex="0">

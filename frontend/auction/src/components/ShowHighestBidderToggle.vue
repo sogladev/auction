@@ -2,7 +2,7 @@
   <q-toggle
     v-model="showHighestBidder"
     color="primary"
-    label="Show name of highest bidder"
+    label="Show name of highest biddegr"
   />
 </template>
 

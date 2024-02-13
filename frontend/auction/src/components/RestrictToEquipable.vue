@@ -12,7 +12,7 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'RestrictToEquipable',
   setup() {
-    const restrictToEquipable = ref(true);
+    const restrictToEquipable = ref(false);
     return {
       restrictToEquipable,
     };

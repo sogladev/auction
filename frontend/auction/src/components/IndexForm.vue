@@ -1,51 +1,51 @@
 <template>
   <div id="parent" class="flex text-center">
-    <div class="col-2 bg-grey-6" style="padding 2px">
+    <div class="col-2 bg-blue-8" style="padding 2px">
       <div style="padding-bottom: 5px">
         <CharacterNameField />
       </div>
     </div>
-    <div class="col-2 bg-grey-6">
+    <div class="col-2 bg-blue-8">
       <div style="padding-bottom: 5px">
         <OrganiserFeeInputField />
       </div>
     </div>
 
-    <div class="col-2 bg-grey-6">
+    <div class="col-2 bg-blue-8">
       <div style="padding-bottom: 5px">
         <InputMinBidField />
         <InputMinIncrementBidField />
       </div>
     </div>
 
-    <div class="col-3 bg-grey-6">
+    <div class="col-3 bg-blue-8">
       <div style="padding-bottom: 5px">
         <DiscordProtectionToggle />
       </div>
     </div>
 
-    <div class="col-6 bg-grey-6">
+    <div class="col-6 bg-blue-8">
       <CreateRoomButton />
     </div>
 
-    <div class="col-6 bg-grey-6">
+    <div class="col-6 bg-blue-8">
       <CreatePlayRoomButton />
     </div>
 
-    <div class="col-2 bg-grey-6">
+    <div class="col-2 bg-blue-8">
       <ShowPayoutToggle />
     </div>
 
     <!-- TODO: Make an array of these options -->
-    <div class="col-2 bg-grey-6">
+    <div class="col-2 bg-blue-8">
       <RestrictToEquipable />
     </div>
 
-    <div class="col-2 bg-grey-6">
+    <div class="col-2 bg-blue-8">
       <ShowHighestBidderToggle />
     </div>
 
-    <div class="col-6 bg-grey-6">
+    <div class="col-6 bg-blue-8">
       <InputBidDurationField />
       <InputCountdownDurationField />
     </div>
