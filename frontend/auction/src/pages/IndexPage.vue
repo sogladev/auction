@@ -6,17 +6,19 @@
       :todos="todos"
       :meta="meta"
     ></example-component>
+    <DarkModeToggle />
   </q-page>
 </template>
 
 <script lang="ts">
 import { Todo, Meta } from 'components/models';
+import DarkModeToggle from 'components/DarkModeToggle.vue';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent },
+  components: { ExampleComponent, DarkModeToggle },
   setup() {
     const todos = ref<Todo[]>([
       {
