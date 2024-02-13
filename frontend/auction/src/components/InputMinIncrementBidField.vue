@@ -1,9 +1,14 @@
 <template>
   <q-input
-      v-model.number="model"
-      type="number"
-      label="Min Increment"
-    />
+    v-model.number="model"
+    type="number"
+    label="Min Increment"
+    :rules="[
+      (val) =>
+        (!isNaN(val) && val >= 0) || 'Field must be a number greater than 0!',
+    ]"
+  />
+  />
 </template>
 
 <script lang="ts">

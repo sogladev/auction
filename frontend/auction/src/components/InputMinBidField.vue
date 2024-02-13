@@ -3,6 +3,11 @@
       v-model.number="model"
       type="number"
       label="Minimum bid"
+    :rules="[
+      (val) =>
+        (!isNaN(val) && val >= 0) ||
+        'Field must be a positive numberl!',
+    ]"
     />
 </template>
 

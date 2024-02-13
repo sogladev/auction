@@ -1,10 +1,15 @@
 <template>
   <q-input
-      v-model.number="model"
-      type="number"
-      label="Organiser fee"
-      hint="in percentage (e.g. 15)"
-      prefix="%"
+    v-model.number="model"
+    type="number"
+    label="Organiser fee"
+    hint="in percentage (e.g. 15)"
+    prefix="%"
+    :rules="[
+      (val) =>
+        (!isNaN(val) && val <= 100 && val >= 0) ||
+        'Field must be a number between 0 and 100!',
+    ]"
     />
 </template>
 

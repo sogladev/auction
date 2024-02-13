@@ -61,6 +61,30 @@ npm init quasar
 
 - [x] add dark theme so my eyes dont bleed 😎
 - [x] status bar with some content = cut out the rest
+- [x] navigate to a room
+- [x] form design
+- [ ] form page
+    to create a new room
+        input (string) or given a string is best
+        settings: x important, o not important
+            x minBid: integer
+            o allowOS: toggle
+            o class restriction (experimental): toggle
+            o highest bidder visible: toggle
+            o show total pot + payout details: toggle
+            x bidDuration: integer
+            x countdown: integer
+            x organiser fee (%): float 15.0
+        flair: realm, faction
+        discord protection: toggle
+
+- [ ] Validate form input
+- [ ] Form slider for fee %
+
+
+
+
+
 - [ ] form page and navigate to a room
 - [ ] display auction
 - [ ] display a list of auctions

@@ -3,6 +3,11 @@
       v-model.number="model"
       type="number"
       label="Countdown Duration"
+    :rules="[
+      (val) =>
+        (!isNaN(val) && val > 0) ||
+        'Field must be a number greater than 0!',
+    ]"
     />
 </template>
 
