@@ -4,15 +4,20 @@ import TopNavigation from './components/TopNavigation.vue'
 </script>
 
 <template>
-  <header>
-    <TopNavigation />
-</header>
-<body>
-<div>
+  <TopNavigation />
+
     <RouterView />
-</div>
-</body>
 </template>
 
 <style scoped>
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.site-header__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>

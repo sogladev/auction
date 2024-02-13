@@ -4,6 +4,7 @@ import TheButton from '../components/TheButton.vue'
 
 <template>
   <main>
+    <h1> This is Home</h1>
     <TheButton />
   </main>
 </template>
