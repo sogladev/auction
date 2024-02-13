@@ -3,9 +3,9 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title> Auction App </q-toolbar-title>
-          <a href="#/">Home</a> |
-            <a href="#/about">About</a> |
-            <a href="#/room/1">Broken Link</a>
+          <a href="/">Home</a> |
+            <a href="/about">About</a> |
+            <a href="/room/1">Broken Link</a>
 
         <div>Quasar v{{ $q.version }}</div>
         <DarkModeToggle />
