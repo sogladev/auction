@@ -8,7 +8,7 @@
     :rules="[
       (val) =>
         (!isNaN(val) && val <= 100 && val >= 0) ||
-        'Field must be a number between 0 and 100!',
+        'Fee must be a number between 0 and 100!',
     ]"
     />
 </template>

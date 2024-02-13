@@ -6,7 +6,7 @@
     :rules="[
       (val) =>
         (!isNaN(val) && val >= 0) ||
-        'Field must be a positive numberl!',
+        'Min bid must be a positive numberl!',
     ]"
     />
 </template>

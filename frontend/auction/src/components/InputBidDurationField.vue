@@ -6,7 +6,7 @@
     :rules="[
       (val) =>
         (!isNaN(val) && val > 0) ||
-        'Field must be a number greater than 0!',
+        'Duration must be a number greater than 0!',
     ]"
     />
 </template>
