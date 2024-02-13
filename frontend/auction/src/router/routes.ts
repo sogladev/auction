@@ -1,6 +1,21 @@
 import { RouteRecordRaw } from 'vue-router';
 
+
 const routes: RouteRecordRaw[] = [
+  {
+    path: '/room',
+
+    component: () => import('layouts/MainLayout.vue'),
+
+    children: [
+      {
+        //path: ':roomId(\\w{5})',
+        path: ':id',
+        component: import('pages/RoomPage.vue'),
+        props: (route) => ({ id: route.params.id }),
+      },
+    ],
+  },
   {
     path: '/',
 
@@ -8,18 +23,15 @@ const routes: RouteRecordRaw[] = [
 
     children: [
       {
-        path: 'room', // here it is, route /user/posts
-        component: import('pages/RoomPage.vue'), // we reference /src/pages/Posts.vue imported above
+        path: 'about',
+        component: import('pages/AboutPage.vue'),
       },
       {
-        path: '', // here it is, route /user/profile
-        component: import('pages/IndexPage.vue'), // we reference /src/pages/Profile.vue imported above
+        path: '',
+        component: import('pages/IndexPage.vue'),
       },
-
     ],
   },
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
