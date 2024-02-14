@@ -1,11 +1,27 @@
 <template>
   <q-form ref="for">
-    <q-input v-model="lootmaster" label="Lootmaster" />
+    <q-input
+      v-model="lootmaster"
+      label="Lootmaster"
+      :rules="[
+        (val) => typeof val == 'string' || 'Name must be a string',
+        (val) =>
+          /^[a-zA-Z0-9]{0,12}$/.test(val) ||
+          'Name can only contain alphanumeric characters and be max 12 chars',
+      ]"
+    />
     <q-input
       v-model.number="organiserFee"
       type="number"
       label="Organiser fee (%)"
       prefix="%"
+      min="0"
+      max="100"
+      :rules="[
+        (val) =>
+          (!isNaN(val) && val <= 100 && val >= 0) ||
+          'Fee must be a number between 0 and 100!',
+      ]"
     />
     <q-toggle
       v-model="enableDiscordProtection"
@@ -55,6 +71,7 @@
       v-model.number="minimumBid"
       type="number"
       label="Minimum bid"
+      min="0"
       :rules="[
         (val) =>
           (!isNaN(val) && val >= 0) || 'Min bid must be a positive numberl!',
@@ -65,6 +82,7 @@
       v-model.number="minimumBidIncrement"
       type="number"
       label="Minimum increment"
+      min="1"
       :rules="[
         (val) =>
           (!isNaN(val) && val >= 0) || 'Field must be a number greater than 0!',
@@ -101,8 +119,6 @@
 </template>
 
 <script lang="ts">
-// lootmaster :rules="[(val) => typeof val == 'string' || 'Name must be a string', (val) => /^[a-zA-Z0-9]{0,12}$/.test(val) || 'Name can only contain alphanumeric characters and be max 12 chars']"
-// organiserfee :rules="[ (val) => (!isNaN(val) && val <= 100 && val >= 0) || 'Fee must be a number between 0 and 100!', ]"
 import { defineComponent } from 'vue';
 
 import { ref } from 'vue';
@@ -112,14 +128,6 @@ export default defineComponent({
 
   components: {},
   methods: {
-    onSubmit: function () {
-      console.log('Submit!');
-      return true;
-    },
-    onReset: function () {
-      console.log('Reset!');
-      return true;
-      },
     formatTime(seconds: number) {
       const minutes = Math.floor(seconds / 60);
       seconds = seconds % 60;
@@ -137,7 +145,11 @@ export default defineComponent({
     const organiserFee = ref(10);
     const minimumBid = ref(10);
     const minimumBidIncrement = ref(1);
+    const onSubmit = () => {
+      console.log('onSubmit!');
+    };
     return {
+      onSubmit,
       lootmaster,
       enableDiscordProtection,
       bidDurationInSeconds,
