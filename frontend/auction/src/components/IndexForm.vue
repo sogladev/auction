@@ -64,6 +64,12 @@
               label
               :label-value="formatTime(formState.bidDurationInSeconds)"
               color="primary"
+              :rules="[
+                (val: number) =>
+                  (!isNaN(val) && val >= 0) ||
+                  'Bid duration must be a number greater or equal than 0!',
+              ]"
+            />
             />
           </div>
 
@@ -82,6 +88,11 @@
               label
               :label-value="formatTime(formState.countDownTimeInSeconds)"
               color="primary"
+              :rules="[
+                (val: number) =>
+                  (!isNaN(val) && val >= 20) ||
+                  'Countdown duration must be a number greater or equal than 20!',
+              ]"
             />
           </div>
         </q-card-section>
@@ -113,26 +124,36 @@
         </q-card-section>
       </q-card-section>
 
-      <q-card-section>
-        <div class="text-h6">Advanced Settings</div>
-        <q-card-section class="justify-around" horizontal>
-          <q-toggle
-            v-model="formState.restrictBidsToEquipable"
-            color="primary"
-            label="Restrict bids to equipable items"
-          />
-          <q-toggle
-            v-model="formState.hideNameOfHighestBidder"
-            color="primary"
-            label="Hide name of highest bidder"
-          />
-          <q-toggle
-            v-model="formState.hidePayoutDetails"
-            color="primary"
-            label="Hide payout details"
-          />
-        </q-card-section>
-      </q-card-section>
+      <q-expansion-item
+        group="somegroup"
+        label="Advanced Settings"
+        switch-toggle-side
+        header-class="text-primary"
+      >
+        <q-card>
+          <q-card-section>
+            <q-card-section class="justify-around">
+              <q-toggle
+                v-model="formState.restrictBidsToEquipable"
+                color="primary"
+                label="Restrict bids to equipable items"
+              />
+              <q-toggle
+                v-model="formState.hidePayoutDetails"
+                color="primary"
+                label="Hide payout details"
+              />
+            </q-card-section>
+            <q-card-section class="justify-around">
+              <q-toggle
+                v-model="formState.hideNameOfHighestBidder"
+                color="primary"
+                label="Hide name of highest bidder"
+              />
+            </q-card-section>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
 
       <q-card-actions align="right">
         <q-btn unelevated type="submit" color="primary" label="Create room" />
@@ -143,7 +164,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
+
+const router = useRouter();
 
 type IndexFormState = {
   lootmaster: string;
@@ -182,7 +206,12 @@ function onReset(): void {
   console.log('onReset: Refresh page to reset form. Not implemented yet');
 }
 
+function newRoomCode(): string {
+  return formState.lootmaster;
+}
+
 function onSubmit(): void {
   console.log('formState', formState);
+  router.push('/room/' + newRoomCode());
 }
 </script>

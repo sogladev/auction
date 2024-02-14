@@ -1,26 +1,16 @@
 <template>
-  <h1>Welcome to a Room</h1>
-  <p>This is the main room page {{ $route.params.id }} where auctions happen</p>
+  <div class="flex flex-center column">
+    <div class="row bg-blue-10">
+      <q-card class="create-room-card">
+        <q-form ref="for">
+          <q-card-section>
+            <div class="text-h6">Create New Room</div>
+            <q-card-section class="justify-around" horizontal> </q-card-section>
+          </q-card-section>
+        </q-form>
+      </q-card>
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
-import { Todo, Meta } from 'components/models';
-import { defineComponent, ref } from 'vue';
-
-export default defineComponent({
-  name: 'IndexPage',
-  components: { },
-  setup() {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1',
-      },
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200,
-    });
-    return { todos, meta };
-  },
-});
-</script>
+<script lang="ts" setup></script>
