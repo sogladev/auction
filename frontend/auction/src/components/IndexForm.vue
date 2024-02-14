@@ -1,6 +1,6 @@
 <template>
   <!-- justify-around or justiy-between -->
-  <q-card class="create-room-card">
+  <q-card class="create-room-card" style="min-width: 25vw">
     <q-form ref="for" @submit="onSubmit" @reset="onReset">
       <q-card-section>
         <div class="text-h6">Create New Room</div>
@@ -69,7 +69,6 @@
                   (!isNaN(val) && val >= 0) ||
                   'Bid duration must be a number greater or equal than 0!',
               ]"
-            />
             />
           </div>
 
