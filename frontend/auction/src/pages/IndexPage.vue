@@ -8,13 +8,6 @@
       <div id="parent" class="fit row wrap text-center content-start">
         <IndexForm />
 
-        <example-component
-          title="Example component"
-          active
-          :todos="todos"
-          :meta="meta"
-        ></example-component>
-
         <div class="col-12 bg-blue-8" style="overflow: auto">
           <q-field outlined label="Outlined" stack-label>
             <template v-slot:control>
@@ -31,13 +24,12 @@
 
 <script lang="ts">
 import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
 import IndexForm from 'components/IndexForm.vue';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent, IndexForm},
+  components: { IndexForm},
   setup() {
     const todos = ref<Todo[]>([
       {

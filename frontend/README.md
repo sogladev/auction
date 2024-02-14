@@ -63,6 +63,7 @@ npm init quasar
 - [x] status bar with some content = cut out the rest
 - [x] navigate to a room
 - [x] form design
+- [x] form slider for fee %, bid duration, countdown
 - [ ] form page
     to create a new room
         input (string) or given a string is best
@@ -77,9 +78,7 @@ npm init quasar
             x organiser fee (%): float 15.0
         flair: realm, faction
         discord protection: toggle
-
 - [ ] Validate form input
-- [ ] Form slider for fee %
 
 
 
