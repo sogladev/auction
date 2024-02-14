@@ -89,7 +89,8 @@ export default configure((/* ctx */) => {
           // Theme generator
           primary: '#1976d2',
           secondary: '#26A69A',
-          accent: '#9C27B0',
+          tertiary: '#9C27B0',
+          tertiary: '#06485A',
           //dark: '#1d1d1d',
           //'dark-page': '#121212',
           dark: '#053542',

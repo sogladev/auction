@@ -1,9 +1,11 @@
 <template>
-  <q-page class="fit row wrap content-start items-center justify-center">
-    <q-card class="create-room-card">
-      <q-form ref="for">
-        <q-card-section>
-          <div class="text-h6">Create New Room</div>
+  <!-- justify-around or justiy-between -->
+  <q-card class="create-room-card">
+    <q-form ref="for">
+      <q-card-section>
+        <div class="text-h6">Create New Room</div>
+
+        <q-card-section horizontal class="justify-around">
           <q-input
             v-model="lootmaster"
             label="Lootmaster"
@@ -28,20 +30,26 @@
             ]"
           />
         </q-card-section>
+      </q-card-section>
 
-        <q-card-section>
-          <div class="text-h6">Security</div>
-          <q-toggle
-            v-model="enableDiscordProtection"
-            checked-icon="check"
-            color="green"
-            label="Enable Discord verification"
-            unchecked-icon="clear"
-          />
-        </q-card-section>
+      <q-card-section>
 
-        <q-card-section>
-          <div class="text-h6">Session Settings</div>
+        <div class="text-h6">Security</div>
+        <q-card-section horizontal class="justify-around">
+        <q-toggle
+          v-model="enableDiscordProtection"
+          checked-icon="check"
+          color="green"
+          label="Enable Discord verification"
+          unchecked-icon="clear"
+        />
+      </q-card-section>
+      </q-card-section>
+
+      <q-card-section>
+        <div class="text-h6">Session Settings</div>
+
+        <q-card-section horizontal class="justify-around">
           <div class="q-pa-md">
             <q-icon name="timer" />
             <q-badge color="primary">
@@ -77,7 +85,9 @@
               color="primary"
             />
           </div>
+        </q-card-section>
 
+        <q-card-section horizontal class="justify-around">
           <q-input
             v-model.number="minimumBid"
             type="number"
@@ -102,9 +112,11 @@
             ]"
           />
         </q-card-section>
+      </q-card-section>
 
-        <q-card-section>
-          <div class="text-h6">Advanced Settings</div>
+      <q-card-section>
+        <div class="text-h6">Advanced Settings</div>
+        <q-card-section horizontal class="justify-around">
           <q-toggle
             v-model="restrictBidsToEquipable"
             color="primary"
@@ -121,19 +133,20 @@
             label="Hide payout details"
           />
         </q-card-section>
+      </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn
-            unelevated
-            @click="onSubmit"
-            type="submit"
-            color="primary"
-            label="Create room"
-          />
-          <q-btn unelevated type="reset" color="primary" label="Reset" />
-        </q-card-actions>
-      </q-form> </q-card
-  ></q-page>
+      <q-card-actions align="right">
+        <q-btn
+          unelevated
+          @click="onSubmit"
+          type="submit"
+          color="primary"
+          label="Create room"
+        />
+        <q-btn unelevated type="reset" color="primary" label="Reset" />
+      </q-card-actions>
+    </q-form>
+  </q-card>
 </template>
 
 <script lang="ts">
