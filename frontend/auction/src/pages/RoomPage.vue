@@ -12,7 +12,7 @@
               max
               debounce="500"
               label="Paste your string here"
-              v-model="importString"
+              v-model="csvString"
               filled
               type="textarea"
               :rules="[
@@ -41,6 +41,6 @@ const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubT
 `;
 
 import { ref } from 'vue';
-const importString = ref(debugImportString);
-console.log(importString);
+const csvString = ref(debugImportString);
+console.log(csvString);
 </script>
