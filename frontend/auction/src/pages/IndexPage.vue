@@ -1,45 +1,48 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
-    <DarkModeToggle />
-  </q-page>
+  <div class="flex flex-center column">
+    <div class="text-h6">Flex playground example</div>
+    <div
+      class="row bg-blue-10"
+      style="min-height: 320; max-width: 95%; padding: 24px"
+    >
+      <div id="parent" class="fit row wrap text-center content-start">
+        <IndexForm />
+
+        <example-component
+          title="Example component"
+          active
+          :todos="todos"
+          :meta="meta"
+        ></example-component>
+
+        <div class="col-12 bg-blue-8" style="overflow: auto">
+          <q-field outlined label="Outlined" stack-label>
+            <template v-slot:control>
+              <div class="self-center full-width no-outline" tabindex="0">
+                Field content
+              </div>
+            </template>
+          </q-field>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Todo, Meta } from 'components/models';
-import DarkModeToggle from 'components/DarkModeToggle.vue';
 import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
+import IndexForm from 'components/IndexForm.vue';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent, DarkModeToggle },
+  components: { ExampleComponent, IndexForm},
   setup() {
     const todos = ref<Todo[]>([
       {
         id: 1,
         content: 'ct1',
-      },
-      {
-        id: 2,
-        content: 'ct2',
-      },
-      {
-        id: 3,
-        content: 'ct3',
-      },
-      {
-        id: 4,
-        content: 'ct4',
-      },
-      {
-        id: 5,
-        content: 'ct5',
       },
     ]);
     const meta = ref<Meta>({

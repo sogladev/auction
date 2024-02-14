@@ -90,10 +90,12 @@ export default configure((/* ctx */) => {
           primary: '#1976d2',
           secondary: '#26A69A',
           accent: '#9C27B0',
-
-          dark: '#1d1d1d',
-          'dark-page': '#121212',
-
+          //dark: '#1d1d1d',
+          //'dark-page': '#121212',
+          dark: '#053542',
+          'dark-page': '#002A35',
+          //dark: '#283056', // Solarized dark 7
+          //'dark-page': '#284258', // Solarized dark 9
           positive: '#21BA45',
           negative: '#C10015',
           info: '#31CCEC',
