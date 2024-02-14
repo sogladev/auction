@@ -1,13 +1,13 @@
 <template>
   <!-- justify-around or justiy-between -->
   <q-card class="create-room-card">
-    <q-form ref="for">
+    <q-form ref="for" @submit="onSubmit" @reset="onReset">
       <q-card-section>
         <div class="text-h6">Create New Room</div>
 
-        <q-card-section horizontal class="justify-around">
+        <q-card-section class="justify-around" horizontal>
           <q-input
-            v-model="lootmaster"
+            v-model="formState.lootmaster"
             label="Lootmaster"
             :rules="[
               (val) => typeof val == 'string' || 'Name must be a string',
@@ -17,7 +17,7 @@
             ]"
           />
           <q-input
-            v-model.number="organiserFee"
+            v-model.number="formState.organiserFee"
             type="number"
             label="Organiser fee (%)"
             prefix="%"
@@ -33,37 +33,36 @@
       </q-card-section>
 
       <q-card-section>
-
         <div class="text-h6">Security</div>
-        <q-card-section horizontal class="justify-around">
-        <q-toggle
-          v-model="enableDiscordProtection"
-          checked-icon="check"
-          color="green"
-          label="Enable Discord verification"
-          unchecked-icon="clear"
-        />
-      </q-card-section>
+        <q-card-section class="justify-around" horizontal>
+          <q-toggle
+            v-model="formState.enableDiscordProtection"
+            checked-icon="check"
+            color="green"
+            label="Enable Discord verification"
+            unchecked-icon="clear"
+          />
+        </q-card-section>
       </q-card-section>
 
       <q-card-section>
         <div class="text-h6">Session Settings</div>
 
-        <q-card-section horizontal class="justify-around">
+        <q-card-section class="justify-around" horizontal>
           <div class="q-pa-md">
             <q-icon name="timer" />
             <q-badge color="primary">
-              Bid Duration {{ bidDurationInSeconds }}s
-              {{ formatTime(bidDurationInSeconds) }}(MM:SS)
+              Bid Duration {{ formState.bidDurationInSeconds }}s
+              {{ formatTime(formState.bidDurationInSeconds) }}(MM:SS)
             </q-badge>
 
             <q-slider
-              v-model="bidDurationInSeconds"
+              v-model="formState.bidDurationInSeconds"
               :min="0"
               :max="720"
               :step="5"
               label
-              :label-value="formatTime(bidDurationInSeconds)"
+              :label-value="formatTime(formState.bidDurationInSeconds)"
               color="primary"
             />
           </div>
@@ -71,25 +70,25 @@
           <div class="q-pa-md">
             <q-icon name="timer" />
             <q-badge color="primary">
-              Countdown Duration {{ countDownTimeInSeconds }}s
-              {{ formatTime(countDownTimeInSeconds) }}(MM:SS)
+              Countdown Duration {{ formState.countDownTimeInSeconds }}s
+              {{ formatTime(formState.countDownTimeInSeconds) }}(MM:SS)
             </q-badge>
 
             <q-slider
-              v-model="countDownTimeInSeconds"
+              v-model="formState.countDownTimeInSeconds"
               :min="20"
               :max="120"
               :step="5"
               label
-              :label-value="formatTime(countDownTimeInSeconds)"
+              :label-value="formatTime(formState.countDownTimeInSeconds)"
               color="primary"
             />
           </div>
         </q-card-section>
 
-        <q-card-section horizontal class="justify-around">
+        <q-card-section class="justify-around" horizontal>
           <q-input
-            v-model.number="minimumBid"
+            v-model.number="formState.minimumBid"
             type="number"
             label="Minimum bid"
             min="0"
@@ -101,7 +100,7 @@
           />
 
           <q-input
-            v-model.number="minimumBidIncrement"
+            v-model.number="formState.minimumBidIncrement"
             type="number"
             label="Minimum increment"
             min="1"
@@ -116,19 +115,19 @@
 
       <q-card-section>
         <div class="text-h6">Advanced Settings</div>
-        <q-card-section horizontal class="justify-around">
+        <q-card-section class="justify-around" horizontal>
           <q-toggle
-            v-model="restrictBidsToEquipable"
+            v-model="formState.restrictBidsToEquipable"
             color="primary"
             label="Restrict bids to equipable items"
           />
           <q-toggle
-            v-model="hideNameOfHighestBidder"
+            v-model="formState.hideNameOfHighestBidder"
             color="primary"
             label="Hide name of highest bidder"
           />
           <q-toggle
-            v-model="hidePayoutDetails"
+            v-model="formState.hidePayoutDetails"
             color="primary"
             label="Hide payout details"
           />
@@ -136,62 +135,54 @@
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn
-          unelevated
-          @click="onSubmit"
-          type="submit"
-          color="primary"
-          label="Create room"
-        />
-        <q-btn unelevated type="reset" color="primary" label="Reset" />
+        <q-btn unelevated type="submit" color="primary" label="Create room" />
+        <q-btn unelevated type="reset" disable color="primary" label="Reset" />
       </q-card-actions>
     </q-form>
   </q-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { reactive } from 'vue';
 
-import { ref } from 'vue';
+type IndexFormState = {
+  lootmaster: string;
+  enableDiscordProtection: boolean;
+  bidDurationInSeconds: number;
+  countDownTimeInSeconds: number;
+  restrictBidsToEquipable: boolean;
+  hideNameOfHighestBidder: boolean;
+  hidePayoutDetails: boolean;
+  organiserFee: number;
+  minimumBid: number;
+  minimumBidIncrement: number;
+};
 
-export default defineComponent({
-  name: 'IndexForm',
+function formatTime(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  seconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
 
-  components: {},
-  methods: {
-    formatTime(seconds: number) {
-      const minutes = Math.floor(seconds / 60);
-      seconds = seconds % 60;
-      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    },
-  },
-  setup() {
-    const lootmaster = ref('Lootmaster');
-    const enableDiscordProtection = ref(false);
-    const bidDurationInSeconds = ref(240);
-    const countDownTimeInSeconds = ref(40);
-    const restrictBidsToEquipable = ref(false);
-    const hideNameOfHighestBidder = ref(false);
-    const hidePayoutDetails = ref(false);
-    const organiserFee = ref(10);
-    const minimumBid = ref(10);
-    const minimumBidIncrement = ref(1);
-    const onSubmit = () => {
-      console.log('onSubmit!');
-    };
-    return {
-      onSubmit,
-      lootmaster,
-      enableDiscordProtection,
-      bidDurationInSeconds,
-      countDownTimeInSeconds,
-      restrictBidsToEquipable,
-      hideNameOfHighestBidder,
-      hidePayoutDetails,
-      organiserFee,
-      minimumBid,
-      minimumBidIncrement,
-    };
-  },
+const formState = reactive<IndexFormState>({
+  lootmaster: 'Lootmaster',
+  enableDiscordProtection: false,
+  bidDurationInSeconds: 240,
+  countDownTimeInSeconds: 40,
+  restrictBidsToEquipable: false,
+  hideNameOfHighestBidder: false,
+  hidePayoutDetails: false,
+  organiserFee: 10,
+  minimumBid: 10,
+  minimumBidIncrement: 1,
 });
+
+function onReset(): void {
+  // just refresh to reset form
+  console.log('onReset: Refresh page to reset form. Not implemented yet');
+}
+
+function onSubmit(): void {
+  console.log('formState', formState);
+}
 </script>
