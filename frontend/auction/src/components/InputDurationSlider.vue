@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-icon name="timer" />
     <q-badge color="primary">
-      Bid Duration {{ value }}s {{ formatTime(value) }}(MM:SS)
+      {{ value }}s {{ formatTime(value) }}(MM:SS)
     </q-badge>
 
     <q-slider
