@@ -30,6 +30,8 @@
 </template>
 
 <script lang="ts" setup>
+import Papa from 'papaparse';
+
 const validationHeader =
   'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
 
@@ -42,5 +44,6 @@ const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubT
 
 import { ref } from 'vue';
 const csvString = ref(debugImportString);
-console.log(csvString);
+const output = Papa.parse(csvString.value);
+console.log(output);
 </script>
