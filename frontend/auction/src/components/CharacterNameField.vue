@@ -1,6 +1,6 @@
 <template>
   <q-field
-    :model-value="text"
+    v-model="text"
     bottom-slots
     label="Character name"
     stack-label

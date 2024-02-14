@@ -3,7 +3,7 @@
     <div class="text-h6">Flex playground example</div>
     <div
       class="row bg-blue-10"
-      style="min-height: 320; max-width: 95%; padding: 24px"
+      style="max-width: 95%; padding: 24px"
     >
       <div id="parent" class="fit row wrap text-center content-start">
         <IndexForm />
