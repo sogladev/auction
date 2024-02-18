@@ -104,10 +104,14 @@ export default configure((/* ctx */) => {
         },
         // Quasar plugins
         plugins: [
+          'Notify',
           'LocalStorage',
           //'SessionStorage'
           // Dialog, Notify, Loading
         ],
+        config: {
+          notify: 'red' /* look at QuasarConfOptions from the API card  */
+        }
       },
     },
     animations: [],

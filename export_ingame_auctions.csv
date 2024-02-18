@@ -1,0 +1,6 @@
+rowId,itemId,status,minPrice,expiration,winner,itemName,quality,ilvl,minLevel,itemType,itemSubType,guid
+1,19137,1,3000,1708217000,,Onslaught Girdle,4,78,60,Armor,Plate,noguid
+2,18814,1,3000,1708217000,,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,noguid
+3,17076,1,3000,1708217000,,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,noguid
+4,12282,1,3000,1708217000,,Worn Battleaxe,4,2,1,Weapon,Two-Handed Swords,noguid
+5,140,1,3000,1708217000,,Brawler's Boots,4,1,0,Armor,Miscellaneous,Item-5827-0-40000000C90648DE

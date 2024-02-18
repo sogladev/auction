@@ -64,8 +64,13 @@ npm init quasar
 - [x] navigate to a room
 - [x] form design
 - [x] form slider for fee %, bid duration, countdown
-- [ ] form page
-    to create a new room
+- [x] form page
+- [x] go to a new room
+    create a room with form data
+    
+  create room with form data.
+  retrieve add add
+
         input (string) or given a string is best
         settings: x important, o not important
             x minBid: integer

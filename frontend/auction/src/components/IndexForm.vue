@@ -1,7 +1,7 @@
 <template>
   <!-- justify-around or justiy-between -->
   <q-card class="create-room-card" style="min-width: 25vw">
-    <q-form ref="for" @submit="onSubmit" @reset="onReset">
+    <q-form ref="for" @submit.prevent="onSubmit" @reset="onReset">
       <q-card-section>
         <div class="text-h6">Create New Room</div>
 
@@ -160,13 +160,43 @@
       </q-card-actions>
     </q-form>
   </q-card>
+
+  <q-ajax-bar
+    ref="bar"
+    position="bottom"
+    color="accent"
+    size="10px"
+    skip-hijack
+  />
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+//import { useRouter } from 'vue-router';
+import { reactive, ref } from 'vue';
+import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
 
-const router = useRouter();
+//const router = useRouter();
+const bar = ref(null); // ajax bar
+const $q = useQuasar();
+
+function loadData() {
+  api
+    .get('/api/auctions')
+    .then((response) => {
+      console.log(response);
+      //data.value = response.data
+    })
+    .catch(() => {
+     // TODO: still broken? q is not a function
+      $q.notify({
+        color: 'negative',
+        position: 'top',
+        message: 'Loading failed',
+        icon: 'report_problem',
+      });
+    });
+}
 
 type IndexFormState = {
   lootmaster: string;
@@ -205,12 +235,18 @@ function onReset(): void {
   console.log('onReset: Refresh page to reset form. Not implemented yet');
 }
 
-function newRoomCode(): string {
-  return formState.lootmaster;
-}
+//function newRoomCode(): string {
+//   router.push('/room/' + newRoomCode());
+//  return formState.lootmaster;
+//}
 
-function onSubmit(): void {
-  console.log('formState', formState);
-  router.push('/room/' + newRoomCode());
+async function onSubmit() {
+  console.log('@submet.prevent');
+  console.log(formState);
+  loadData();
+  //const response = await api.post(
+  //'/api/auction',
+  //formState,
+  //);
 }
 </script>
