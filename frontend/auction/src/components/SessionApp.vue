@@ -2,14 +2,14 @@
 <template>
   <div class="q-pa-md">
     <q-card class="sync-session-card">
-      <div class="text-h6">Sync session</div>
+      <div class="text-h6">Update session from database</div>
       <q-card-actions align="center">
         <q-btn
           unelevated
           @click="onSubmitSyncRoom"
           type="submit"
           color="secondary"
-          label="Sync"
+          label="Synchronize"
         />
       </q-card-actions>
     </q-card>
@@ -38,65 +38,17 @@
         </q-tr>
       </template>
     </q-table>
+
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
 const $q = useQuasar();
 
-function loadData() {
-  api
-    .get('/api/rooms')
-    .then((response) => {
-      console.log(response);
-// rowId, name, minimumPrice, expiration
-      //data.value = response.data
-      rows.value = [
-        {
-          rowId: 1,
-          name: 'name',
-          minimumPrice: 10,
-          expiration: 1234,
-        },
-        {
-          rowId: 2,
-          name: 'othername',
-          minimumPrice: 12,
-          expiration: 1234,
-        },
-        {
-          rowId: 3,
-          name: 'threename',
-          minimumPrice: 11,
-          expiration: 12098,
-        },
-      ]
-
-    })
-    .catch(() => {
-      // TODO: still broken? q is not a function
-      $q.notify({
-        color: 'negative',
-        position: 'bottom',
-        message: 'Loading failed',
-        icon: 'report_problem',
-      });
-    });
-}
-
-const rows = ref([
-        {
-          rowId: 1,
-          name: 'RoomPage init',
-          minimumPrice: 5,
-          expiration: 1234,
-        },
-      ])
-
+const rows = ref([])
 const columns = ref([
   {
     name: 'rowId',
@@ -111,13 +63,43 @@ const columns = ref([
   { name: 'expiration', label: 'Expiration', field: 'expiration', sortable: true, sort: (a:string, b:string) => parseInt(a, 10) - parseInt(b, 10) },
 ])
 
-async function onSubmitSyncRoom() {
-  console.log('@submet.prevent sync room');
-  // Get load data
-  loadData();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function rowsFromResponseDataAuctions(data: any) {
+  if (!data[0].hasOwnProperty('auctions')){
+    return -1
+  }
+  const newRows = []
+  for (const auction of data[0].auctions) { // TODO: data[0] should be data. Revisited later
+    newRows.push({
+      rowId: auction.rowId,
+      name: auction.itemName,
+      minimumPrice: auction.minimumPrice,
+      expiration: auction.expiration,
+    })
+
+  }
+  return newRows
 }
 
-// rowId, name, minimumPrice, expiration
+async function onSubmitSyncRoom() {
+  console.log('@submet.prevent sync room');
+  // TODO: Get room by id
+  api
+    .get('/api/rooms')
+    .then((response) => {
+      console.log(response);
+      rows.value = rowsFromResponseDataAuctions(response.data)
+    })
+    .catch(() => {
+      $q.notify({
+        color: 'negative',
+        position: 'bottom',
+        message: 'Loading failed',
+        icon: 'report_problem',
+      });
+    });
+}
+
 function onRowClick(data: string): void {
   alert(`${data} clicked`);
 }
