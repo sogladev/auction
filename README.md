@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Ella36/auction">
+  <a href="https://github.com/jellemeeus/auction">
   </a>
 
   <h3 align="center">
@@ -71,7 +71,7 @@ https://github-com.translate.goog/GoBelieveIO/im_service/tree/master?_x_tr_sl=au
 
 `/hlm p`
 
-https://github.com/Ella36/Hloot
+https://github.com/jellemeeus/Hloot
 
 ## Roadmap
 Addon export [x]
@@ -433,4 +433,4 @@ response of GET request to /api/auctions
 [Twitch-url]:    https://twitch.com
 [Youtube-url]:    https://youtube.com
 [Youtube.com]: https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white
-[gui-screenshot]: https://github.com/Ella36/gui-compilation-from-cluster/raw/main/screenshot.png
+[gui-screenshot]: https://github.com/jellemeeus/gui-compilation-from-cluster/raw/main/screenshot.png

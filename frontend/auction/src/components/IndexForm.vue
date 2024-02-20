@@ -221,7 +221,7 @@ function onReset(): void {
 async function onSubmit() {
   console.log('@submet.prevent');
   console.log(formState);
-  loadData();
+  // TODO: Post form and create room with given settings
   //const response = await api.post(
   //'/api/auction',
   //formState,
