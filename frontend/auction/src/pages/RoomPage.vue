@@ -69,12 +69,13 @@ const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubT
 `;
 
 const csvString = ref(debugImportString);
-const output = Papa.parse(csvString.value);
-console.log(output);
 
 async function onSubmitRoomString() {
   console.log('@submet.prevent on submit roomsring');
-  // Post settings
+  const output = Papa.parse(csvString.value);
+  console.log(output);
+  // TODO: Post to create Room
+  // Redirect to Room
 }
 
 </script>
