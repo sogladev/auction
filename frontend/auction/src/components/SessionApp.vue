@@ -1,6 +1,19 @@
 
 <template>
   <div class="q-pa-md">
+    <q-card class="sync-session-card">
+      <div class="text-h6">Sync session</div>
+      <q-card-actions align="center">
+        <q-btn
+          unelevated
+          @click="onSubmitSyncRoom"
+          type="submit"
+          color="secondary"
+          label="Sync"
+        />
+      </q-card-actions>
+    </q-card>
+
     <q-table flat bordered title="Auctions" v-model:rows="rows" v-model:columns="columns">
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -31,8 +44,58 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
+const $q = useQuasar();
 
-const rows = defineModel('rows')
+function loadData() {
+  api
+    .get('/api/rooms')
+    .then((response) => {
+      console.log(response);
+// rowId, name, minimumPrice, expiration
+      //data.value = response.data
+      rows.value = [
+        {
+          rowId: 1,
+          name: 'name',
+          minimumPrice: 10,
+          expiration: 1234,
+        },
+        {
+          rowId: 2,
+          name: 'othername',
+          minimumPrice: 12,
+          expiration: 1234,
+        },
+        {
+          rowId: 3,
+          name: 'threename',
+          minimumPrice: 11,
+          expiration: 12098,
+        },
+      ]
+
+    })
+    .catch(() => {
+      // TODO: still broken? q is not a function
+      $q.notify({
+        color: 'negative',
+        position: 'bottom',
+        message: 'Loading failed',
+        icon: 'report_problem',
+      });
+    });
+}
+
+const rows = ref([
+        {
+          rowId: 1,
+          name: 'RoomPage init',
+          minimumPrice: 5,
+          expiration: 1234,
+        },
+      ])
 
 const columns = ref([
   {
@@ -47,6 +110,12 @@ const columns = ref([
   { name: 'minimumPrice', label: 'Bid', field: 'minimumPrice', sortable: true, sort: (a: string, b:string) => parseInt(a, 10) - parseInt(b, 10) },
   { name: 'expiration', label: 'Expiration', field: 'expiration', sortable: true, sort: (a:string, b:string) => parseInt(a, 10) - parseInt(b, 10) },
 ])
+
+async function onSubmitSyncRoom() {
+  console.log('@submet.prevent sync room');
+  // Get load data
+  loadData();
+}
 
 // rowId, name, minimumPrice, expiration
 function onRowClick(data: string): void {

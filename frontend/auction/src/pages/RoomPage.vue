@@ -33,22 +33,9 @@
       </q-form>
     </q-card>
 
-    <q-card class="sync-session-card">
-      <div class="text-h6">Sync session</div>
-      <q-card-actions align="center">
-        <q-btn
-          unelevated
-          @click="onSubmitSyncRoom"
-          type="submit"
-          color="secondary"
-          label="Sync"
-        />
-      </q-card-actions>
-    </q-card>
-
     <q-card class="session-card">
       <div class="text-h6">Session</div>
-      <AuctionsTable v-model:rows="rows"/>
+      <SessionApp/>
     </q-card>
 
     <q-ajax-bar
@@ -64,65 +51,12 @@
 <script lang="ts" setup>
 import Papa from 'papaparse';
 
-import { api } from 'boot/axios';
-import { useQuasar } from 'quasar';
 import { ref } from 'vue';
 
-import AuctionsTable from 'components/AuctionsTable.vue';
+import SessionApp from 'components/SessionApp.vue';
 
 //const router = useRouter();
 const bar = ref(null); // ajax bar
-const $q = useQuasar();
-
-//const rows = ref(null);
-const rows = ref([
-        {
-          rowId: 1,
-          name: 'RoomPage init',
-          minimumPrice: 5,
-          expiration: 1234,
-        },
-      ])
-
-function loadData() {
-  api
-    .get('/api/rooms')
-    .then((response) => {
-      console.log(response);
-// rowId, name, minimumPrice, expiration
-      //data.value = response.data
-      rows.value = [
-        {
-          rowId: 1,
-          name: 'name',
-          minimumPrice: 10,
-          expiration: 1234,
-        },
-        {
-          rowId: 2,
-          name: 'othername',
-          minimumPrice: 12,
-          expiration: 1234,
-        },
-        {
-          rowId: 3,
-          name: 'threename',
-          minimumPrice: 11,
-          expiration: 12098,
-        },
-      ]
-
-    })
-    .catch(() => {
-      // TODO: still broken? q is not a function
-      $q.notify({
-        color: 'negative',
-        position: 'bottom',
-        message: 'Loading failed',
-        icon: 'report_problem',
-      });
-    });
-}
 
 const validationHeader =
   'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
@@ -143,9 +77,4 @@ async function onSubmitRoomString() {
   // Post settings
 }
 
-async function onSubmitSyncRoom() {
-  console.log('@submet.prevent sync room');
-  // Get load data
-  loadData();
-}
 </script>
