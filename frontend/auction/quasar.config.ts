@@ -84,6 +84,13 @@ export default configure((/* ctx */) => {
     framework: {
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
+      //
+      plugins: [
+        'Notify',
+        'LocalStorage',
+        //'SessionStorage'
+        // Dialog, Notify, Loading
+      ],
       config: {
         brand: {
           // Theme generator
@@ -102,13 +109,6 @@ export default configure((/* ctx */) => {
           info: '#31CCEC',
           warning: '#F2C037',
         },
-        // Quasar plugins
-        plugins: [
-          'Notify',
-          'LocalStorage',
-          //'SessionStorage'
-          // Dialog, Notify, Loading
-        ],
         config: {
           notify: 'red' /* look at QuasarConfOptions from the API card  */
         }

@@ -1,0 +1,75 @@
+{
+  "name": "Lootmaster",
+  "enableDiscordProtection": false,
+  "organiserFee": 10,
+  "minimumBid": 10,
+  "minimumBidIncrement": 1,
+  "bidDurationInSeconds": 240,
+  "countDownTimeInSeconds": 40,
+  "restrictBidsToEquipable": false,
+  "hideNameOfHighestBidder": false,
+  "hidePayoutDetails": false,
+  "users": [
+    { "name": "user1" },
+    { "name": "user2" },
+    { "name": "user3" },
+    { "name": "user4" }
+  ],
+  "auctions": [
+  {
+  "rowId": 1,
+  "status": 1,
+  "expiration": 1708217000,
+  "itemId": 19137,
+  "guid": "noguid",
+  "minimumPrice": 3000,
+  "itemName": "Onslaught Girdle",
+  "quality": 4,
+  "itemLevel": 78,
+  "minLevel": 60,
+  "itemType": "Armor",
+  "itemSubType": "Plate"
+  },
+  {
+  "rowId": 2,
+  "status": 1,
+  "expiration": 1708217000,
+  "itemId": 18814,
+  "guid": "noguid",
+  "minimumPrice": 3000,
+  "itemName": "Choker of the Fire Lord",
+  "quality": 4,
+  "itemLevel": 78,
+  "minLevel": 60,
+  "itemType": "Armor",
+  "itemSubType": "Miscellaneous"
+  },
+  {
+  "rowId": 3,
+  "status": 1, "expiration": 1708217000,
+  "itemId": 12282,
+  "guid": "Item-5827-0-40000000C90648E0",
+  "minimumPrice": 1000,
+  "itemName": "Worn Battleaxe",
+  "quality": 1,
+  "itemLevel": 2,
+  "minLevel": 1,
+  "itemType": "Weapon",
+  "itemSubType": "Two-Handed Axes"
+  },
+  {
+  "rowId": 4,
+  "status": 1,
+  "expiration": 1708217000,
+  "itemId": 12282,
+  "guid": "Item-5827-0-40000000C90648DE",
+  "minimumPrice": 1000,
+  "itemName": "Brawler's Boots",
+  "quality": 1,
+  "itemLevel": 1,
+  "minLevel": 1,
+  "itemType": "Armor",
+  "itemSubType": "Miscellaneous"
+  }
+  ]
+}

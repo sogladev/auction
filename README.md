@@ -47,8 +47,6 @@ postman
 
 swagger
 
-
-
 zap logger
 https://github.com/uber-go/zap
 
@@ -84,20 +82,144 @@ Website [ ]
 
 philosophy: build like a CRUD app and then expand, add tests, basic CI
 
-- [ ] import JSON data
-- [ ] parse and reply with auctions to render
-- [ ] show data to listeners
-- [ ] print list of auctions
-- [ ] make a room
 - [ ] join room as viewer or lootmaster
 - [ ] authenticate viewer
 - [ ] authenticate lootmaster
 - [ ] join room with a code
 - [ ] show users that are listening
+- [x] add dark theme
+- [x] status bar with some content
+- [x] navigate to index, a room
+- [x] form design
+- [x] form slider for fee %, bid duration, countdown
+- [x] form page
+- [x] go to a new room
+- [ ] design room mongoDB document structure
+- [ ] Validate form input
+- [x] form page and navigate to a room
+- [ ] display auction
+- [ ] display a list of auctions
+- [ ] add buttons
+- [ ] make scrollable list for many auctions
+- [ ] Keep footer or a header on top for data / filtering
+- [ ]
+- [ ]
+- [ ]
 
-Addon import
-- [ ] take JSON and import
-- [ ] add auctions as "sold" so they can be traded by addon
+
+create room with form data.:
+  lootmaster: 'Lootmaster',
+  enableDiscordProtection: false,
+  bidDurationInSeconds: 240,
+  countDownTimeInSeconds: 40,
+  restrictBidsToEquipable: false,
+  hideNameOfHighestBidder: false,
+  hidePayoutDetails: false,
+  organiserFee: 10,
+  minimumBid: 10,
+  minimumBidIncrement: 1,
+  
+// JSON Room
+{
+  "name": "Lootmaster",
+  "enableDiscordProtection": false,
+  "organiserFee": 10,
+  "minimumBid": 10,
+  "minimumBidIncrement": 1,
+  "bidDurationInSeconds": 240,
+  "countDownTimeInSeconds": 40,
+  "restrictBidsToEquipable": false,
+  "hideNameOfHighestBidder": false,
+  "hidePayoutDetails": false,
+  "users": [
+    { "name": "user1" },
+    { "name": "user2" },
+    { "name": "user3" },
+    { "name": "user4" },
+  ],
+  "auctions": [
+  {
+  "rowId": 1,
+  "status": 1,
+  "expiration": 1708217000,
+  "itemId": 19137,
+  "guid": "noguid"
+  "minimumPrice": 3000,
+  "itemName": "Onslaught Girdle",
+  "quality": 4,
+  "itemLevel": 78,
+  "minLevel": 60,
+  "itemType": "Armor",
+  "itemSubType": "Plate",
+  },
+  {
+  "rowId": 2,
+  "status": 1,
+  "expiration": 1708217000,
+  "itemId": 18814,
+  "guid": "noguid"
+  "minimumPrice": 3000,
+  "itemName": "Choker of the Fire Lord",
+  "quality": 4,
+  "itemLevel": 78,
+  "minLevel": 60,
+  "itemType": "Armor",
+  "itemSubType": "Miscellaneous",
+  },
+  {
+  "rowId": 3,
+  "status": 1, "expiration": 1708217000,
+  "itemId": 12282,
+  "guid": "Item-5827-0-40000000C90648E0"
+  "minimumPrice": 1000,
+  "itemName": "Worn Battleaxe",
+  "quality": 1,
+  "itemLevel": 2,
+  "minLevel": 1,
+  "itemType": "Weapon",
+  "itemSubType": "Weapon,Two-Handed Axes",
+  },
+  {
+  "rowId": 4,
+  "status": 1,
+  "expiration": 1708217000,
+  "itemId": 12282,
+  "guid": "Item-5827-0-40000000C90648DE"
+  "minimumPrice": 1000,
+  "itemName": "Brawler's Boots",
+  "quality": 1,
+  "itemLevel": 1,
+  "minLevel": 1,
+  "itemType": "Armor",
+  "itemSubType": "Miscellaneous",
+  },
+  ]
+}
+
+        input (string) or given a string is best
+        settings: x important, o not important
+            x minBid: integer
+            o allowOS: toggle
+            o class restriction (experimental): toggle
+            o highest bidder visible: toggle
+            o show total pot + payout details: toggle
+            x bidDuration: integer
+            x countdown: integer
+            x organiser fee (%): float 15.0
+        flair: realm, faction
+        discord protection: toggle
+
+Options for toggles
+group: ref(['op1'])
+options: [ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]
+  <div class="q-pa-lg">
+    <q-option-group
+      v-model="group"
+      :options="options"
+      color="yellow"
+      type="toggle"
+    />
+  </div>
 
 ## Notes
 
@@ -200,9 +322,100 @@ flowchart LR;
     input-->magic-->output
 ```
 
+## Frontend
+
+output
+```
+rowID,itemId,status,minPrice,exp,winner,salePrice,guid
+1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
+```
+
+/index page
+  form
+  join room
+  create room
+/raid/unique
+  session
+  participate form
+  admin start/stop
+  list of items
+  buttons to control
+  interact with db
+
+
+# Tools installed
+Typescript
+JSX
+Vue Router
+Pinia
+Vitest
+E2E Playright
+ESLINT+Prettier
+
+```
+npm create vite@latestnpm install primevue✔ Project name: … auction
+✔ Add TypeScript? … No / Yes
+✔ Add JSX Support? … No / Yes
+✔ Add Vue Router for Single Page Application development? … No / Yes
+✔ Add Pinia for state management? … No / Yes
+✔ Add Vitest for Unit Testing? … No / Yes
+✔ Add an End-to-End Testing Solution? › Playwright
+✔ Add ESLint for code quality? … No / Yes
+✔ Add Prettier for code formatting? … No / Yes
+```
+
+
+## Backend
+
+
 ## Config
 
 ## Database
+
+TODO: update addon to export fields
+TODO: update addon to import fields? probably not needed
+_id
+rowId
+itemId
+status
+minPrice
+expiration
+itemName
+quality
+ilvl
+minLevel
+itemType
+itemSubType
+guid
+
+https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-8.0&tabs=visual-studio-code
+
+mongodb
+compass
+
+mongodb://localhost:27017
+
+response of GET request to /api/auctions
+```
+[
+  {
+    "id": "65d1eeb92ba931f1cf61f531",
+    "rowId": 1,
+    "itemId": 19137,
+    "status": 1,
+    "minimumPrice": 3000,
+    "expiration": 1708217000,
+    "itemName": "Onslaught Girdle",
+    "quality": 4,
+    "itemLevel": 78,
+    "minLevel": 60,
+    "itemType": "Armor",
+    "itemSubType": "Plate",
+    "guid": "noguid"
+  },
+  ...
+]
+```
 
 ## Implementing GUI
 

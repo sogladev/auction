@@ -173,30 +173,8 @@
 <script lang="ts" setup>
 //import { useRouter } from 'vue-router';
 import { reactive, ref } from 'vue';
-import { api } from 'boot/axios';
-import { useQuasar } from 'quasar';
 
-//const router = useRouter();
 const bar = ref(null); // ajax bar
-const $q = useQuasar();
-
-function loadData() {
-  api
-    .get('/api/auctions')
-    .then((response) => {
-      console.log(response);
-      //data.value = response.data
-    })
-    .catch(() => {
-     // TODO: still broken? q is not a function
-      $q.notify({
-        color: 'negative',
-        position: 'top',
-        message: 'Loading failed',
-        icon: 'report_problem',
-      });
-    });
-}
 
 type IndexFormState = {
   lootmaster: string;
