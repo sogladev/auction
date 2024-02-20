@@ -48,7 +48,7 @@
 
     <q-card class="session-card">
       <div class="text-h6">Session</div>
-      <AuctionsTable/>
+      <AuctionsTable v-model:rows="rows"/>
     </q-card>
 
     <q-ajax-bar
@@ -66,6 +66,7 @@ import Papa from 'papaparse';
 
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
+import { ref } from 'vue';
 
 import AuctionsTable from 'components/AuctionsTable.vue';
 
@@ -73,12 +74,44 @@ import AuctionsTable from 'components/AuctionsTable.vue';
 const bar = ref(null); // ajax bar
 const $q = useQuasar();
 
+//const rows = ref(null);
+const rows = ref([
+        {
+          rowId: 1,
+          name: 'RoomPage init',
+          minimumPrice: 5,
+          expiration: 1234,
+        },
+      ])
+
 function loadData() {
   api
     .get('/api/rooms')
     .then((response) => {
       console.log(response);
+// rowId, name, minimumPrice, expiration
       //data.value = response.data
+      rows.value = [
+        {
+          rowId: 1,
+          name: 'name',
+          minimumPrice: 10,
+          expiration: 1234,
+        },
+        {
+          rowId: 2,
+          name: 'othername',
+          minimumPrice: 12,
+          expiration: 1234,
+        },
+        {
+          rowId: 3,
+          name: 'threename',
+          minimumPrice: 11,
+          expiration: 12098,
+        },
+      ]
+
     })
     .catch(() => {
       // TODO: still broken? q is not a function
@@ -101,7 +134,6 @@ const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubT
 4,12282,Worn Battleaxe,1,2,1,Weapon,Two-Handed Axes,1,3000,Item-5827-0-40000000C90648E0
 `;
 
-import { ref } from 'vue';
 const csvString = ref(debugImportString);
 const output = Papa.parse(csvString.value);
 console.log(output);
