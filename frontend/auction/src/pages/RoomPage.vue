@@ -2,7 +2,7 @@
     <div class="flex flex-center column">
     <div class="text-h6" style="text-align:center">You are in a Room</div>
     <q-card class="create-session-card">
-      <div class="text-h6">Create session</div>
+      <div class="text-h6">Create Session</div>
       <q-form ref="for" @submit.prevent="onSubmitRoomString">
         <q-card-section>
           <q-card-section class="justify-around">
