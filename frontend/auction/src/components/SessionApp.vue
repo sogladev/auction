@@ -33,7 +33,7 @@
     <q-card class="sync-session-card">
       <div class="text-h6">Synchronize Session with Database</div>
       <q-card-actions align="center">
-        <q-btn unelevated @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
+        <q-btn unelevated icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
       </q-card-actions>
     </q-card>
 
@@ -49,18 +49,22 @@
           <q-td key="itemName" :props="props" @click="onRowClick(props.row.name)">
             {{ props.row.itemName }}
           </q-td>
-          <q-td key="minimumPrice" :props="props">
+          <q-td key="bid" :props="props">
             <q-badge color="purple">
-              {{ props.row.minimumPrice }}
+              {{ props.row.bid }}
             </q-badge>
           </q-td>
-          <q-td key="minimumPrice" :props="props">
+          <q-td key="myBid" :props="props">
             <q-badge color="purple">
               {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
             </q-badge>
-            <q-popup-edit v-model.number="props.row.myBid" auto-save v-slot="scope">
-              <q-input type="number" step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus
-                @keyup.enter="scope.set" />
+            <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
+              <q-input type="number" :min="props.row.bid" :step="props.row.minimumIncrement" v-model.number="scope.value"
+                dense autofocus @keyup.enter="scope.set" :rules="[
+                  (val) =>
+                    (!isNaN(val) && val >= props.row.bid + roomState.minimumBidIncrement) ||
+                    `Minimum bid is ${props.row.bid + roomState.minimumBidIncrement}!`,
+                ]" />
             </q-popup-edit>
           </q-td>
           <q-td key="expiration" :props="props">
@@ -68,6 +72,17 @@
               {{ props.row.expiration }}
             </q-badge>
           </q-td>
+          <q-td key="increment" :props="props">
+            <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
+          </q-td>
+          <q-td key="submit" :props="props">
+            <q-btn icon="shopping_cart" @click="onSubmit(props.row)"></q-btn>
+          </q-td>
+          <!--
+          <q-td key="Delete" :props="props">
+              <q-btn icon="delete" @click="onDelete(props.row)"></q-btn>
+            </q-td>
+-->
         </q-tr>
       </template>
     </q-table>
@@ -85,6 +100,8 @@ const $q = useQuasar();
 const route = useRoute();
 const roomId = route.params.id;
 
+// Export to CSV button
+// https://quasar.dev/vue-components/table#introduction
 const rows = ref([]);
 const columns = ref([
   {
@@ -103,9 +120,9 @@ const columns = ref([
     sortable: true,
   },
   {
-    name: 'minimumPrice',
+    name: 'bid',
     label: 'Bid',
-    field: 'minimumPrice',
+    field: 'bid',
     sortable: true,
     sort: (a: string, b: string) => parseInt(a, 10) - parseInt(b, 10),
   },
@@ -122,14 +139,12 @@ const columns = ref([
     sortable: true,
     sort: (a: string, b: string) => parseInt(a, 10) - parseInt(b, 10),
   },
+  { name: 'increment', label: 'Increment' },
+  { name: 'submit', label: 'Submit' }
 ]);
 
 
 type AuctionState = {
-  // TODO: Missing, requires changes before changing this
-  //name: auction.itemName,
-  // mybid
-  // bid
   expiration?: number,
   guid?: string,
   itemId?: number,
@@ -142,6 +157,9 @@ type AuctionState = {
   quality?: number,
   rowId?: number,
   status?: number,
+  // TODO: Missing, requires changes before changing this
+  myBid?: number,
+  bid?: number,
 };
 
 type RoomState = {
@@ -177,9 +195,9 @@ function updateSessionSettingsFromResponse(data: any): RoomState {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function rowsFromResponseDataAuctions(data: any): any[] {
-// TODO: Update rows rather than overwriting
-  const newRows = [];
+function rowsFromResponseDataAuctions(data: any): Array<AuctionState> {
+  // TODO: Update rows rather than overwriting
+  const newRows: Array<AuctionState> = [];
   for (const auction of data.auctions) {
     const newAuction = <AuctionState>{
       expiration: auction.expiration,
@@ -195,10 +213,11 @@ function rowsFromResponseDataAuctions(data: any): any[] {
       rowId: auction.rowId,
       status: auction.status,
       // TODO: Add bid, highestbidder
-      bid: auction.minimumPrice
+      bid: auction.minimumPrice,
+      // myBid not set
     }
     newRows.push(newAuction)
-    }
+  }
   return newRows;
 }
 
@@ -212,7 +231,7 @@ async function onSubmitSyncRoom() {
       // Some rooms do not have auctions
       if (response.data.hasOwnProperty('auctions')) {
         // Update Auctions
-        const newRows = rowsFromResponseDataAuctions(response.data);
+        const newRows: Array<AuctionState> = rowsFromResponseDataAuctions(response.data);
         Object.assign(rows.value, newRows)
       }
       // Update Settings / Room State
@@ -235,5 +254,41 @@ async function onSubmitSyncRoom() {
 
 function onRowClick(data: string): void {
   alert(`${data} clicked`);
+}
+
+function calculateIncrementedBid(auction: AuctionState): number{
+  // TODO: If undefined, should check if there's a highest bidder, if not. Set to minbid
+  // TODO: UnitTest
+  // ensures that a user's bid is increased to
+  // at least the minimum allowable bid amount
+  // based on the current bid and the configured increment
+    const minimumNewBid: number = auction.bid + roomState.minimumBidIncrement;
+    var newBid: number;
+    const noBidHasBeenPlaced = auction.myBid === undefined || isNaN(auction.myBid);
+    if (noBidHasBeenPlaced) {
+      newBid = minimumNewBid;
+    } else {
+      // increment bid by the minimum increment to get a new bid amount.
+      const myNewBid = auction.myBid + roomState.minimumBidIncrement;
+      // check new amount is not lower than the minimum
+      newBid = myNewBid > minimumNewBid ? myNewBid : minimumNewBid;
+    }
+    return newBid
+}
+
+function onIncrement(auction: AuctionState): void {
+  console.log('@onIncrement');
+  auction.myBid = calculateIncrementedBid(auction);
+}
+
+function onSubmit(data: AuctionState): void {
+  console.log('@onSubmit');
+  alert(`rowId: ${data.rowId} myBid: ${data.myBid} clicked`);
+  if (data.myBid !== undefined) {
+    console.log('@onSubmit Bid Submitted');
+  }
+  else {
+    console.log('@onSubmit Bid undefined');
+  }
 }
 </script>

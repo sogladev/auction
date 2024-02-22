@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-center column">
-      <div class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
+  <div class="flex flex-center column">
+    <div class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
     <q-card class="create-session-card">
       <div class="text-h6">Create Session</div>
       <q-form ref="for" @submit.prevent="onSubmitRoomString">
@@ -9,42 +9,24 @@
             <div class="text-h7">
               Import items by pasting your import string
             </div>
-            <q-input max debounce="500" label="Paste your string here"
-              v-model="csvString"
-              filled
-              type="textarea"
-              :rules="[
-                (val) =>
-                  (typeof val == 'string' &&
-                    val.startsWith(validationHeader)) ||
-                  'Invalid import string. Copy all output from /hlm e!',
-              ]"
-            />
+            <q-input max debounce="500" label="Paste your string here" v-model="csvString" filled type="textarea" :rules="[
+              (val) =>
+                (typeof val == 'string' &&
+                  val.startsWith(validationHeader)) ||
+                'Invalid import string. Copy all output from /hlm e!',
+            ]" />
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn
-              unelevated
-              type="submit"
-              color="primary"
-              label="Create session"
-            />
+            <q-btn unelevated type="submit" color="primary" label="Create session" />
           </q-card-actions>
         </q-card-section>
       </q-form>
-    </q-card>
 
-    <q-card class="session-card">
       <div class="text-h6">Session</div>
-      <SessionApp/>
+      <SessionApp />
     </q-card>
 
-    <q-ajax-bar
-      ref="bar"
-      position="bottom"
-      color="accent"
-      size="10px"
-      skip-hijack
-    />
+    <q-ajax-bar ref="bar" position="bottom" color="accent" size="10px" skip-hijack />
   </div>
 </template>
 
