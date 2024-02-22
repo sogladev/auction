@@ -5,17 +5,28 @@
       <div class="text-h6">Room Settings</div>
 
       <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
-      <q-list bordered padding>
-        <q-item> <q-item-section>lootmaster</q-item-section> <q-item-section>{{ roomState.lootmaster }}</q-item-section> </q-item>
-        <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{ roomState.enableDiscordProtection }}</q-item-section> </q-item>
-        <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ roomState.bidDurationInSeconds }}</q-item-section> </q-item>
-        <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{ roomState.countDownTimeInSeconds }}</q-item-section> </q-item>
-        <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{ roomState.restrictBidsToEquipable }}</q-item-section> </q-item>
-        <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{ roomState.hideNameOfHighestBidder }}</q-item-section> </q-item>
-        <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ roomState.hidePayoutDetails }}</q-item-section> </q-item>
-        <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ roomState.organiserFee }}</q-item-section> </q-item>
-        <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ roomState.minimumBid }}</q-item-section> </q-item>
-        <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ roomState.minimumBidIncrement }}</q-item-section> </q-item>
+      <p v-if:="Object.keys(roomState).length === 0">Session is not loaded!</p>
+      <q-list bordered padding v-if:="Object.keys(roomState).length > 0">
+        <q-item> <q-item-section>lootmaster</q-item-section> <q-item-section>{{ roomState.lootmaster }}</q-item-section>
+        </q-item>
+        <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
+          roomState.enableDiscordProtection }}</q-item-section> </q-item>
+        <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ roomState.bidDurationInSeconds
+        }}</q-item-section> </q-item>
+        <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{
+          roomState.countDownTimeInSeconds }}</q-item-section> </q-item>
+        <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
+          roomState.restrictBidsToEquipable }}</q-item-section> </q-item>
+        <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
+          roomState.hideNameOfHighestBidder }}</q-item-section> </q-item>
+        <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ roomState.hidePayoutDetails
+        }}</q-item-section> </q-item>
+        <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ roomState.organiserFee
+        }}</q-item-section> </q-item>
+        <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ roomState.minimumBid }}</q-item-section>
+        </q-item>
+        <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ roomState.minimumBidIncrement
+        }}</q-item-section> </q-item>
       </q-list>
     </q-card>
 
@@ -35,8 +46,8 @@
               {{ props.row.rowId }}
             </q-badge>
           </q-td>
-          <q-td key="name" :props="props" @click="onRowClick(props.row.name)">
-            {{ props.row.name }}
+          <q-td key="itemName" :props="props" @click="onRowClick(props.row.name)">
+            {{ props.row.itemName }}
           </q-td>
           <q-td key="minimumPrice" :props="props">
             <q-badge color="purple">
@@ -74,7 +85,6 @@ const $q = useQuasar();
 const route = useRoute();
 const roomId = route.params.id;
 
-const settings = ref([]);
 const rows = ref([]);
 const columns = ref([
   {
@@ -86,10 +96,10 @@ const columns = ref([
     sortable: true,
   },
   {
-    name: 'name',
+    name: 'itemName',
     align: 'center',
-    label: 'Name',
-    field: 'name',
+    label: 'Item Name',
+    field: 'itemName',
     sortable: true,
   },
   {
@@ -114,65 +124,81 @@ const columns = ref([
   },
 ]);
 
-type RoomState = {
-  lootmaster: string;
-  enableDiscordProtection: boolean;
-  bidDurationInSeconds: number;
-  countDownTimeInSeconds: number;
-  restrictBidsToEquipable: boolean;
-  hideNameOfHighestBidder: boolean;
-  hidePayoutDetails: boolean;
-  organiserFee: number;
-  minimumBid: number;
-  minimumBidIncrement: number;
+
+type AuctionState = {
+  // TODO: Missing, requires changes before changing this
+  //name: auction.itemName,
+  // mybid
+  // bid
+  expiration?: number,
+  guid?: string,
+  itemId?: number,
+  itemLevel?: number,
+  itemName?: string,
+  itemSubType?: string,
+  itemType?: string,
+  minLevel?: number,
+  minimumPrice?: number,
+  quality?: number,
+  rowId?: number,
+  status?: number,
 };
 
-const roomState = reactive<RoomState>({
-  lootmaster: 'Lootmaster',
-  enableDiscordProtection: false,
-  bidDurationInSeconds: 240,
-  countDownTimeInSeconds: 40,
-  restrictBidsToEquipable: false,
-  hideNameOfHighestBidder: false,
-  hidePayoutDetails: false,
-  organiserFee: 10,
-  minimumBid: 10,
-  minimumBidIncrement: 1,
-});
+type RoomState = {
+  lootmaster?: string;
+  enableDiscordProtection?: boolean;
+  bidDurationInSeconds?: number;
+  countDownTimeInSeconds?: number;
+  restrictBidsToEquipable?: boolean;
+  hideNameOfHighestBidder?: boolean;
+  hidePayoutDetails?: boolean;
+  organiserFee?: number;
+  minimumBid?: number;
+  minimumBidIncrement?: number;
+};
+
+const roomState = reactive<RoomState>({});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function updateSessionSettingsFromResponse(data: any) {
-  if (!data.hasOwnProperty('auctions')) {
-    return -1;
-  }
-  const newRows = [];
-  for (const auction of data.auctions) {
-    // TODO: data[0] should be data. Revisited later
-    newRows.push({
-      rowId: auction.rowId,
-      name: auction.itemName,
-      minimumPrice: auction.minimumPrice,
-      expiration: auction.expiration,
-    });
-  }
-  return newRows;
+function updateSessionSettingsFromResponse(data: any): RoomState {
+  const newRoomState = <RoomState>{
+    lootmaster: data.name,
+    enableDiscordProtection: data.enableDiscordProtection,
+    bidDurationInSeconds: data.bidDurationInSeconds,
+    countDownTimeInSeconds: data.countDownTimeInSeconds,
+    restrictBidsToEquipable: data.restrictBidsToEquipable,
+    hideNameOfHighestBidder: data.hideNameOfHighestBidder,
+    hidePayoutDetails: data.hidePayoutDetails,
+    organiserFee: data.organiserFee,
+    minimumBid: data.minimumBid,
+    minimumBidIncrement: data.minimumBidIncrement,
+  };
+  return newRoomState
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function rowsFromResponseDataAuctions(data: any) {
-  if (!data.hasOwnProperty('auctions')) {
-    return -1;
-  }
+function rowsFromResponseDataAuctions(data: any): any[] {
+// TODO: Update rows rather than overwriting
   const newRows = [];
   for (const auction of data.auctions) {
-    // TODO: data[0] should be data. Revisited later
-    newRows.push({
-      rowId: auction.rowId,
-      name: auction.itemName,
-      minimumPrice: auction.minimumPrice,
+    const newAuction = <AuctionState>{
       expiration: auction.expiration,
-    });
-  }
+      guid: auction.guid,
+      itemId: auction.itemId,
+      itemLevel: auction.itemLevel,
+      itemName: auction.itemName,
+      itemSubType: auction.itemSubType,
+      itemType: auction.itemType,
+      minLevel: auction.minLevel,
+      minimumPrice: auction.minimumPrice,
+      quality: auction.quality,
+      rowId: auction.rowId,
+      status: auction.status,
+      // TODO: Add bid, highestbidder
+      bid: auction.minimumPrice
+    }
+    newRows.push(newAuction)
+    }
   return newRows;
 }
 
@@ -183,8 +209,16 @@ async function onSubmitSyncRoom() {
     .get(`/api/rooms/${roomId}`)
     .then((response) => {
       console.log(response);
-      rows.value = rowsFromResponseDataAuctions(response.data);
-      settings.value = updateSessionSettingsFromResponse(response.data);
+      // Some rooms do not have auctions
+      if (response.data.hasOwnProperty('auctions')) {
+        // Update Auctions
+        const newRows = rowsFromResponseDataAuctions(response.data);
+        Object.assign(rows.value, newRows)
+      }
+      // Update Settings / Room State
+      // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
+      const newRoomState: RoomState = updateSessionSettingsFromResponse(response.data);
+      Object.assign(roomState, newRoomState)
     })
     .catch(() => {
       $q.notify({
@@ -195,6 +229,9 @@ async function onSubmitSyncRoom() {
       });
     });
 }
+
+// TODO: Instantly load room settings on navigation
+// onSubmitSyncRoom()
 
 function onRowClick(data: string): void {
   alert(`${data} clicked`);

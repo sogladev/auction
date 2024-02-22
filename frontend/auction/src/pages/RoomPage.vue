@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-center column">
-    <div class="text-h6" style="text-align:center">You are in a Room</div>
+      <div class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
     <q-card class="create-session-card">
       <div class="text-h6">Create Session</div>
       <q-form ref="for" @submit.prevent="onSubmitRoomString">
@@ -52,6 +52,10 @@
 import Papa from 'papaparse';
 
 import { ref } from 'vue';
+
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const roomId = route.params.id;
 
 import SessionApp from 'components/SessionApp.vue';
 
