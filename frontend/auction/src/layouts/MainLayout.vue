@@ -3,10 +3,17 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title> Auction App </q-toolbar-title>
-        <router-link to="/">Home</router-link>
-        <router-link to="/room/1">Room 1</router-link>
-        <router-link to="/room/2">Room 2</router-link>
-        <router-link to="/about">about</router-link>
+
+        <q-tabs inline-label>
+          <q-route-tab icon="house" label="Home" to="/" exact />
+          <q-route-tab icon="info" label="About" to="/about" exact />
+          <q-route-tab
+            icon="person"
+            label="Room 1"
+            to="/room/65d2bf102ba931f1cf61f54a"
+            exact
+          />
+        </q-tabs>
         <div>Quasar v{{ $q.version }}</div>
         <DarkModeToggle />
       </q-toolbar>
