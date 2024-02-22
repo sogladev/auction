@@ -1,8 +1,30 @@
-export interface Todo {
-  id: number;
-  content: string;
-}
+export type RoomState = {
+  lootmaster?: string;
+  enableDiscordProtection?: boolean;
+  bidDurationInSeconds?: number;
+  countDownTimeInSeconds?: number;
+  restrictBidsToEquipable?: boolean;
+  hideNameOfHighestBidder?: boolean;
+  hidePayoutDetails?: boolean;
+  organiserFee?: number;
+  minimumBid?: number;
+  minimumBidIncrement?: number;
+};
 
-export interface Meta {
-  totalCount: number;
-}
+export type AuctionState = {
+  expiration?: number,
+  guid?: string,
+  itemId?: number,
+  itemLevel?: number,
+  itemName?: string,
+  itemSubType?: string,
+  itemType?: string,
+  minLevel?: number,
+  minimumPrice?: number,
+  quality?: number,
+  rowId?: number,
+  status?: number,
+  // TODO: Missing, requires changes before changing this
+  myBid?: number,
+  bid?: number,
+};

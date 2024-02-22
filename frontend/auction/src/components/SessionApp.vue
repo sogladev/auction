@@ -96,6 +96,9 @@ import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
+import { AuctionState, RoomState } from 'src/components/models';
+import { calculateBidIncrement } from 'src/components/AuctionIncrement';
+
 const $q = useQuasar();
 const route = useRoute();
 const roomId = route.params.id;
@@ -142,38 +145,6 @@ const columns = ref([
   { name: 'increment', label: 'Increment' },
   { name: 'submit', label: 'Submit' }
 ]);
-
-
-type AuctionState = {
-  expiration?: number,
-  guid?: string,
-  itemId?: number,
-  itemLevel?: number,
-  itemName?: string,
-  itemSubType?: string,
-  itemType?: string,
-  minLevel?: number,
-  minimumPrice?: number,
-  quality?: number,
-  rowId?: number,
-  status?: number,
-  // TODO: Missing, requires changes before changing this
-  myBid?: number,
-  bid?: number,
-};
-
-type RoomState = {
-  lootmaster?: string;
-  enableDiscordProtection?: boolean;
-  bidDurationInSeconds?: number;
-  countDownTimeInSeconds?: number;
-  restrictBidsToEquipable?: boolean;
-  hideNameOfHighestBidder?: boolean;
-  hidePayoutDetails?: boolean;
-  organiserFee?: number;
-  minimumBid?: number;
-  minimumBidIncrement?: number;
-};
 
 const roomState = reactive<RoomState>({});
 
@@ -256,29 +227,9 @@ function onRowClick(data: string): void {
   alert(`${data} clicked`);
 }
 
-function calculateIncrementedBid(auction: AuctionState): number{
-  // TODO: If undefined, should check if there's a highest bidder, if not. Set to minbid
-  // TODO: UnitTest
-  // ensures that a user's bid is increased to
-  // at least the minimum allowable bid amount
-  // based on the current bid and the configured increment
-    const minimumNewBid: number = auction.bid + roomState.minimumBidIncrement;
-    var newBid: number;
-    const noBidHasBeenPlaced = auction.myBid === undefined || isNaN(auction.myBid);
-    if (noBidHasBeenPlaced) {
-      newBid = minimumNewBid;
-    } else {
-      // increment bid by the minimum increment to get a new bid amount.
-      const myNewBid = auction.myBid + roomState.minimumBidIncrement;
-      // check new amount is not lower than the minimum
-      newBid = myNewBid > minimumNewBid ? myNewBid : minimumNewBid;
-    }
-    return newBid
-}
-
 function onIncrement(auction: AuctionState): void {
   console.log('@onIncrement');
-  auction.myBid = calculateIncrementedBid(auction);
+  auction.myBid = calculateBidIncrement(auction, roomState);
 }
 
 function onSubmit(data: AuctionState): void {
