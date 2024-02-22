@@ -46,7 +46,11 @@
 import { ref } from 'vue';
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
+import { useRoute } from 'vue-router';
+
 const $q = useQuasar();
+const route = useRoute();
+const roomId = route.params.id;
 
 const rows = ref([])
 const columns = ref([
@@ -83,8 +87,8 @@ function rowsFromResponseDataAuctions(data: any) {
 }
 
 async function onSubmitSyncRoom() {
-  console.log('@submet.prevent sync room');
-  const roomId = '65d2bf102ba931f1cf61f54a'
+  console.log('@submet.prevent');
+  console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
   api
     .get(`/api/rooms/${roomId}`)
     .then((response) => {
