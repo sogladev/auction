@@ -8,7 +8,7 @@ const room = <RoomState>{
 };
 
 const auction = <AuctionState>{
-bid: 100,
+  bid: 100,
 };
 
 describe('calculateBidIncrement', () => {

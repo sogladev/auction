@@ -8,7 +8,7 @@ export function calculateBidIncrement(auction: AuctionState, room: RoomState): n
   // at least the minimum allowable bid amount
   // based on the current bid and the configured increment
     const minimumNewBid: number = auction.bid + room.minimumBidIncrement;
-    var newBid: number;
+    let newBid: number;
     const noBidHasBeenPlaced = auction.myBid === undefined || isNaN(auction.myBid);
     if (noBidHasBeenPlaced) {
       newBid = minimumNewBid;
