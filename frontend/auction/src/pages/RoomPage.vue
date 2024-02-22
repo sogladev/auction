@@ -74,8 +74,9 @@ async function onSubmitRoomString() {
   console.log('@submet.prevent on submit roomsring');
   const output = Papa.parse(csvString.value);
   console.log(output);
-  // TODO: Post to create Room
-  // Redirect to Room
+  console.log('TODO: Create session from import string');
+  // TODO: Create session from import string
+  // Populate "Auctions" data and start session
 }
 
 </script>

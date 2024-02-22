@@ -220,6 +220,7 @@ function onReset(): void {
 
 async function onSubmit() {
   console.log('@submet.prevent');
+  console.log('TODO: Post form and create room with given settings');
   console.log(formState);
   // TODO: Post form and create room with given settings
   //const response = await api.post(

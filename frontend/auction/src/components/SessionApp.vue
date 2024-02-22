@@ -65,11 +65,12 @@ const columns = ref([
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function rowsFromResponseDataAuctions(data: any) {
-  if (!data[0].hasOwnProperty('auctions')){
+
+  if (!data.hasOwnProperty('auctions')){
     return -1
   }
   const newRows = []
-  for (const auction of data[0].auctions) { // TODO: data[0] should be data. Revisited later
+  for (const auction of data.auctions) { // TODO: data[0] should be data. Revisited later
     newRows.push({
       rowId: auction.rowId,
       name: auction.itemName,
@@ -83,12 +84,12 @@ function rowsFromResponseDataAuctions(data: any) {
 
 async function onSubmitSyncRoom() {
   console.log('@submet.prevent sync room');
-  // TODO: Get room by id
+  const roomId = '65d2bf102ba931f1cf61f54a'
   api
-    .get('/api/rooms')
+    .get(`/api/rooms/${roomId}`)
     .then((response) => {
       console.log(response);
-      rows.value = rowsFromResponseDataAuctions(response.data)
+      rows.value = rowsFromResponseDataAuctions(response.data);
     })
     .catch(() => {
       $q.notify({
