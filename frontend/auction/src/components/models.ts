@@ -24,7 +24,7 @@ export type AuctionState = {
   quality?: number,
   rowId?: number,
   status?: number,
-  // TODO: Missing, requires changes before changing this
   myBid?: number,
   bid?: number,
+  bidderName?: string,
 };

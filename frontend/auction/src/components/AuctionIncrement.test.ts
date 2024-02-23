@@ -1,46 +1,122 @@
-import { calculateBidIncrement } from 'src/components/AuctionIncrement'
-import { AuctionState, RoomState } from 'src/components/models'
+import { calculateBidIncrement } from 'src/components/AuctionIncrement';
+import { AuctionState, RoomState } from 'src/components/models';
 
 import { describe, expect, it } from 'vitest';
 
-const room = <RoomState>{
-  minimumBidIncrement: 10
-};
-
-const auction = <AuctionState>{
-  bid: 100,
-};
-
 describe('calculateBidIncrement', () => {
-  it('should return minimum bid increment if no bid placed', () => {
-    auction.myBid = undefined
+  it('should return minimum bid increment if no bid placed and no my bid placed', () => {
+    const room = <RoomState>{
+      minimumBidIncrement: 10,
+      minimumBid: 50,
+    };
+
+    const auction = <AuctionState>{
+      minimumPrice: 150,
+      bid: undefined,
+      myBid: undefined,
+    };
 
     const result = calculateBidIncrement(auction, room);
 
-    expect(result).toEqual(110);
+    expect(result).toEqual(150);
   });
 
-  it('should increment existing bid by minimum bid increment', () => {
-    auction.myBid = 105
+  it('should return bid increment if min bid placed and not my bid placed', () => {
+    const room = <RoomState>{
+      minimumBidIncrement: 10,
+      minimumBid: 50,
+    };
+
+    const auction = <AuctionState>{
+      minimumPrice: 150,
+      bid: 150,
+      myBid: undefined,
+    };
 
     const result = calculateBidIncrement(auction, room);
 
-    expect(result).toEqual(115);
+    expect(result).toEqual(160);
+  });
+  it('should return bid increment if bid is placed and not my bid placed', () => {
+    const room = <RoomState>{
+      minimumBidIncrement: 10,
+      minimumBid: 50,
+    };
+
+    const auction = <AuctionState>{
+      minimumPrice: 150,
+      bid: 200,
+      myBid: undefined,
+    };
+
+    const result = calculateBidIncrement(auction, room);
+
+    expect(result).toEqual(210);
+  });
+  it('should return my bid increment if my bid is higher than bid', () => {
+    const room = <RoomState>{
+      minimumBidIncrement: 10,
+      minimumBid: 50,
+    };
+
+    const auction = <AuctionState>{
+      minimumPrice: 150,
+      bid: 200,
+      myBid: 220,
+    };
+
+    const result = calculateBidIncrement(auction, room);
+
+    expect(result).toEqual(230);
   });
 
-  it('should return minimum required bid if new increment+myBid is lower', () => {
-    auction.myBid = 80
+  it('should return bid increment if invalid my bid is placed', () => {
+    const room = <RoomState>{
+      minimumBidIncrement: 10,
+      minimumBid: 50,
+    };
+
+    const auction = <AuctionState>{
+      minimumPrice: 150,
+      bid: 200,
+      myBid: 80,
+    };
 
     const result = calculateBidIncrement(auction, room);
 
-    expect(result).toEqual(110);
+    expect(result).toEqual(210);
+  });
+  it('should return bid increment if no my bid placed', () => {
+    const room = <RoomState>{
+      minimumBidIncrement: 10,
+      minimumBid: 50,
+    };
+
+    const auction = <AuctionState>{
+      minimumPrice: 150,
+      bid: 200,
+      myBid: undefined,
+    };
+
+    const result = calculateBidIncrement(auction, room);
+
+    expect(result).toEqual(210);
   });
 
-  it('should handle invalid myBid values', () => {
-    auction.myBid = 'invalid'
+  it('should return my bid incremented if no bid placed and my bid is placed', () => {
+    const room = <RoomState>{
+      minimumBidIncrement: 10,
+      minimumBid: 50,
+    };
+
+    const auction = <AuctionState>{
+      minimumPrice: 150,
+      bid: undefined,
+      myBid: 300,
+    };
 
     const result = calculateBidIncrement(auction, room);
 
-    expect(result).toEqual(110);
-  } );
+    expect(result).toEqual(310);
+  });
 });
