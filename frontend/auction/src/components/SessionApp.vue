@@ -249,14 +249,20 @@ function onIncrement(auction: AuctionState): void {
   auction.myBid = calculateBidIncrement(auction, roomState);
 }
 
-function onSubmit(data: AuctionState): void {
+async function onSubmit(auction: AuctionState): void {
   console.log('@onSubmit');
-  alert(`rowId: ${data.rowId} myBid: ${data.myBid} clicked`);
-  if (data.myBid !== undefined) {
-    console.log('@onSubmit Bid Submitted');
+  alert(`rowId: ${auction.rowId} myBid: ${auction.myBid} clicked`);
+  console.log(auction);
+  if (auction.myBid == undefined) {
+    console.log('@onSubmit Bid undefined. Not submitting');
+    return;
   }
-  else {
-    console.log('@onSubmit Bid undefined');
-  }
+  // Submit bid to API
+  console.log('@onSubmit Bid Submitted');
+  const response = await api.patch(
+    `/api/rooms/${roomId}`,
+    auction,
+  );
+  console.log(response)
 }
 </script>
