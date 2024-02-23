@@ -49,9 +49,17 @@
           <q-td key="itemName" :props="props" @click="onRowClick(props.row.name)">
             {{ props.row.itemName }}
           </q-td>
+          <q-td key="bidderName" :props="props">
+            {{ props.row.bidderName }}
+          </q-td>
           <q-td key="bid" :props="props">
             <q-badge color="purple">
-              {{ props.row.bid }}
+              <div v-if="props.row.bid">
+                {{ props.row.bid }}
+              </div>
+              <div v-else>
+                {{ props.row.minimumPrice }}
+              </div>
             </q-badge>
           </q-td>
           <q-td key="myBid" :props="props">
@@ -123,6 +131,13 @@ const columns = ref([
     sortable: true,
   },
   {
+    name: 'bidderName',
+    align: 'center',
+    label: 'Highest Bidder',
+    field: 'bidderName',
+    sortable: true,
+  },
+  {
     name: 'bid',
     label: 'Bid',
     field: 'bid',
@@ -183,9 +198,9 @@ function rowsFromResponseDataAuctions(data: any): Array<AuctionState> {
       quality: auction.quality,
       rowId: auction.rowId,
       status: auction.status,
-      // TODO: Add bid, highestbidder
-      bid: auction.minimumPrice,
-      // myBid not set
+      // bid and bidderName are null if not started
+      bid: auction.bid ? auction.bid : auction.minimumPrice,
+      bidderName: auction.bidderName,
     }
     newRows.push(newAuction)
   }
@@ -229,6 +244,8 @@ function onRowClick(data: string): void {
 
 function onIncrement(auction: AuctionState): void {
   console.log('@onIncrement');
+  console.log(auction);
+  console.log(roomState);
   auction.myBid = calculateBidIncrement(auction, roomState);
 }
 

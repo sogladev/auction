@@ -274,6 +274,9 @@ npm create vite@latestnpm install primevue✔ Project name: … auction
 ```
 
 ## Backend
+TODO: Use pony client to gather data. Does it cache? Store item data in mongo
+
+dotnet add package ArgentPonyWarcraftClient --version 8.1.8
 
 https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-8.0&tabs=visual-studio-code
 

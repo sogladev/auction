@@ -1,0 +1,514 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://eu.api.blizzard.com/data/wow/item/17076?namespace=static-3.4.3_51505-classic-eu"
+    }
+  },
+  "id": 17076,
+  "name": {
+    "en_US": "Bonereaver's Edge",
+    "es_MX": "Filo del espetahuesos",
+    "pt_BR": "Gume Rasgaosso",
+    "de_DE": "Knochenhäschers Schneide",
+    "en_GB": "Bonereaver's Edge",
+    "es_ES": "Filo del espetahuesos",
+    "fr_FR": "Tranchant dilacérateur",
+    "it_IT": "Spadone del Mietiossa",
+    "ru_RU": "Кромка костяного разорителя",
+    "ko_KR": "각골의 검",
+    "zh_TW": "削骨之鋒",
+    "zh_CN": "削骨之刃"
+  },
+  "quality": {
+    "type": "EPIC",
+    "name": {
+      "en_US": "Epic",
+      "es_MX": "Épico",
+      "pt_BR": "Épico",
+      "de_DE": "Episch",
+      "en_GB": "Epic",
+      "es_ES": "Épico",
+      "fr_FR": "Épique",
+      "it_IT": "Epico",
+      "ru_RU": "Эпические",
+      "ko_KR": "영웅",
+      "zh_TW": "史詩",
+      "zh_CN": "史诗"
+    }
+  },
+  "level": 77,
+  "required_level": 60,
+  "media": {
+    "key": {
+      "href": "https://eu.api.blizzard.com/data/wow/media/item/17076?namespace=static-3.4.3_51505-classic-eu"
+    },
+    "id": 17076
+  },
+  "item_class": {
+    "key": {
+      "href": "https://eu.api.blizzard.com/data/wow/item-class/2?namespace=static-3.4.3_51505-classic-eu"
+    },
+    "name": {
+      "en_US": "Weapon",
+      "es_MX": "Arma",
+      "pt_BR": "Arma",
+      "de_DE": "Waffe",
+      "en_GB": "Weapon",
+      "es_ES": "Arma",
+      "fr_FR": "Arme",
+      "it_IT": "Armi",
+      "ru_RU": "Оружие",
+      "ko_KR": "무기",
+      "zh_TW": "武器",
+      "zh_CN": "武器"
+    },
+    "id": 2
+  },
+  "item_subclass": {
+    "key": {
+      "href": "https://eu.api.blizzard.com/data/wow/item-class/2/item-subclass/8?namespace=static-3.4.3_51505-classic-eu"
+    },
+    "name": {
+      "en_US": "Sword",
+      "es_MX": "Espada",
+      "pt_BR": "Espada",
+      "de_DE": "Schwert",
+      "en_GB": "Sword",
+      "es_ES": "Espada",
+      "fr_FR": "Epée",
+      "it_IT": "Spada",
+      "ru_RU": "Меч",
+      "ko_KR": "도검",
+      "zh_TW": "劍",
+      "zh_CN": "剑"
+    },
+    "id": 8
+  },
+  "inventory_type": {
+    "type": "TWOHWEAPON",
+    "name": {
+      "en_US": "Two-Hand",
+      "es_MX": "Dos manos",
+      "pt_BR": "Duas mãos",
+      "de_DE": "Zweihändig",
+      "en_GB": "Two-Hand",
+      "es_ES": "Dos manos",
+      "fr_FR": "Deux mains",
+      "it_IT": "Due mani",
+      "ru_RU": "Двуручное",
+      "ko_KR": "양손 장비",
+      "zh_TW": "雙手",
+      "zh_CN": "双手"
+    }
+  },
+  "purchase_price": 530337,
+  "sell_price": 106067,
+  "max_count": 0,
+  "is_equippable": true,
+  "is_stackable": false,
+  "preview_item": {
+    "item": {
+      "key": {
+        "href": "https://eu.api.blizzard.com/data/wow/item/17076?namespace=static-3.4.3_51505-classic-eu"
+      },
+      "id": 17076
+    },
+    "quality": {
+      "type": "EPIC",
+      "name": {
+        "en_US": "Epic",
+        "es_MX": "Épico",
+        "pt_BR": "Épico",
+        "de_DE": "Episch",
+        "en_GB": "Epic",
+        "es_ES": "Épico",
+        "fr_FR": "Épique",
+        "it_IT": "Epico",
+        "ru_RU": "Эпические",
+        "ko_KR": "영웅",
+        "zh_TW": "史詩",
+        "zh_CN": "史诗"
+      }
+    },
+    "name": {
+      "en_US": "Bonereaver's Edge",
+      "es_MX": "Filo del espetahuesos",
+      "pt_BR": "Gume Rasgaosso",
+      "de_DE": "Knochenhäschers Schneide",
+      "en_GB": "Bonereaver's Edge",
+      "es_ES": "Filo del espetahuesos",
+      "fr_FR": "Tranchant dilacérateur",
+      "it_IT": "Spadone del Mietiossa",
+      "ru_RU": "Кромка костяного разорителя",
+      "ko_KR": "각골의 검",
+      "zh_TW": "削骨之鋒",
+      "zh_CN": "削骨之刃"
+    },
+    "media": {
+      "key": {
+        "href": "https://eu.api.blizzard.com/data/wow/media/item/17076?namespace=static-3.4.3_51505-classic-eu"
+      },
+      "id": 17076
+    },
+    "item_class": {
+      "key": {
+        "href": "https://eu.api.blizzard.com/data/wow/item-class/2?namespace=static-3.4.3_51505-classic-eu"
+      },
+      "name": {
+        "en_US": "Weapon",
+        "es_MX": "Arma",
+        "pt_BR": "Arma",
+        "de_DE": "Waffe",
+        "en_GB": "Weapon",
+        "es_ES": "Arma",
+        "fr_FR": "Arme",
+        "it_IT": "Armi",
+        "ru_RU": "Оружие",
+        "ko_KR": "무기",
+        "zh_TW": "武器",
+        "zh_CN": "武器"
+      },
+      "id": 2
+    },
+    "item_subclass": {
+      "key": {
+        "href": "https://eu.api.blizzard.com/data/wow/item-class/2/item-subclass/8?namespace=static-3.4.3_51505-classic-eu"
+      },
+      "name": {
+        "en_US": "Sword",
+        "es_MX": "Espada",
+        "pt_BR": "Espada",
+        "de_DE": "Schwert",
+        "en_GB": "Sword",
+        "es_ES": "Espada",
+        "fr_FR": "Epée",
+        "it_IT": "Spada",
+        "ru_RU": "Меч",
+        "ko_KR": "도검",
+        "zh_TW": "劍",
+        "zh_CN": "剑"
+      },
+      "id": 8
+    },
+    "inventory_type": {
+      "type": "TWOHWEAPON",
+      "name": {
+        "en_US": "Two-Hand",
+        "es_MX": "Dos manos",
+        "pt_BR": "Duas mãos",
+        "de_DE": "Zweihändig",
+        "en_GB": "Two-Hand",
+        "es_ES": "Dos manos",
+        "fr_FR": "Deux mains",
+        "it_IT": "Due mani",
+        "ru_RU": "Двуручное",
+        "ko_KR": "양손 장비",
+        "zh_TW": "雙手",
+        "zh_CN": "双手"
+      }
+    },
+    "binding": {
+      "type": "ON_ACQUIRE",
+      "name": {
+        "en_US": "Binds when picked up",
+        "es_MX": "Se liga al recogerlo",
+        "pt_BR": "Vincula-se ao ser recolhido",
+        "de_DE": "Wird beim Aufheben gebunden",
+        "en_GB": "Binds when picked up",
+        "es_ES": "Se liga al recogerlo",
+        "fr_FR": "Lié quand ramassé",
+        "it_IT": "Vincola alla raccolta",
+        "ru_RU": "Становится персональным при поднятии",
+        "ko_KR": "획득 시 귀속",
+        "zh_TW": "拾取後綁定",
+        "zh_CN": "拾取后绑定"
+      }
+    },
+    "weapon": {
+      "damage": {
+        "min_value": 206,
+        "max_value": 310,
+        "display_string": {
+          "en_US": "206 - 310 Damage",
+          "es_MX": "206 - 310 p. de daño",
+          "pt_BR": "206 - 310 de dano",
+          "de_DE": "206 - 310 Schaden",
+          "en_GB": "206 - 310 Damage",
+          "es_ES": "206 - 310 Daño",
+          "fr_FR": "Dégâts : 206 - 310",
+          "it_IT": "206 - 310 Danni",
+          "ru_RU": "Урон: 206-310",
+          "ko_KR": "공격력 206 - 310",
+          "zh_TW": "206 - 310傷害",
+          "zh_CN": "206 - 310伤害"
+        },
+        "damage_class": {
+          "type": "PHYSICAL",
+          "name": {
+            "en_US": "Physical",
+            "es_MX": "Físico",
+            "pt_BR": "Físico",
+            "de_DE": "Körperlich",
+            "en_GB": "Physical",
+            "es_ES": "Físico",
+            "fr_FR": "Physique",
+            "it_IT": "Fisico",
+            "ru_RU": "физический",
+            "ko_KR": "물리",
+            "zh_TW": "物理",
+            "zh_CN": "物理"
+          }
+        }
+      },
+      "attack_speed": {
+        "value": 3400,
+        "display_string": {
+          "en_US": "Speed 3.40",
+          "es_MX": "Velocidad 3.40",
+          "pt_BR": "Velocidade 3,40",
+          "de_DE": "Tempo 3,40",
+          "en_GB": "Speed 3.40",
+          "es_ES": "Veloc. 3,40",
+          "fr_FR": "Vitesse 3,40",
+          "it_IT": "Velocità 3,40",
+          "ru_RU": "Скорость 3,40",
+          "ko_KR": "속도 3.40",
+          "zh_TW": "速度 3.40",
+          "zh_CN": "速度 3.40"
+        }
+      },
+      "dps": {
+        "value": 75.88235,
+        "display_string": {
+          "en_US": "(75.9 damage per second)",
+          "es_MX": "(75.9 p. de daño por segundo)",
+          "pt_BR": "(75.9 de dano por segundo)",
+          "de_DE": "(75.9 Schaden pro Sekunde)",
+          "en_GB": "(75.9 damage per second)",
+          "es_ES": "(75.9 daño por segundo)",
+          "fr_FR": "(75.9 dégâts par seconde)",
+          "it_IT": "(75.9 danni per secondo)",
+          "ru_RU": "(75.9 ед. урона в секунду)",
+          "ko_KR": "(초당 공격력 75.9)",
+          "zh_TW": "（每秒傷害75.9）",
+          "zh_CN": "（每秒伤害75.9）"
+        }
+      }
+    },
+    "stats": [
+      {
+        "type": {
+          "type": "STAMINA",
+          "name": {
+            "en_US": "Stamina",
+            "es_MX": "Aguante",
+            "pt_BR": "Vigor",
+            "de_DE": "Ausdauer",
+            "en_GB": "Stamina",
+            "es_ES": "aguante",
+            "fr_FR": "Endurance",
+            "it_IT": "Tempra",
+            "ru_RU": "к выносливости",
+            "ko_KR": "체력",
+            "zh_TW": "耐力",
+            "zh_CN": "耐力"
+          }
+        },
+        "value": 16,
+        "display": {
+          "display_string": {
+            "en_US": "+16 Stamina",
+            "es_MX": "+16 Aguante",
+            "pt_BR": "+16 Vigor",
+            "de_DE": "+16 Ausdauer",
+            "en_GB": "+16 Stamina",
+            "es_ES": "+16 aguante",
+            "fr_FR": "+16 Endurance",
+            "it_IT": "+16 Tempra",
+            "ru_RU": "+16 к выносливости",
+            "ko_KR": "체력 +16",
+            "zh_TW": "+16耐力",
+            "zh_CN": "+16 耐力"
+          },
+          "color": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 1.0
+          }
+        }
+      }
+    ],
+    "spells": [
+      {
+        "spell": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/spell/21153?namespace=static-3.4.3_51505-classic-eu"
+          },
+          "name": {
+            "en_US": "Bonereaver's Edge",
+            "es_MX": "Filo del espetahuesos",
+            "pt_BR": "Gume Rasgaosso",
+            "de_DE": "Knochenhäschers Schneide",
+            "en_GB": "Bonereaver's Edge",
+            "es_ES": "Filo del espetahuesos",
+            "fr_FR": "Tranchant dilacérateur",
+            "it_IT": "Spadone del Mietiossa",
+            "ru_RU": "Кромка костяного разорителя",
+            "ko_KR": "각골의 검",
+            "zh_TW": "削骨之鋒",
+            "zh_CN": "削骨之刃"
+          },
+          "id": 21153
+        },
+        "description": {
+          "en_US": "Chance on hit: You gain 100 armor penetration rating for 10 sec. This effect stacks up to 3 times.",
+          "es_MX": "Probabilidad al acertar: Ganas 100 p. de índice de penetración de armadura durante 10 s. Este efecto se acumula un máximo de 3 veces.",
+          "pt_BR": "Chance ao acertar: Você recebe 100 de taxa de penetração em Armadura por 10 s. Este efeito acumula até 3 vezes.",
+          "de_DE": "Trefferchance: Ihr erhaltet 10 Sek. lang eine zusätzliche Rüstungsdurchschlagwertung von 100. Dieser Effekt ist bis zu 3-mal stapelbar.",
+          "en_GB": "Chance on hit: You gain 100 armor penetration rating for 10 sec. This effect stacks up to 3 times.",
+          "es_ES": "Probabilidad al acertar: Ganas 100 p. de índice de penetración de armadura durante 10 s. Este efecto se acumula un máximo de 3 veces.",
+          "fr_FR": "Chances quand vous touchez : Vous bénéficiez d'un bonus de 100 à la pénétration d'armure pendant 10 s. Cet effet est cumulable jusqu'à 3 fois.",
+          "it_IT": "Probabilità all'impatto: You gain 100 armor penetration rating for 10 s. This effect stacks up to 3 times.",
+          "ru_RU": "Возможный эффект при попадании: Ваш рейтинг пробивания брони повышается на 100 ед. на 10 сек. Эффект суммируется до 3 раз.",
+          "ko_KR": "발동 효과: 10초 동안 방어구 관통력이 100만큼 증가합니다. 최대 3번까지 중복됩니다.",
+          "zh_TW": "擊中時可能: 你獲得100點護甲穿透等級，持續10秒。最多可堆疊3次。",
+          "zh_CN": "击中时可能： 你的护甲穿透等级提高100，持续10秒。这个效果可以叠加最多3次。"
+        }
+      },
+      {
+        "spell": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/spell/7597?namespace=static-3.4.3_51505-classic-eu"
+          },
+          "name": {
+            "en_US": "Increased Critical 14",
+            "es_MX": "Golpe crítico aumentado 14",
+            "pt_BR": "Crítico Aumentado 14",
+            "de_DE": "Kritisch erhöht 14",
+            "en_GB": "Increased Critical 14",
+            "es_ES": "Golpe crítico aumentado 14",
+            "fr_FR": "Critique augmenté 14",
+            "ru_RU": "Усиление критического урона 14",
+            "ko_KR": "치명타 향상 14",
+            "zh_TW": "提高致命一擊 14",
+            "zh_CN": "Increased Critical 14"
+          },
+          "id": 7597
+        },
+        "description": {
+          "en_US": "Equip: Increases your critical strike rating by 14.",
+          "es_MX": "Equipar: Aumenta tu índice de golpe crítico 14 p.",
+          "pt_BR": "Equipado: Aumenta em 14 a taxa de acerto crítico.",
+          "de_DE": "Anlegen: Erhöht Eure kritische Trefferwertung um 14.",
+          "en_GB": "Equip: Increases your critical strike rating by 14.",
+          "es_ES": "Equipar: Aumenta tu índice de golpe crítico 14 p.",
+          "fr_FR": "Équipé : Augmente votre score de coup critique de 14.",
+          "it_IT": "Equipaggia: Increases your critical strike rating by 14.",
+          "ru_RU": "Если на персонаже: Повышает рейтинг критического удара на 14.",
+          "ko_KR": "착용 효과: 치명타 및 주문 극대화 적중도가 14만큼 증가합니다.",
+          "zh_TW": "裝備: 提高14點致命一擊等級。",
+          "zh_CN": "装备： 使你的爆击等级提高14。"
+        }
+      }
+    ],
+    "sell_price": {
+      "value": 106067,
+      "display_strings": {
+        "header": {
+          "en_US": "Sell Price:",
+          "es_MX": "Precio de venta:",
+          "pt_BR": "Preço de Venda:",
+          "de_DE": "Verkaufspreis:",
+          "en_GB": "Sell Price:",
+          "es_ES": "Precio de venta:",
+          "fr_FR": "Prix de vente :",
+          "it_IT": "Prezzo di vendita:",
+          "ru_RU": "Цена продажи:",
+          "ko_KR": "판매 가격:",
+          "zh_TW": "售價:",
+          "zh_CN": "卖价:"
+        },
+        "gold": {
+          "en_US": "10",
+          "es_MX": "10",
+          "pt_BR": "10",
+          "de_DE": "10",
+          "en_GB": "10",
+          "es_ES": "10",
+          "fr_FR": "10",
+          "it_IT": "10",
+          "ru_RU": "10",
+          "ko_KR": "10",
+          "zh_TW": "10",
+          "zh_CN": "10"
+        },
+        "silver": {
+          "en_US": "60",
+          "es_MX": "60",
+          "pt_BR": "60",
+          "de_DE": "60",
+          "en_GB": "60",
+          "es_ES": "60",
+          "fr_FR": "60",
+          "it_IT": "60",
+          "ru_RU": "60",
+          "ko_KR": "60",
+          "zh_TW": "60",
+          "zh_CN": "60"
+        },
+        "copper": {
+          "en_US": "67",
+          "es_MX": "67",
+          "pt_BR": "67",
+          "de_DE": "67",
+          "en_GB": "67",
+          "es_ES": "67",
+          "fr_FR": "67",
+          "it_IT": "67",
+          "ru_RU": "67",
+          "ko_KR": "67",
+          "zh_TW": "67",
+          "zh_CN": "67"
+        }
+      }
+    },
+    "requirements": {
+      "level": {
+        "value": 60,
+        "display_string": {
+          "en_US": "Requires Level 60",
+          "es_MX": "Necesitas ser de nivel 60",
+          "pt_BR": "Requer o Nível 60",
+          "de_DE": "Benötigt Stufe 60",
+          "en_GB": "Requires Level 60",
+          "es_ES": "Necesitas ser de nivel 60",
+          "fr_FR": "Niveau 60 requis",
+          "it_IT": "Richiede il livello 60",
+          "ru_RU": "Требуется 60-й уровень",
+          "ko_KR": "최소 요구 레벨 60",
+          "zh_TW": "需要等級 60",
+          "zh_CN": "需要等级 60"
+        }
+      }
+    },
+    "durability": {
+      "value": 120,
+      "display_string": {
+        "en_US": "Durability 120 / 120",
+        "es_MX": "Durabilidad 120 / 120",
+        "pt_BR": "Durabilidade 120 / 120",
+        "de_DE": "Haltbarkeit 120 / 120",
+        "en_GB": "Durability 120 / 120",
+        "es_ES": "Durabilidad 120 / 120",
+        "fr_FR": "Durabilité 120 / 120",
+        "it_IT": "Integrità 120 / 120",
+        "ru_RU": "Прочность: 120 / 120",
+        "ko_KR": "내구도 120 / 120",
+        "zh_TW": "耐久度 120 / 120",
+        "zh_CN": "耐久度 120 / 120"
+      }
+    }
+  },
+  "purchase_quantity": 1
+}
