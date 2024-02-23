@@ -118,7 +118,7 @@ const columns = ref([
   {
     name: 'rowId',
     required: true,
-    label: 'RowId',
+    label: 'Row Id',
     align: 'left',
     field: 'rowId',
     sortable: true,
