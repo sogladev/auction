@@ -28,3 +28,10 @@ export type AuctionState = {
   bid?: number,
   bidderName?: string,
 };
+
+export type Bid = {
+  itemId?: number,
+  rowId?: number,
+  myBid?: number,
+  myName?: string,
+};

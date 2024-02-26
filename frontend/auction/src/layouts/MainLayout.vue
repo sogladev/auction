@@ -10,7 +10,7 @@
           <q-route-tab
             icon="person"
             label="Room 1"
-            to="/room/65d2bf102ba931f1cf61f54a"
+            to="/room/65d8c31d1c45e9467583d5f1"
             exact
           />
         </q-tabs>

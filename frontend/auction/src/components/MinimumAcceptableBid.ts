@@ -1,6 +1,10 @@
 import { AuctionState, RoomState } from 'src/components/models';
 
-export function calculateBidIncrement(
+// 1. minimumAcceptable bid
+// 2. Get next increment
+// TODO: 2 functions!
+
+export function minimumAcceptableBid(
   auction: AuctionState,
   room: RoomState,
 ): number {

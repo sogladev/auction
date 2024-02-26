@@ -46,14 +46,14 @@
               {{ props.row.rowId }}
             </q-badge>
           </q-td>
-          <q-td key="itemName" :props="props" @click="onRowClick(props.row.name)">
+          <q-td key="itemName" :props="props">
             {{ props.row.itemName }}
           </q-td>
           <q-td key="bidderName" :props="props">
             {{ props.row.bidderName }}
           </q-td>
           <q-td key="bid" :props="props">
-            <q-badge color="purple">
+            <q-badge color="secondary">
               <div v-if="props.row.bid">
                 {{ props.row.bid }}
               </div>
@@ -67,11 +67,11 @@
               {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
             </q-badge>
             <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
-              <q-input type="number" :min="props.row.bid" :step="props.row.minimumIncrement" v-model.number="scope.value"
+              <q-input type="number" :min="minimumAcceptableBid(props.row, roomState)" :step="props.row.minimumIncrement" v-model.number="scope.value"
                 dense autofocus @keyup.enter="scope.set" :rules="[
                   (val) =>
-                    (!isNaN(val) && val >= props.row.bid + roomState.minimumBidIncrement) ||
-                    `Minimum bid is ${props.row.bid + roomState.minimumBidIncrement}!`,
+                    (!isNaN(val) && val >= minimumAcceptableBid(props.row, roomState)) ||
+                    `Minimum bid is ${minimumAcceptableBid(props.row, roomState)}!`,
                 ]" />
             </q-popup-edit>
           </q-td>
@@ -104,8 +104,8 @@ import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
-import { AuctionState, RoomState } from 'src/components/models';
-import { calculateBidIncrement } from 'src/components/AuctionIncrement';
+import { AuctionState, Bid, RoomState } from 'src/components/models';
+import { minimumAcceptableBid } from 'src/components/MinimumAcceptableBid';
 
 const $q = useQuasar();
 const route = useRoute();
@@ -199,7 +199,7 @@ function rowsFromResponseDataAuctions(data: any): Array<AuctionState> {
       rowId: auction.rowId,
       status: auction.status,
       // bid and bidderName are null if not started
-      bid: auction.bid ? auction.bid : auction.minimumPrice,
+      bid: auction.bid,
       bidderName: auction.bidderName,
     }
     newRows.push(newAuction)
@@ -238,31 +238,72 @@ async function onSubmitSyncRoom() {
 // TODO: Instantly load room settings on navigation
 // onSubmitSyncRoom()
 
-function onRowClick(data: string): void {
-  alert(`${data} clicked`);
-}
-
 function onIncrement(auction: AuctionState): void {
   console.log('@onIncrement');
   console.log(auction);
   console.log(roomState);
-  auction.myBid = calculateBidIncrement(auction, roomState);
+  auction.myBid = minimumAcceptableBid(auction, roomState);
 }
 
 async function onSubmit(auction: AuctionState): void {
   console.log('@onSubmit');
-  alert(`rowId: ${auction.rowId} myBid: ${auction.myBid} clicked`);
   console.log(auction);
   if (auction.myBid == undefined) {
     console.log('@onSubmit Bid undefined. Not submitting');
     return;
   }
   // Submit bid to API
+  const myBid = <Bid>{
+    itemId: auction.itemId,
+    rowId: auction.rowId,
+    myName: 'user1',
+    myBid: auction.myBid,
+  }
   console.log('@onSubmit Bid Submitted');
-  const response = await api.patch(
-    `/api/rooms/${roomId}`,
-    auction,
-  );
-  console.log(response)
+  api
+    .patch(`/api/rooms/${roomId}`, myBid)
+    .then((response) => {
+      console.log('response next line');
+      console.log(response);
+      // BadRequest if bid is too low
+      // 404 is something else went wrong
+      // form is all is well
+      if (response.data.hasOwnProperty('auctions')) {
+        // Update Auctions
+        const newRows: Array<AuctionState> = rowsFromResponseDataAuctions(
+          response.data,
+        );
+        Object.assign(rows.value, newRows);
+      }
+      // Update Settings / Room State
+      // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
+      const newRoomState: RoomState = updateSessionSettingsFromResponse(
+        response.data,
+      );
+      Object.assign(roomState, newRoomState);
+      $q.notify({
+        color: 'positive',
+        position: 'right',
+        message: 'Bid success',
+        icon: 'done',
+      });
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+          $q.notify({
+            color: 'warning',
+            position: 'right',
+            message: error.response.data,
+            icon: 'warning',
+          });
+      } else {
+        $q.notify({
+          color: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+          icon: 'report_problem',
+        });
+      }
+    });
 }
 </script>

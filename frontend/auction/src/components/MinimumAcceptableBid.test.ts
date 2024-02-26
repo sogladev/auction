@@ -1,4 +1,4 @@
-import { calculateBidIncrement } from 'src/components/AuctionIncrement';
+import { minimumAcceptableBid } from 'src/components/MinimumAcceptableBid';
 import { AuctionState, RoomState } from 'src/components/models';
 
 import { describe, expect, it } from 'vitest';
@@ -16,7 +16,7 @@ describe('calculateBidIncrement', () => {
       myBid: undefined,
     };
 
-    const result = calculateBidIncrement(auction, room);
+    const result = minimumAcceptableBid(auction, room);
 
     expect(result).toEqual(150);
   });
@@ -33,7 +33,7 @@ describe('calculateBidIncrement', () => {
       myBid: undefined,
     };
 
-    const result = calculateBidIncrement(auction, room);
+    const result = minimumAcceptableBid(auction, room);
 
     expect(result).toEqual(160);
   });
@@ -49,7 +49,7 @@ describe('calculateBidIncrement', () => {
       myBid: undefined,
     };
 
-    const result = calculateBidIncrement(auction, room);
+    const result = minimumAcceptableBid(auction, room);
 
     expect(result).toEqual(210);
   });
@@ -65,7 +65,7 @@ describe('calculateBidIncrement', () => {
       myBid: 220,
     };
 
-    const result = calculateBidIncrement(auction, room);
+    const result = minimumAcceptableBid(auction, room);
 
     expect(result).toEqual(230);
   });
@@ -82,7 +82,7 @@ describe('calculateBidIncrement', () => {
       myBid: 80,
     };
 
-    const result = calculateBidIncrement(auction, room);
+    const result = minimumAcceptableBid(auction, room);
 
     expect(result).toEqual(210);
   });
@@ -98,7 +98,7 @@ describe('calculateBidIncrement', () => {
       myBid: undefined,
     };
 
-    const result = calculateBidIncrement(auction, room);
+    const result = minimumAcceptableBid(auction, room);
 
     expect(result).toEqual(210);
   });
@@ -115,7 +115,7 @@ describe('calculateBidIncrement', () => {
       myBid: 300,
     };
 
-    const result = calculateBidIncrement(auction, room);
+    const result = minimumAcceptableBid(auction, room);
 
     expect(result).toEqual(310);
   });
