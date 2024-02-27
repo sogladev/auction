@@ -10,34 +10,34 @@ public class Room
     public string? Id { get; set; }
 
     [BsonElement("name")]
-    public required string Name { get; set; }
+    public string? Name { get; set; } = "NewRoom";
 
     [BsonElement("enableDiscordProtection")]
     public bool EnableDiscordProtection { get; set; } = false;
 
     [BsonElement("organiserFee")]
-    public int OrganiserFee { get; set; }
+    public int OrganiserFee { get; set; } = 5;
 
     [BsonElement("minimumBid")]
-    public int MinimumBid { get; set; }
-
+    public int MinimumBid { get; set; } = 10;
+ 
     [BsonElement("minimumBidIncrement")]
-    public int MinimumBidIncrement { get; set; }
+    public int MinimumBidIncrement { get; set; } = 2;
     
     [BsonElement("bidDurationInSeconds")]
-    public int BidDurationInSeconds { get; set; }
+    public int BidDurationInSeconds { get; set; } = 240;
 
     [BsonElement("countDownTimeInSeconds")]
-    public int CountDownTimeInSeconds { get; set; }
+    public int CountDownTimeInSeconds { get; set; } = 40;
 
     [BsonElement("restrictBidsToEquipable")]
-    public bool RestrictBidsToEquipable { get; set; }
+    public bool RestrictBidsToEquipable { get; set; } = false;
 
     [BsonElement("hideNameOfHighestBidder")]
-    public bool HideNameOfHighestBidder { get; set; }
+    public bool HideNameOfHighestBidder { get; set; } = false;
 
     [BsonElement("hidePayoutDetails")]
-    public bool HidePayoutDetails { get; set; }
+    public bool HidePayoutDetails { get; set; } = false;
 
     [BsonElement("users")]
     public List<User>? Users { get; set; }

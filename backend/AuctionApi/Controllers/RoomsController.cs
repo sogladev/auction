@@ -1,6 +1,7 @@
 using AuctionApi.Models;
 using AuctionApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace AuctionApi.Controllers;
 
@@ -30,6 +31,15 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(Room newRoom)
     {
+        await _roomsService.CreateAsync(newRoom);
+
+        return CreatedAtAction(nameof(Get), new { id = newRoom.Id }, newRoom);
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> Post()
+    {
+        var newRoom = new Room();
         await _roomsService.CreateAsync(newRoom);
 
         return CreatedAtAction(nameof(Get), new { id = newRoom.Id }, newRoom);
