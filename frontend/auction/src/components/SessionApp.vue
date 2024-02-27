@@ -67,8 +67,8 @@
               {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
             </q-badge>
             <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
-              <q-input type="number" :min="minimumAcceptableBid(props.row, roomState)" :step="props.row.minimumIncrement" v-model.number="scope.value"
-                dense autofocus @keyup.enter="scope.set" :rules="[
+              <q-input type="number" :min="minimumAcceptableBid(props.row, roomState)" :step="props.row.minimumIncrement"
+                v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" :rules="[
                   (val) =>
                     (!isNaN(val) && val >= minimumAcceptableBid(props.row, roomState)) ||
                     `Minimum bid is ${minimumAcceptableBid(props.row, roomState)}!`,
@@ -217,8 +217,10 @@ async function onSubmitSyncRoom() {
       // Some rooms do not have auctions
       if (response.data.hasOwnProperty('auctions')) {
         // Update Auctions
-        const newRows: Array<AuctionState> = rowsFromResponseDataAuctions(response.data);
-        Object.assign(rows.value, newRows)
+        if (response.data.auctions !== null) {
+          const newRows: Array<AuctionState> = rowsFromResponseDataAuctions(response.data);
+          Object.assign(rows.value, newRows)
+        }
       }
       // Update Settings / Room State
       // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
@@ -290,12 +292,12 @@ async function onSubmit(auction: AuctionState): void {
     })
     .catch((error) => {
       if (error.response.status === 400) {
-          $q.notify({
-            color: 'warning',
-            position: 'right',
-            message: error.response.data,
-            icon: 'warning',
-          });
+        $q.notify({
+          color: 'warning',
+          position: 'right',
+          message: error.response.data,
+          icon: 'warning',
+        });
       } else {
         $q.notify({
           color: 'negative',
