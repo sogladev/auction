@@ -18,7 +18,6 @@
     <q-form ref="for" @submit.prevent="onSubmit">
       <q-card-section>
         <div class="text-h6">General</div>
-
         <q-card-section class="justify-around" horizontal>
           <q-input v-model="formState.name" label="Name" :rules="[
             (val) => typeof val == 'string' || 'Name must be a string',
@@ -45,7 +44,6 @@
 
       <q-card-section>
         <div class="text-h6">Bid</div>
-
         <q-card-section class="justify-around" horizontal>
           <div class="q-pa-md">
             <q-icon name="timer" />
@@ -68,7 +66,6 @@
               Countdown Duration {{ formState.countDownTimeInSeconds }}s
               {{ formatTime(formState.countDownTimeInSeconds) }}(MM:SS)
             </q-badge>
-
             <q-slider v-model="formState.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
               :label-value="formatTime(formState.countDownTimeInSeconds)" color="primary" :rules="[
                 (val: number) =>
@@ -84,7 +81,6 @@
               (!isNaN(val) && val >= 0) ||
               'Min bid must be a positive numberl!',
           ]" />
-
           <q-input v-model.number="formState.minimumBidIncrement" type="number" label="Minimum increment" min="1" :rules="[
             (val) =>
               (!isNaN(val) && val >= 0) ||
@@ -107,14 +103,13 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-
       <q-card-actions align="right">
         <q-btn icon="update" elevated type="submit" color="primary" label="Update settings" />
       </q-card-actions>
     </q-form>
 
-    <q-form ref="for" @update.prevent="onSubmitUpdateItems" @replace.prevent="onSubmitReplaceItems">
-      <q-card-section>
+    <q-card-section>
+      <q-form ref="for" @update.prevent="onSubmitUpdateItems" @replace.prevent="onSubmitReplaceItems">
         <div class="text-h6">Items</div>
         <q-card-section class="justify-around">
           <div class="text-h7">
@@ -131,8 +126,21 @@
           <q-btn icon="add" unelevated type="update" color="primary" label="Append items" />
           <q-btn icon="change_circle" unelevated type="replace" color="red" label="Replace items" />
         </q-card-actions>
-      </q-card-section>
-    </q-form>
+      </q-form>
+      <q-form ref="for" @update.prevent="onSubmitUpdateItemsById" @replace.prevent="onSubmitReplaceItemsById">
+        <q-card-section class="justify-around">
+          <div class="text-h7">
+            Import items by writing itemIds seperated by commas
+          </div>
+          <q-input max debounce="500" label="Write itemIds here e.g. 19137,18814" v-model="itemIds" filled
+            type="textarea" />
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn icon="add" unelevated type="update" color="primary" label="Append items" />
+          <q-btn icon="change_circle" unelevated type="replace" color="red" label="Replace items" />
+        </q-card-actions>
+      </q-form>
+    </q-card-section>
   </q-card>
   <q-ajax-bar ref="bar" position="bottom" color="accent" size="10px" skip-hijack />
 </template>
@@ -161,7 +169,10 @@ const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubT
 4,12282,Worn Battleaxe,1,2,1,Weapon,Two-Handed Axes,1,3000,Item-5827-0-40000000C90648E0
 `;
 
+const debugItemIds = '19137,18814,17076,12282';
+
 const csvString = ref(debugImportString);
+const itemIds = ref(debugItemIds);
 
 async function onSubmitUpdateItems() {
   console.log('@update.prevent');
@@ -172,7 +183,6 @@ async function onSubmitUpdateItems() {
   // Populate "Auctions" data and start session
 }
 
-
 async function onSubmitReplaceItems() {
   console.log('@replace.prevent');
   const output = Papa.parse(csvString.value);
@@ -182,6 +192,24 @@ async function onSubmitReplaceItems() {
   // Populate "Auctions" data and start session
 }
 
+
+async function onSubmitUpdateItemsById() {
+  console.log('@update.prevent');
+  const output = Papa.parse(csvString.value);
+  console.log(output);
+  console.log('TODO: Update items by Id');
+  // TODO: Create session from import string
+  // Populate "Auctions" data and start session
+}
+
+async function onSubmitReplaceItemsById() {
+  console.log('@replace.prevent');
+  const output = Papa.parse(csvString.value);
+  console.log(output);
+  console.log('TODO: Replace items by Id');
+  // TODO: Create session from import string
+  // Populate "Auctions" data and start session
+}
 
 // TODO: Use Model type instead
 type RoomSettingsFormState = {
