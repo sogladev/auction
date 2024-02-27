@@ -2,7 +2,7 @@
   <div class="q-pa-md">
 
     <q-card class="settings-card">
-      <div class="text-h6">Room Settings</div>
+      <div class="text-h6">Settings</div>
 
       <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
       <p v-if:="Object.keys(roomState).length === 0">Session is not loaded!</p>

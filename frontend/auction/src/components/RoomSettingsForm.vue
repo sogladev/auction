@@ -1,9 +1,24 @@
 <template>
   <!-- justify-around or justiy-between -->
   <q-card class="create-room-card" style="min-width: 25vw">
-    <q-form ref="for" @submit.prevent="onSubmit" @reset="onReset">
+    <q-card-section class="justify-left" style="width: 50%">
+      <q-field bg-color="primary" filled label="Admin secret key (click to copy)" stack-label>
+        <template v-slot:prepend>
+          <q-icon name="key" />
+        </template>
+        <template v-slot:append>
+          <q-btn icon="content_copy" @click="copyToClipboard(adminKey)" />
+        </template>
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{ adminKey }}</div>
+        </template>
+      </q-field>
+    </q-card-section>
+
+
+    <q-form ref="for" @submit.prevent="onSubmit">
       <q-card-section>
-        <div class="text-h6">Create New Room</div>
+        <div class="text-h6">General</div>
 
         <q-card-section class="justify-around" horizontal>
           <q-input v-model="formState.name" label="Name" :rules="[
@@ -30,7 +45,7 @@
       </q-card-section>
 
       <q-card-section>
-        <div class="text-h6">Session Settings</div>
+        <div class="text-h6">Bid</div>
 
         <q-card-section class="justify-around" horizontal>
           <div class="q-pa-md">
@@ -79,7 +94,7 @@
         </q-card-section>
       </q-card-section>
 
-      <q-expansion-item group="somegroup" label="Advanced Settings" switch-toggle-side header-class="text-primary">
+      <q-expansion-item group="somegroup" label="Advanced" switch-toggle-side header-class="text-primary">
         <q-card>
           <q-card-section>
             <q-card-section class="justify-around">
@@ -95,8 +110,7 @@
       </q-expansion-item>
 
       <q-card-actions align="right">
-        <q-btn unelevated type="submit" color="primary" label="Create room" />
-        <q-btn unelevated type="reset" disable color="primary" label="Reset" />
+        <q-btn unelevated type="submit" color="primary" label="Update settings" />
       </q-card-actions>
     </q-form>
   </q-card>
@@ -105,16 +119,20 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { reactive, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { api } from 'boot/axios';
+import { copyToClipboard } from 'quasar'
 
 const bar = ref(null); // ajax bar
+const adminKey = ref('this is some key'); // ajax bar
 const $q = useQuasar();
-const router = useRouter()
+const route = useRoute();
+const roomId = route.params.id;
 
-type IndexFormState = {
+// TODO: Use Model type instead
+type RoomSettingsFormState = {
   name: string;
   enableDiscordProtection: boolean;
   bidDurationInSeconds: number;
@@ -133,7 +151,7 @@ function formatTime(seconds: number) {
   return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-const formState = reactive<IndexFormState>({
+const formState = reactive<RoomSettingsFormState>({
   name: 'myname',
   enableDiscordProtection: false,
   bidDurationInSeconds: 240,
@@ -146,26 +164,14 @@ const formState = reactive<IndexFormState>({
   minimumBidIncrement: 1,
 });
 
-function onReset(): void {
-  // just refresh to reset form
-  console.log('onReset: Refresh page to reset form. Not implemented yet');
-}
-
-//function newRoomCode(): string {
-//   router.push('/room/' + newRoomCode());
-//  return formState.name;
-//}
-
 async function onSubmit() {
   console.log('@submet.prevent');
   console.log('Post form and create room with given settings');
   console.log(formState);
   api
-    .post('/api/rooms', formState)
+    .put(`/api/rooms/${roomId}`, formState)
     .then((response) => {
       console.log(response);
-      router.push({ path: `/room/${response.data.id}` })
-
     })
     .catch((error) => {
       if (error.response.status === 400) {

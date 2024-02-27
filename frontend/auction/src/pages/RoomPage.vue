@@ -2,9 +2,12 @@
   <div class="flex flex-center column">
     <div class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
     <q-card class="create-session-card">
-      <div class="text-h6">Create Session</div>
-      <q-form ref="for" @submit.prevent="onSubmitRoomString">
+
+      <div class="text-h6">Admin Settings</div>
+      <RoomSettingsForm />
+      <q-form ref="for" @submit.prevent="onSubmitUpdateItems">
         <q-card-section>
+          <div class="text-h6">Items</div>
           <q-card-section class="justify-around">
             <div class="text-h7">
               Import items by pasting your import string
@@ -17,7 +20,7 @@
             ]" />
           </q-card-section>
           <q-card-actions align="right">
-            <q-btn unelevated type="submit" color="primary" label="Create session" />
+            <q-btn unelevated type="submit" color="primary" label="Update items" />
           </q-card-actions>
         </q-card-section>
       </q-form>
@@ -31,6 +34,7 @@
 </template>
 
 <script lang="ts" setup>
+import RoomSettingsForm from 'components/RoomSettingsForm.vue';
 import Papa from 'papaparse';
 
 import { ref } from 'vue';
@@ -56,7 +60,7 @@ const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubT
 
 const csvString = ref(debugImportString);
 
-async function onSubmitRoomString() {
+async function onSubmitUpdateItems() {
   console.log('@submet.prevent on submit roomsring');
   const output = Papa.parse(csvString.value);
   console.log(output);

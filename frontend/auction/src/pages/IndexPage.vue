@@ -1,29 +1,52 @@
 <template>
   <div class="flex flex-center column">
     <div class="text-h6">Auction App</div>
-    <div class="row bg-blue-10"><IndexForm /></div>
+    <q-card-section style="width: 50%">
+      <div class="text-h6">Room</div>
+      <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
+        <q-card-section>
+          <p>
+            This button allows you to create a room where you can configure and start a session. In this session, you
+            can
+            import items from your inventory or other sources and bid on them with other players. The settings for the
+            room
+            include options such as setting a name (like 'myname'), enabling Discord protection, specifying how long
+            each
+            bid lasts in seconds (240), determining the countdown time before bidding starts in seconds (40), and
+            restricting bids to only items that are equipable.
+          </p>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn unelevated type="submit" color="secondary" label="Create Room" />
+        </q-card-actions>
+      </q-form>
+    </q-card-section>
   </div>
 </template>
 
-<script lang="ts">
-import { Todo, Meta } from 'components/models';
-import { defineComponent, ref } from 'vue';
-import IndexForm from 'components/IndexForm.vue';
+<script lang="ts" setup>
+import { useRouter } from 'vue-router';
+import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
 
-export default defineComponent({
-  name: 'IndexPage',
-  components: { IndexForm },
-  setup() {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1',
-      },
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200,
+const $q = useQuasar();
+const router = useRouter();
+
+async function onSubmitCreateRoom() {
+  console.log('@submet.prevent');
+  api
+    .post('/api/rooms/create')
+    .then((response) => {
+      console.log(response);
+      router.push({ path: `/room/${response.data.id}` })
+    })
+    .catch(() => {
+      $q.notify({
+        color: 'negative',
+        position: 'bottom',
+        message: 'Loading failed',
+        icon: 'report_problem',
+      });
     });
-    return { todos, meta };
-  },
-});
+}
 </script>
