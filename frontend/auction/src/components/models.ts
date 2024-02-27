@@ -1,5 +1,5 @@
 export type RoomState = {
-  lootmaster?: string;
+  name?: string;
   enableDiscordProtection?: boolean;
   bidDurationInSeconds?: number;
   countDownTimeInSeconds?: number;
@@ -12,26 +12,26 @@ export type RoomState = {
 };
 
 export type AuctionState = {
-  expiration?: number,
-  guid?: string,
-  itemId?: number,
-  itemLevel?: number,
-  itemName?: string,
-  itemSubType?: string,
-  itemType?: string,
-  minLevel?: number,
-  minimumPrice?: number,
-  quality?: number,
-  rowId?: number,
-  status?: number,
-  myBid?: number,
-  bid?: number,
-  bidderName?: string,
+  expiration?: number;
+  guid?: string;
+  itemId?: number;
+  itemLevel?: number;
+  itemName?: string;
+  itemSubType?: string;
+  itemType?: string;
+  minLevel?: number;
+  minimumPrice?: number;
+  quality?: number;
+  rowId?: number;
+  status?: number;
+  myBid?: number;
+  bid?: number;
+  bidderName?: string;
 };
 
 export type Bid = {
-  itemId?: number,
-  rowId?: number,
-  myBid?: number,
-  myName?: string,
+  itemId?: number;
+  rowId?: number;
+  myBid?: number;
+  myName?: string;
 };

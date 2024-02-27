@@ -6,7 +6,7 @@
         <div class="text-h6">Create New Room</div>
 
         <q-card-section class="justify-around" horizontal>
-          <q-input v-model="formState.lootmaster" label="Lootmaster" :rules="[
+          <q-input v-model="formState.name" label="Name" :rules="[
             (val) => typeof val == 'string' || 'Name must be a string',
             (val) =>
               /^[a-zA-Z0-9]{0,12}$/.test(val) ||
@@ -114,7 +114,7 @@ const bar = ref(null); // ajax bar
 const $q = useQuasar();
 
 type IndexFormState = {
-  lootmaster: string;
+  name: string;
   enableDiscordProtection: boolean;
   bidDurationInSeconds: number;
   countDownTimeInSeconds: number;
@@ -133,7 +133,7 @@ function formatTime(seconds: number) {
 }
 
 const formState = reactive<IndexFormState>({
-  lootmaster: 'Lootmaster',
+  name: 'my room',
   enableDiscordProtection: false,
   bidDurationInSeconds: 240,
   countDownTimeInSeconds: 40,
@@ -152,7 +152,7 @@ function onReset(): void {
 
 //function newRoomCode(): string {
 //   router.push('/room/' + newRoomCode());
-//  return formState.lootmaster;
+//  return formState.name;
 //}
 
 async function onSubmit() {
@@ -161,7 +161,7 @@ async function onSubmit() {
   console.log(formState);
   // TODO: Fix formState to match
   api
-    .post('/api/rooms/create')
+    .post('/api/rooms', formState)
     .then((response) => {
       console.log('response next line');
       console.log(response);
