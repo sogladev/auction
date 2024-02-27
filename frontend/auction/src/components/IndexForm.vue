@@ -6,42 +6,26 @@
         <div class="text-h6">Create New Room</div>
 
         <q-card-section class="justify-around" horizontal>
-          <q-input
-            v-model="formState.lootmaster"
-            label="Lootmaster"
-            :rules="[
-              (val) => typeof val == 'string' || 'Name must be a string',
-              (val) =>
-                /^[a-zA-Z0-9]{0,12}$/.test(val) ||
-                'Name can only contain alphanumeric characters and be max 12 chars',
-            ]"
-          />
-          <q-input
-            v-model.number="formState.organiserFee"
-            type="number"
-            label="Organiser fee (%)"
-            prefix="%"
-            min="0"
-            max="100"
-            :rules="[
+          <q-input v-model="formState.lootmaster" label="Lootmaster" :rules="[
+            (val) => typeof val == 'string' || 'Name must be a string',
+            (val) =>
+              /^[a-zA-Z0-9]{0,12}$/.test(val) ||
+              'Name can only contain alphanumeric characters and be max 12 chars',
+          ]" />
+          <q-input v-model.number="formState.organiserFee" type="number" label="Organiser fee (%)" prefix="%" min="0"
+            max="100" :rules="[
               (val) =>
                 (!isNaN(val) && val <= 100 && val >= 0) ||
                 'Fee must be a number between 0 and 100!',
-            ]"
-          />
+            ]" />
         </q-card-section>
       </q-card-section>
 
       <q-card-section>
         <div class="text-h6">Security</div>
         <q-card-section class="justify-around" horizontal>
-          <q-toggle
-            v-model="formState.enableDiscordProtection"
-            checked-icon="check"
-            color="green"
-            label="Enable Discord verification"
-            unchecked-icon="clear"
-          />
+          <q-toggle v-model="formState.enableDiscordProtection" checked-icon="check" color="green"
+            label="Enable Discord verification" unchecked-icon="clear" />
         </q-card-section>
       </q-card-section>
 
@@ -56,20 +40,12 @@
               {{ formatTime(formState.bidDurationInSeconds) }}(MM:SS)
             </q-badge>
 
-            <q-slider
-              v-model="formState.bidDurationInSeconds"
-              :min="0"
-              :max="720"
-              :step="5"
-              label
-              :label-value="formatTime(formState.bidDurationInSeconds)"
-              color="primary"
-              :rules="[
+            <q-slider v-model="formState.bidDurationInSeconds" :min="0" :max="720" :step="5" label
+              :label-value="formatTime(formState.bidDurationInSeconds)" color="primary" :rules="[
                 (val: number) =>
                   (!isNaN(val) && val >= 0) ||
                   'Bid duration must be a number greater or equal than 0!',
-              ]"
-            />
+              ]" />
           </div>
 
           <div class="q-pa-md">
@@ -79,76 +55,40 @@
               {{ formatTime(formState.countDownTimeInSeconds) }}(MM:SS)
             </q-badge>
 
-            <q-slider
-              v-model="formState.countDownTimeInSeconds"
-              :min="20"
-              :max="120"
-              :step="5"
-              label
-              :label-value="formatTime(formState.countDownTimeInSeconds)"
-              color="primary"
-              :rules="[
+            <q-slider v-model="formState.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
+              :label-value="formatTime(formState.countDownTimeInSeconds)" color="primary" :rules="[
                 (val: number) =>
                   (!isNaN(val) && val >= 20) ||
                   'Countdown duration must be a number greater or equal than 20!',
-              ]"
-            />
+              ]" />
           </div>
         </q-card-section>
 
         <q-card-section class="justify-around" horizontal>
-          <q-input
-            v-model.number="formState.minimumBid"
-            type="number"
-            label="Minimum bid"
-            min="0"
-            :rules="[
-              (val) =>
-                (!isNaN(val) && val >= 0) ||
-                'Min bid must be a positive numberl!',
-            ]"
-          />
+          <q-input v-model.number="formState.minimumBid" type="number" label="Minimum bid" min="0" :rules="[
+            (val) =>
+              (!isNaN(val) && val >= 0) ||
+              'Min bid must be a positive numberl!',
+          ]" />
 
-          <q-input
-            v-model.number="formState.minimumBidIncrement"
-            type="number"
-            label="Minimum increment"
-            min="1"
-            :rules="[
-              (val) =>
-                (!isNaN(val) && val >= 0) ||
-                'Field must be a number greater than 0!',
-            ]"
-          />
+          <q-input v-model.number="formState.minimumBidIncrement" type="number" label="Minimum increment" min="1" :rules="[
+            (val) =>
+              (!isNaN(val) && val >= 0) ||
+              'Field must be a number greater than 0!',
+          ]" />
         </q-card-section>
       </q-card-section>
 
-      <q-expansion-item
-        group="somegroup"
-        label="Advanced Settings"
-        switch-toggle-side
-        header-class="text-primary"
-      >
+      <q-expansion-item group="somegroup" label="Advanced Settings" switch-toggle-side header-class="text-primary">
         <q-card>
           <q-card-section>
             <q-card-section class="justify-around">
-              <q-toggle
-                v-model="formState.restrictBidsToEquipable"
-                color="primary"
-                label="Restrict bids to equipable items"
-              />
-              <q-toggle
-                v-model="formState.hidePayoutDetails"
-                color="primary"
-                label="Hide payout details"
-              />
+              <q-toggle v-model="formState.restrictBidsToEquipable" color="primary"
+                label="Restrict bids to equipable items" />
+              <q-toggle v-model="formState.hidePayoutDetails" color="primary" label="Hide payout details" />
             </q-card-section>
             <q-card-section class="justify-around">
-              <q-toggle
-                v-model="formState.hideNameOfHighestBidder"
-                color="primary"
-                label="Hide name of highest bidder"
-              />
+              <q-toggle v-model="formState.hideNameOfHighestBidder" color="primary" label="Hide name of highest bidder" />
             </q-card-section>
           </q-card-section>
         </q-card>
@@ -161,20 +101,17 @@
     </q-form>
   </q-card>
 
-  <q-ajax-bar
-    ref="bar"
-    position="bottom"
-    color="accent"
-    size="10px"
-    skip-hijack
-  />
+  <q-ajax-bar ref="bar" position="bottom" color="accent" size="10px" skip-hijack />
 </template>
 
 <script lang="ts" setup>
 //import { useRouter } from 'vue-router';
 import { reactive, ref } from 'vue';
+import { useQuasar } from 'quasar';
+import { api } from 'boot/axios';
 
 const bar = ref(null); // ajax bar
+const $q = useQuasar();
 
 type IndexFormState = {
   lootmaster: string;
@@ -222,10 +159,29 @@ async function onSubmit() {
   console.log('@submet.prevent');
   console.log('TODO: Post form and create room with given settings');
   console.log(formState);
-  // TODO: Post form and create room with given settings
-  //const response = await api.post(
-  //'/api/auction',
-  //formState,
-  //);
+  // TODO: Fix formState to match
+  api
+    .post('/api/rooms/create')
+    .then((response) => {
+      console.log('response next line');
+      console.log(response);
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+        $q.notify({
+          color: 'warning',
+          position: 'right',
+          message: error.response.data,
+          icon: 'warning',
+        });
+      } else {
+        $q.notify({
+          color: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+          icon: 'report_problem',
+        });
+      }
+    });
 }
 </script>
