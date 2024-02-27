@@ -109,11 +109,11 @@
       </q-expansion-item>
 
       <q-card-actions align="right">
-        <q-btn unelevated type="submit" color="primary" label="Update settings" />
+        <q-btn icon="update" elevated type="submit" color="primary" label="Update settings" />
       </q-card-actions>
     </q-form>
 
-    <q-form ref="for" @submit.prevent="onSubmitUpdateItems">
+    <q-form ref="for" @update.prevent="onSubmitUpdateItems" @replace.prevent="onSubmitReplaceItems">
       <q-card-section>
         <div class="text-h6">Items</div>
         <q-card-section class="justify-around">
@@ -128,7 +128,8 @@
           ]" />
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn unelevated type="submit" color="primary" label="Update items" />
+          <q-btn icon="add" unelevated type="update" color="primary" label="Append items" />
+          <q-btn icon="change_circle" unelevated type="replace" color="red" label="Replace items" />
         </q-card-actions>
       </q-card-section>
     </q-form>
@@ -163,13 +164,24 @@ const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubT
 const csvString = ref(debugImportString);
 
 async function onSubmitUpdateItems() {
-  console.log('@submet.prevent on submit roomsring');
+  console.log('@update.prevent');
   const output = Papa.parse(csvString.value);
   console.log(output);
-  console.log('TODO: Create session from import string');
+  console.log('TODO: Update items');
   // TODO: Create session from import string
   // Populate "Auctions" data and start session
 }
+
+
+async function onSubmitReplaceItems() {
+  console.log('@replace.prevent');
+  const output = Papa.parse(csvString.value);
+  console.log(output);
+  console.log('TODO: Replace items');
+  // TODO: Create session from import string
+  // Populate "Auctions" data and start session
+}
+
 
 // TODO: Use Model type instead
 type RoomSettingsFormState = {
