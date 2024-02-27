@@ -6,22 +6,6 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// TODO: Remove this and replace with safer method
-// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0
-// Limit Cors to endpoints. See endpoint routing
-// https://stackoverflow.com/questions/57530680/enable-cors-for-any-port-on-localhost
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      policy =>
-                      {
-                          policy.AllowAnyHeader().AllowAnyMethod();
-                          policy.WithOrigins("http://localhost:9000");
-                      });
-});
-
-
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // 
@@ -30,18 +14,21 @@ builder.Services.Configure<AuctionDatabaseSettings>(
 builder.Services.AddSingleton<RoomsService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy  =>
+                      {
+                          policy.WithOrigins("http://localhost:9000").AllowAnyMethod().AllowAnyHeader();
+                      });
+});
+
 builder.Services.AddControllers();
 
-//
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: "MyPolicy",
-//        policy =>
-//        {
-//            policy.AllowAnyHeader().AllowAnyMethod();
-//            policy.WithOrigins("http://localhost:8080");
-//        });
-//});
+// https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0
+// Limit Cors to endpoints. See endpoint routing
+// https://stackoverflow.com/questions/57530680/enable-cors-for-any-port-on-localhost
 
 var app = builder.Build();
 
@@ -55,7 +42,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
-// app.UseAuthorization(); // TODO: look into adding this
+
+//app.UseAuthorization(); // TODO: look into adding this
 
 app.MapControllers();
 
