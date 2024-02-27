@@ -105,13 +105,14 @@
 </template>
 
 <script lang="ts" setup>
-//import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { reactive, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { api } from 'boot/axios';
 
 const bar = ref(null); // ajax bar
 const $q = useQuasar();
+const router = useRouter()
 
 type IndexFormState = {
   name: string;
@@ -133,7 +134,7 @@ function formatTime(seconds: number) {
 }
 
 const formState = reactive<IndexFormState>({
-  name: 'my room',
+  name: 'myname',
   enableDiscordProtection: false,
   bidDurationInSeconds: 240,
   countDownTimeInSeconds: 40,
@@ -157,14 +158,14 @@ function onReset(): void {
 
 async function onSubmit() {
   console.log('@submet.prevent');
-  console.log('TODO: Post form and create room with given settings');
+  console.log('Post form and create room with given settings');
   console.log(formState);
-  // TODO: Fix formState to match
   api
     .post('/api/rooms', formState)
     .then((response) => {
-      console.log('response next line');
       console.log(response);
+      router.push({ path: `/room/${response.data.id}` })
+
     })
     .catch((error) => {
       if (error.response.status === 400) {
