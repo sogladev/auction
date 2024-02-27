@@ -6,7 +6,7 @@
 
       <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
       <p v-if:="Object.keys(roomState).length === 0">Session is not loaded!</p>
-      <q-list bordered padding v-if:="Object.keys(roomState).length > 0">
+      <q-list dense v-if:="Object.keys(roomState).length > 0">
         <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ roomState.name }}</q-item-section>
         </q-item>
         <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
