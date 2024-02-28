@@ -79,12 +79,9 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
             // auction.ItemId // already set
             auction.RowId = i++;
             auction.Status = 1;
-            auction.ItemName = "itemName";
             auction.Quality = 1; ;
             auction.ItemLevel = 62; ;
             auction.MinLevel = 60; ;
-            auction.ItemType = "Type"; ;
-            auction.ItemSubType = "subType";
             // From room settings
             auction.Bid = room.MinimumBid;
         }

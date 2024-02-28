@@ -171,7 +171,7 @@ const { room } = storeToRefs(roomStore);
 const validationHeader =
   'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
 
-const debugImportString = `rowId,itemId,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
+const debugImportString = `rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
 1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
 2,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid
 3,17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000,noguid
@@ -210,8 +210,12 @@ async function onSubmitReplaceItems() {
   for (item of results.data) {
     console.log(item)
     const newAuction = <Auction>{
+      //'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
       rowId: Number(item.rowId),
       itemId: Number(item.itemId), // TODO: adjust CSV input string "id" to "itemId"
+      itemName: item.itemName, // TODO: adjust "name" to "itemName"
+      itemType: item.itemType,
+      itemSubType: item.itemSubType,
     }
     newAuctions.push(newAuction)
   }
