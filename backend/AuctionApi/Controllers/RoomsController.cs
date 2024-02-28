@@ -83,7 +83,7 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
             auction.ItemLevel = 62; ;
             auction.MinLevel = 60; ;
             // From room settings
-            auction.Bid = room.MinimumBid;
+            auction.MinimumPrice = room.MinimumBid;
         }
 
         room.Auctions = newAuctions;

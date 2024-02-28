@@ -104,7 +104,7 @@ import { useRoute } from 'vue-router';
 import { Auction, Room, BidRequest } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
 
-import { minimumAcceptableBid } from 'src/components/MinimumAcceptableBid';
+import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
 import { storeToRefs } from 'pinia';
 
 const $q = useQuasar();
@@ -117,6 +117,7 @@ const { fetch } = roomStore;
 
 // Export to CSV button
 // https://quasar.dev/vue-components/table#introduction
+// Not reactive
 const rows = room.value.auctions;
 const columns = ref([
   {
@@ -173,21 +174,19 @@ const columns = ref([
   { name: 'submit', label: 'Submit' }
 ]);
 
-async function SynchronizeRoom(): Promise<void> {
-  fetch(roomId);
-}
-
 async function onSubmitSyncRoom() {
   console.log('@submet.prevent');
   console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
-  SynchronizeRoom();
+  await fetch(roomId);
+  console.log('room data: ', room.value)
 }
 
 function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
-  console.log(auction);
-  console.log(room);
-  auction.myBid = minimumAcceptableBid(auction, room);
+  console.log('auction: ', auction);
+  console.log('room: ', room.value);
+  auction.myBid = getNextIncrement(auction, room.value);
+  console.log('myBid ', auction.myBid);
 }
 
 async function onSubmitBid(auction: Auction): Promise<void> {
