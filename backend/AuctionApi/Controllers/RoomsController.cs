@@ -109,6 +109,9 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
         return NoContent();
     }
 
+    /// Updates the bid for the auction with the given row ID and item ID.
+    /// Validates that the auction exists and is in progress.
+    /// Ensures the bid meets the minimum bid amount based on current bid or starting price.
     [HttpPatch("{id:length(24)}")]
     public async Task<ActionResult<Room>> Patch(string id, BidRequest newBid)
     {
@@ -118,25 +121,39 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
         {
             return NotFound();
         }
+
+        // RowId and ItemId must match the auction we're trying to udpate
         Auction? auction = room.Auctions.Where(a => (a.RowId == newBid.RowId) && (a.ItemId == newBid.ItemId)).FirstOrDefault();
-        // is valid bid
         if (auction is null)
         {
             return NotFound();
         }
-        // TODO: add updatedAuction.Status == 2 to verify auction is in progress
-        int currentBid = (int)(auction.Bid is null ? auction.MinimumPrice : (int)auction.Bid);
-        int BidMinimumAcceptable = (int)(auction.BidderName is null ? auction.MinimumPrice : currentBid + room.MinimumBidIncrement);
+
+        int BidMinimumAcceptable;
+        bool NoBidHasBeenPlaced = auction.Bid is null || auction.BidderName is null;
+        if (NoBidHasBeenPlaced)
+        {
+            BidMinimumAcceptable = auction.MinimumPrice ?? room.MinimumBid;
+        }
+        else
+        {
+            #pragma warning disable CS8629 // Nullable value type may be null.
+            BidMinimumAcceptable = (int)auction.Bid + room.MinimumBidIncrement;
+            #pragma warning restore CS8629 // Nullable value type may be null.
+        }
 
         if (newBid.MyBid < BidMinimumAcceptable)
         {
             return BadRequest($"Bid must be at least {BidMinimumAcceptable}");
         }
+
+        // TODO: add updatedAuction.Status == 2 to verify auction is in progress
+
         auction.Bid = newBid.MyBid;
         auction.BidderName = newBid.MyName;
 
         await _roomsService.UpdateAsync(id, room);
 
-        return room;
+        return NoContent();
     }
 }

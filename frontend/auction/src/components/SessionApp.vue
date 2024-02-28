@@ -101,7 +101,7 @@ import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
-import { Auction, Room, BidRequest } from 'src/components/models';
+import { Auction, BidRequest } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
 
 import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
@@ -200,31 +200,18 @@ async function onSubmitBid(auction: Auction): Promise<void> {
   const myBid = <BidRequest>{
     itemId: auction.itemId,
     rowId: auction.rowId,
-    myName: 'user1',
+    myName: 'user1', // TODO: Change user to something from input
     myBid: auction.myBid,
   }
   console.log('@onSubmit Bid Submitted');
+  // 400 BadRequest if bid is too low
+  // 404 is something else went wrong
   api
     .patch(`/api/rooms/${roomId}`, myBid)
     .then((response) => {
-      console.log('response next line');
+      console.log('response: ', response);
       console.log(response);
-      // BadRequest if bid is too low
-      // 404 is something else went wrong
-      // form is all is well
-      if (response.data.hasOwnProperty('auctions')) {
-        // Update Auctions
-        const newRows: Array<Auction> = rowsFromResponseDataAuctions(
-          response.data,
-        );
-        Object.assign(rows.value, newRows);
-      }
-      // Update Settings / Room State
-      // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
-      const newRoomState: Room = updateRoomFromResponseData(
-        response.data,
-      );
-      Object.assign(room, newRoomState);
+      fetch(roomId); // update table
       $q.notify({
         color: 'positive',
         position: 'right',
