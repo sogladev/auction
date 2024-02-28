@@ -206,9 +206,7 @@ function updateRoomFromResponseData(data: any): Room {
   return newRoomState
 }
 
-async function onSubmitSyncRoom() {
-  console.log('@submet.prevent');
-  console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
+async function SynchronizeRoom() {
   api
     .get(`/api/rooms/${roomId}`)
     .then((response) => {
@@ -228,8 +226,11 @@ async function onSubmitSyncRoom() {
     });
 }
 
-// TODO: Instantly load room settings on navigation
-// onSubmitSyncRoom()
+async function onSubmitSyncRoom() {
+  console.log('@submet.prevent');
+  console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
+  SynchronizeRoom();
+}
 
 function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
@@ -299,4 +300,7 @@ async function onSubmit(auction: Auction): void {
       }
     });
 }
+// Instantly load room settings on navigation
+SynchronizeRoom();
+
 </script>

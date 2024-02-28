@@ -104,7 +104,7 @@
         </q-card>
       </q-expansion-item>
       <q-card-actions align="right">
-        <q-btn icon="update" elevated type="submit" color="primary" label="Update settings" />
+        <q-btn icon="save" elevated type="submit" color="secondary" label="Save settings to Database" />
       </q-card-actions>
     </q-form>
 
