@@ -63,7 +63,7 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
     }
 
     [HttpPut("{id:length(24)}/items")]
-    public async Task<IActionResult> UpdateItems(string id, string csvData)
+    public async Task<IActionResult> UpdateItems(string id, List<Auction> newAuctions)
     {
         // 'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
         // rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid 1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid 2,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid 3,17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000,noguid 4,12282,Worn Battleaxe,1,2,1,Weapon,Two-Handed Axes,1,3000,Item-5827-0-40000000C90648E0
@@ -72,32 +72,6 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
         if (room is null)
         {
             return NotFound();
-        }
-
-        var sReader = new StringReader(csvData);
-        var csvReader = new CsvReader(sReader, CultureInfo.InvariantCulture);
-
-        var records = csvReader.GetRecords<dynamic>().Skip(1).ToList();
-
-        List<Auction> newAuctions = new List<Auction>();
-        foreach (var record in records)
-        {
-            // Create a new Auction object from the CSV data and add it to your database or another storage system.
-            var auction = new Auction
-            {
-                RowId = record["rowId"].ToString(),
-                ItemId = record["id"].ToString(),
-                ItemName = record["name"].ToString(),
-                Quality = record["quality"].ToString(),
-                ItemLevel = int.Parse(record["ilvl"]),
-                MinLevel = int.Parse(record["minLevel"]),
-                ItemType = record["itemType"].ToString(),
-                ItemSubType = record["itemSubType"].ToString(),
-                Status = record["infoStatus"].ToString(),
-                MinimumPrice = decimal.Parse(record["infoMinPrice"]),
-                Guid = record["guid"].ToString()
-            };
-            newAuctions.Add(auction);
         }
 
         room.Auctions = newAuctions;
@@ -121,10 +95,9 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
 
         return NoContent();
     }
-    
-    
+
     [HttpPatch("{id:length(24)}")]
-    public async Task<ActionResult<Room>> Patch(string id, Bid newBid)
+    public async Task<ActionResult<Room>> Patch(string id, BidRequest newBid)
     {
         Room? room = await _roomsService.GetAsync(id);
 

@@ -10,7 +10,7 @@ public class Room
     public string? Id { get; set; }
 
     [BsonElement("name")]
-    public string? Name { get; set; } = "NewRoom";
+    public string Name { get; set; } = "defaultName";
 
     [BsonElement("enableDiscordProtection")]
     public bool EnableDiscordProtection { get; set; } = false;

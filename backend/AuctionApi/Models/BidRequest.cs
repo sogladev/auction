@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace AuctionApi.Models;
 
-public class Bid
+public class BidRequest
 {
     [BsonRequired]
     [BsonElement("rowId")]
