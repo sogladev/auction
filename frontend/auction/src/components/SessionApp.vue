@@ -40,8 +40,14 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="rowId" :props="props">
-          <q-badge color="green">
+          <q-badge color="primary">
             {{ props.row.rowId }}
+          </q-badge>
+        </q-td>
+
+        <q-td key="itemId" :props="props">
+          <q-badge color="secondary">
+            {{ props.row.itemId }}
           </q-badge>
         </q-td>
         <q-td key="itemName" :props="props">
@@ -82,7 +88,7 @@
           <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
         </q-td>
         <q-td key="submit" :props="props">
-          <q-btn icon="shopping_cart" @click="onSubmit(props.row)"></q-btn>
+          <q-btn icon="shopping_cart" @click="onSubmitBid(props.row)"></q-btn>
         </q-td>
         <!--
           <q-td key="Delete" :props="props">
@@ -116,7 +122,7 @@ const { fetch } = roomStore;
 
 // Export to CSV button
 // https://quasar.dev/vue-components/table#introduction
-const rows = ref([]);
+const rows = room.value.auctions;
 const columns = ref([
   {
     name: 'rowId',
@@ -124,6 +130,14 @@ const columns = ref([
     label: 'Row Id',
     align: 'left',
     field: 'rowId',
+    sortable: true,
+  },
+  {
+    name: 'itemId',
+    required: true,
+    label: 'Item Id',
+    align: 'left',
+    field: 'itemId',
     sortable: true,
   },
   {
@@ -181,7 +195,7 @@ function onIncrement(auction: Auction): void {
   auction.myBid = minimumAcceptableBid(auction, room);
 }
 
-async function onSubmit(auction: Auction): Promise<void> {
+async function onSubmitBid(auction: Auction): Promise<void> {
   console.log('@onSubmit');
   console.log(auction);
   if (auction.myBid == undefined) {

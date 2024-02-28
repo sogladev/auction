@@ -66,7 +66,7 @@ fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
   display: flex;
   flex-direction: column;
   padding: 5px;
-  max-width: 33%;
+  max-width: 66%;
   min-width: 33em;
   margin: auto;
 }
