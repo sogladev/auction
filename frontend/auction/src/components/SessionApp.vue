@@ -36,7 +36,7 @@
   </q-card>
 
   <div class="text-h6">Auctions</div>
-  <q-table flat bordered v-model:rows="rows" v-model:columns="columns">
+  <q-table flat bordered v-model:rows="room.auctions" v-model:columns="columns">
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="rowId" :props="props">
@@ -118,7 +118,7 @@ const { fetch } = roomStore;
 // Export to CSV button
 // https://quasar.dev/vue-components/table#introduction
 // Not reactive
-const rows = room.value.auctions;
+//const rows = room.value.auctions;
 const columns = ref([
   {
     name: 'rowId',
