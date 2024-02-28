@@ -65,13 +65,26 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
     [HttpPut("{id:length(24)}/items")]
     public async Task<IActionResult> UpdateItems(string id, List<Auction> newAuctions)
     {
-        // 'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
-        // rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid 1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid 2,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid 3,17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000,noguid 4,12282,Worn Battleaxe,1,2,1,Weapon,Two-Handed Axes,1,3000,Item-5827-0-40000000C90648E0
         Room? room = await _roomsService.GetAsync(id);
 
         if (room is null)
         {
             return NotFound();
+        }
+
+        // Set default values
+        int i = 1;
+        foreach (Auction auction in newAuctions)
+        {
+            // auction.ItemId // already set
+            auction.RowId = i++;
+            auction.Status = 1;
+            auction.ItemName = "itemName";
+            auction.Quality = 1; ;
+            auction.ItemLevel = 62; ;
+            auction.MinLevel = 60; ;
+            auction.ItemType = "Type"; ;
+            auction.ItemSubType = "subType";
         }
 
         room.Auctions = newAuctions;
@@ -80,6 +93,7 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
 
         return NoContent();
     }
+
 
     [HttpDelete("{id:length(24)}")]
     public async Task<IActionResult> Delete(string id)
@@ -112,8 +126,8 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
             return NotFound();
         }
         // TODO: add updatedAuction.Status == 2 to verify auction is in progress
-        int currentBid = auction.Bid is null ? auction.MinimumPrice : (int)auction.Bid;
-        int BidMinimumAcceptable = auction.BidderName is null ? auction.MinimumPrice : currentBid + room.MinimumBidIncrement;
+        int currentBid = (int)(auction.Bid is null ? auction.MinimumPrice : (int)auction.Bid);
+        int BidMinimumAcceptable = (int)(auction.BidderName is null ? auction.MinimumPrice : currentBid + room.MinimumBidIncrement);
 
         if (newBid.MyBid < BidMinimumAcceptable)
         {

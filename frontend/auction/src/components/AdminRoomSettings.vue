@@ -159,6 +159,7 @@ import Papa from 'papaparse';
 import { storeToRefs } from 'pinia';
 
 import { useRoomStore } from 'src/stores/RoomStore';
+import { Auction } from './models';
 
 const adminKey = ref('this is some key'); // ajax bar
 const $q = useQuasar();
@@ -170,7 +171,7 @@ const { room } = storeToRefs(roomStore);
 const validationHeader =
   'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
 
-const debugImportString = `rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
+const debugImportString = `rowId,itemId,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
 1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
 2,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid
 3,17076,Bonereaver's Edge,4,77,60,Weapon,Two-Handed Swords,1,3000,noguid
@@ -193,16 +194,31 @@ async function onSubmitUpdateItems() {
 
 async function onSubmitReplaceItems() {
   console.log('@replace.prevent');
-  const output = Papa.parse(csvString.value);
-  console.log(output);
-  console.log('TODO: Replace items');
   console.log(csvString.value)
   // TODO: Create session from import string
   // Populate "Auctions" data and start session
+  // Create Array of Auction[]
+  const results = Papa.parse(csvString.value,
+    {
+      skipEmptyLines: true,
+      header: true,
+    });
+  console.log('parsed items: ', results);
+
+  const newAuctions: Array<Auction> = [];
+  let item: Auction;
+  for (item of results.data) {
+    console.log(item)
+    const newAuction = <Auction>{
+      rowId: Number(item.rowId),
+      itemId: Number(item.itemId), // TODO: adjust CSV input string "id" to "itemId"
+    }
+    newAuctions.push(newAuction)
+  }
+
+  console.log('putting these: ', newAuctions)
   api
-    .put(`/api/rooms/${roomId}/items`, {
-      csvData: JSON.stringify(debugImportString),
-    })
+    .put(`/api/rooms/${roomId}/items`, newAuctions)
     .then((response) => {
       console.log(response);
     })

@@ -12,7 +12,7 @@ public class Auction
     public int RowId { get; set; }
 
     [BsonElement("status")]
-    public int? Status { get; set; }
+    public int? Status { get; set; } = 1;
 
     [BsonElement("minimumPrice")]
     public int? MinimumPrice { get; set; }
@@ -39,7 +39,7 @@ public class Auction
     public string? ItemSubType { get; set; }
 
     [BsonElement("guid")]
-    public string Guid { get; set; } = null!;
+    public string? Guid { get; set; } = null!;
 
    // bidder. Set once auction starts
     [BsonElement("bidderName")]
