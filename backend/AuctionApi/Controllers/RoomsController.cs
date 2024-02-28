@@ -85,6 +85,8 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
             auction.MinLevel = 60; ;
             auction.ItemType = "Type"; ;
             auction.ItemSubType = "subType";
+            // From room settings
+            auction.Bid = room.MinimumBid;
         }
 
         room.Auctions = newAuctions;

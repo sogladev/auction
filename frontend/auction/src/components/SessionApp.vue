@@ -58,12 +58,7 @@
         </q-td>
         <q-td key="bid" :props="props">
           <q-badge color="secondary">
-            <div v-if="props.row.bid">
-              {{ props.row.bid }}
-            </div>
-            <div v-else>
-              {{ props.row.minimumPrice }}
-            </div>
+            {{ props.row.bid }}
           </q-badge>
         </q-td>
         <q-td key="myBid" :props="props">
