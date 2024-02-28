@@ -3,7 +3,6 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title> Auction App </q-toolbar-title>
-
         <q-tabs inline-label>
           <q-route-tab icon="house" label="Home" to="/" exact />
           <q-route-tab icon="info" label="About" to="/about" exact />
@@ -19,42 +18,6 @@
   </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
 import DarkModeToggle from 'src/components/DarkModeToggle.vue';
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-];
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    DarkModeToggle,
-  },
-
-  setup() {
-    const leftDrawerOpen = ref(false);
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-    };
-  },
-});
 </script>
