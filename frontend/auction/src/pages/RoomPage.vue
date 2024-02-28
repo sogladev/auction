@@ -29,10 +29,13 @@
       <q-card class="room-card">
         <div class="admin-room-settings">
           <div class="text-h6">Admin Settings</div>
+          <div class="text-h7">configure settings, click save to update to db</div>
           <AdminRoomSettings />
         </div>
+        <q-separator spaced inset />
         <div class="session-app">
           <div class="text-h6">Session</div>
+          <div class="text-h7">Shows settings, button to synchronize with database, auction displays auctions</div>
           <SessionApp />
         </div>
       </q-card>
@@ -69,10 +72,10 @@ fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
 }
 
 .admin-room-settings {
-  margin: 10px;
+  margin: 16px;
 }
 
 .session-app {
-  margin: 10px;
+  margin: 16px;
 }
 </style>
