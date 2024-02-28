@@ -104,7 +104,7 @@ import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
-import { AuctionState, Bid, RoomState } from 'src/components/models';
+import { Auction, Room, BidRequest } from 'src/components/models';
 import { minimumAcceptableBid } from 'src/components/MinimumAcceptableBid';
 
 const $q = useQuasar();
@@ -161,11 +161,47 @@ const columns = ref([
   { name: 'submit', label: 'Submit' }
 ]);
 
-const roomState = reactive<RoomState>({});
+// Load from database?
+const roomState = reactive<Room>({
+  name: 'default',
+  enableDiscordProtection: false,
+  bidDurationInSeconds: 240,
+  countDownTimeInSeconds: 40,
+  restrictBidsToEquipable: false,
+  hideNameOfHighestBidder: false,
+  hidePayoutDetails: false,
+  organiserFee: 10,
+  minimumBid: 10,
+  minimumBidIncrement: 2,
+  auctions: [],
+});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function updateSessionSettingsFromResponse(data: any): RoomState {
-  const newRoomState = <RoomState>{
+function updateRoomFromResponseData(data: any): Room {
+  const newRows: Array<Auction> = [];
+  if (data.auctions !== null) {
+    for (const auction of data.auctions) {
+      const newAuction = <Auction>{
+        expiration: auction.expiration,
+        guid: auction.guid,
+        itemId: auction.itemId,
+        itemLevel: auction.itemLevel,
+        itemName: auction.itemName,
+        itemSubType: auction.itemSubType,
+        itemType: auction.itemType,
+        minLevel: auction.minLevel,
+        minimumPrice: auction.minimumPrice,
+        quality: auction.quality,
+        rowId: auction.rowId,
+        status: auction.status,
+        // bid and bidderName are null if not started
+        bid: auction.bid,
+        bidderName: auction.bidderName,
+      }
+      newRows.push(newAuction)
+    }
+  }
+  const newRoomState = <Room>{
     name: data.name,
     enableDiscordProtection: data.enableDiscordProtection,
     bidDurationInSeconds: data.bidDurationInSeconds,
@@ -176,35 +212,9 @@ function updateSessionSettingsFromResponse(data: any): RoomState {
     organiserFee: data.organiserFee,
     minimumBid: data.minimumBid,
     minimumBidIncrement: data.minimumBidIncrement,
+    auctions: newRows,
   };
   return newRoomState
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function rowsFromResponseDataAuctions(data: any): Array<AuctionState> {
-  // TODO: Update rows rather than overwriting
-  const newRows: Array<AuctionState> = [];
-  for (const auction of data.auctions) {
-    const newAuction = <AuctionState>{
-      expiration: auction.expiration,
-      guid: auction.guid,
-      itemId: auction.itemId,
-      itemLevel: auction.itemLevel,
-      itemName: auction.itemName,
-      itemSubType: auction.itemSubType,
-      itemType: auction.itemType,
-      minLevel: auction.minLevel,
-      minimumPrice: auction.minimumPrice,
-      quality: auction.quality,
-      rowId: auction.rowId,
-      status: auction.status,
-      // bid and bidderName are null if not started
-      bid: auction.bid,
-      bidderName: auction.bidderName,
-    }
-    newRows.push(newAuction)
-  }
-  return newRows;
 }
 
 async function onSubmitSyncRoom() {
@@ -214,18 +224,10 @@ async function onSubmitSyncRoom() {
     .get(`/api/rooms/${roomId}`)
     .then((response) => {
       console.log(response);
-      // Some rooms do not have auctions
-      if (response.data.hasOwnProperty('auctions')) {
-        // Update Auctions
-        if (response.data.auctions !== null) {
-          const newRows: Array<AuctionState> = rowsFromResponseDataAuctions(response.data);
-          Object.assign(rows.value, newRows)
-        }
-      }
-      // Update Settings / Room State
       // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
-      const newRoomState: RoomState = updateSessionSettingsFromResponse(response.data);
+      const newRoomState: Room = updateRoomFromResponseData(response.data);
       Object.assign(roomState, newRoomState)
+      Object.assign(rows.value, roomState.auctions)
     })
     .catch(() => {
       $q.notify({
@@ -240,14 +242,14 @@ async function onSubmitSyncRoom() {
 // TODO: Instantly load room settings on navigation
 // onSubmitSyncRoom()
 
-function onIncrement(auction: AuctionState): void {
+function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
   console.log(auction);
   console.log(roomState);
   auction.myBid = minimumAcceptableBid(auction, roomState);
 }
 
-async function onSubmit(auction: AuctionState): void {
+async function onSubmit(auction: Auction): void {
   console.log('@onSubmit');
   console.log(auction);
   if (auction.myBid == undefined) {
@@ -255,7 +257,7 @@ async function onSubmit(auction: AuctionState): void {
     return;
   }
   // Submit bid to API
-  const myBid = <Bid>{
+  const myBid = <BidRequest>{
     itemId: auction.itemId,
     rowId: auction.rowId,
     myName: 'user1',
@@ -272,14 +274,14 @@ async function onSubmit(auction: AuctionState): void {
       // form is all is well
       if (response.data.hasOwnProperty('auctions')) {
         // Update Auctions
-        const newRows: Array<AuctionState> = rowsFromResponseDataAuctions(
+        const newRows: Array<Auction> = rowsFromResponseDataAuctions(
           response.data,
         );
         Object.assign(rows.value, newRows);
       }
       // Update Settings / Room State
       // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
-      const newRoomState: RoomState = updateSessionSettingsFromResponse(
+      const newRoomState: Room = updateRoomFromResponseData(
         response.data,
       );
       Object.assign(roomState, newRoomState);
