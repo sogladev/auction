@@ -35,6 +35,18 @@
     </q-card-actions>
   </q-card>
 
+  <q-card class="sync-session-card">
+    <div class="text-h6">User</div>
+    <q-card-actions align="left">
+      <q-input ref="qinputMyName" v-model="myName" label="UserName" :rules="[
+        (val) => typeof val == 'string' || 'Name must be a string',
+        (val) =>
+          /^[a-zA-Z0-9]{0,12}$/.test(val) ||
+          'Name can only contain alphanumeric characters and be max 12 chars',
+      ]" />
+    </q-card-actions>
+  </q-card>
+
   <div class="text-h6">Auctions</div>
   <q-table flat bordered v-model:rows="room.auctions" v-model:columns="columns">
     <template v-slot:body="props">
@@ -119,6 +131,7 @@ const { fetch } = roomStore;
 // https://quasar.dev/vue-components/table#introduction
 // Not reactive
 //const rows = room.value.auctions;
+const myName = ref();
 const columns = ref([
   {
     name: 'rowId',
@@ -192,6 +205,19 @@ function onIncrement(auction: Auction): void {
 async function onSubmitBid(auction: Auction): Promise<void> {
   console.log('@onSubmit');
   console.log(auction);
+  if (myName.value == undefined) {
+    console.log('@onSubmit myName undefined. Not submitting');
+    return;
+  }
+  const val: string = myName.value;
+  // Copypasted from validate above. Can I call .validate() instead?
+  if (!(typeof val == 'string')) {
+    return console.log('Name must be a string');
+  }
+  if (!(/^[a-zA-Z0-9]{0,12}$/.test(val))) {
+    return console.log('Name can only contain alphanumeric characters and be max 12 chars')
+  }
+
   if (auction.myBid == undefined) {
     console.log('@onSubmit Bid undefined. Not submitting');
     return;
@@ -200,7 +226,7 @@ async function onSubmitBid(auction: Auction): Promise<void> {
   const myBid = <BidRequest>{
     itemId: auction.itemId,
     rowId: auction.rowId,
-    myName: 'user1', // TODO: Change user to something from input
+    myName: myName.value,
     myBid: auction.myBid,
   }
   console.log('@onSubmit Bid Submitted');
