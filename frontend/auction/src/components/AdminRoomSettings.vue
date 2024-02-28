@@ -110,6 +110,17 @@
 
     <q-card-section>
       <div class="text-h6">Items</div>
+      <div class="text-h7">
+        The web page allows users to import items into their existing listings. There are two methods for importing
+        items:
+        pasting an import string and writing item IDs separated by commas. These methods can be used to either append
+        new
+        items or replace existing ones in the user's listings. Below this section, the imported auctions will be
+        appended
+        or
+        replaced based on the chosen option.
+      </div>
+
       <q-card-section class="justify-around">
         <div class="text-h7">
           Import items by pasting your import string

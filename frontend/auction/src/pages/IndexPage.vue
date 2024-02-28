@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-center column">
     <div class="text-h6">Auction App</div>
-    <q-card-section style="width: 50%">
+    <q-card-section>
       <div class="text-h6">Room</div>
       <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
         <q-card-section>
-          <p>
+          <div class="text-h7">
             This button allows you to create a room where you can configure and start a session. In this session, you
             can
             import items from your inventory or other sources and bid on them with other players. The settings for the
@@ -14,7 +14,7 @@
             each
             bid lasts in seconds (240), determining the countdown time before bidding starts in seconds (40), and
             restricting bids to only items that are equipable.
-          </p>
+          </div>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn unelevated type="submit" color="secondary" label="Create Room" />
@@ -44,7 +44,7 @@ async function onSubmitCreateRoom() {
       $q.notify({
         color: 'negative',
         position: 'bottom',
-        message: 'Loading failed',
+        message: 'Creating room failed',
         icon: 'report_problem',
       });
     });

@@ -95,6 +95,13 @@
       </template>
     </q-table>
 
+    <div v-if="isValidRoom">
+      validRoom
+    </div>
+    <div v-else>
+      not valid
+    </div>
+
   </div>
 </template>
 
@@ -110,6 +117,10 @@ import { minimumAcceptableBid } from 'src/components/MinimumAcceptableBid';
 const $q = useQuasar();
 const route = useRoute();
 const roomId = route.params.id;
+
+// Instantly load room settings on navigation
+const isValidRoom = ref(false);
+SynchronizeRoom().then((data) => isValidRoom.value = data);
 
 import { useRoomStore } from 'src/stores/RoomStore';
 
@@ -206,23 +217,25 @@ function updateRoomFromResponseData(data: any): Room {
   return newRoomState
 }
 
-async function SynchronizeRoom() {
-  api
+async function SynchronizeRoom(): Promise<boolean> {
+  return api
     .get(`/api/rooms/${roomId}`)
     .then((response) => {
       console.log(response);
       // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
       const newRoomState: Room = updateRoomFromResponseData(response.data);
-      Object.assign(roomState, newRoomState)
-      Object.assign(rows.value, roomState.auctions)
+      Object.assign(roomState, newRoomState);
+      Object.assign(rows.value, roomState.auctions);
+      return true;
     })
     .catch(() => {
       $q.notify({
         color: 'negative',
         position: 'bottom',
-        message: 'Loading failed',
+        message: 'Synchronizing failed',
         icon: 'report_problem',
       });
+      return false;
     });
 }
 
@@ -300,7 +313,4 @@ async function onSubmit(auction: Auction): void {
       }
     });
 }
-// Instantly load room settings on navigation
-SynchronizeRoom();
-
 </script>
