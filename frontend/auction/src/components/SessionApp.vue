@@ -5,27 +5,27 @@
       <div class="text-h6">Settings</div>
 
       <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
-      <p v-if:="Object.keys(roomState).length === 0">Session is not loaded!</p>
-      <q-list dense v-if:="Object.keys(roomState).length > 0">
-        <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ roomState.name }}</q-item-section>
+      <p v-if:="Object.keys(room).length === 0">Session is not loaded!</p>
+      <q-list dense v-if:="Object.keys(room).length > 0">
+        <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ room.name }}</q-item-section>
         </q-item>
         <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
-          roomState.enableDiscordProtection }}</q-item-section> </q-item>
-        <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ roomState.bidDurationInSeconds
+          room.enableDiscordProtection }}</q-item-section> </q-item>
+        <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ room.bidDurationInSeconds
         }}</q-item-section> </q-item>
         <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{
-          roomState.countDownTimeInSeconds }}</q-item-section> </q-item>
+          room.countDownTimeInSeconds }}</q-item-section> </q-item>
         <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
-          roomState.restrictBidsToEquipable }}</q-item-section> </q-item>
+          room.restrictBidsToEquipable }}</q-item-section> </q-item>
         <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
-          roomState.hideNameOfHighestBidder }}</q-item-section> </q-item>
-        <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ roomState.hidePayoutDetails
+          room.hideNameOfHighestBidder }}</q-item-section> </q-item>
+        <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ room.hidePayoutDetails
         }}</q-item-section> </q-item>
-        <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ roomState.organiserFee
+        <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ room.organiserFee
         }}</q-item-section> </q-item>
-        <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ roomState.minimumBid }}</q-item-section>
+        <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ room.minimumBid }}</q-item-section>
         </q-item>
-        <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ roomState.minimumBidIncrement
+        <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ room.minimumBidIncrement
         }}</q-item-section> </q-item>
       </q-list>
     </q-card>
@@ -67,11 +67,11 @@
               {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
             </q-badge>
             <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
-              <q-input type="number" :min="minimumAcceptableBid(props.row, roomState)" :step="props.row.minimumIncrement"
+              <q-input type="number" :min="minimumAcceptableBid(props.row, room)" :step="props.row.minimumIncrement"
                 v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" :rules="[
                   (val) =>
-                    (!isNaN(val) && val >= minimumAcceptableBid(props.row, roomState)) ||
-                    `Minimum bid is ${minimumAcceptableBid(props.row, roomState)}!`,
+                    (!isNaN(val) && val >= minimumAcceptableBid(props.row, room)) ||
+                    `Minimum bid is ${minimumAcceptableBid(props.row, room)}!`,
                 ]" />
             </q-popup-edit>
           </q-td>
@@ -112,19 +112,23 @@ import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
 import { Auction, Room, BidRequest } from 'src/components/models';
+import { useRoomStore } from 'src/stores/RoomStore';
+
 import { minimumAcceptableBid } from 'src/components/MinimumAcceptableBid';
+import { storeToRefs } from 'pinia';
 
 const $q = useQuasar();
 const route = useRoute();
-const roomId = route.params.id;
+const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 
-// Instantly load room settings on navigation
+const roomStore = useRoomStore();
+const { room } = storeToRefs(roomStore);
+const { fetch } = roomStore;
+
+// Instantly load room settings on load
+// TODO: skip this if coming from create
 const isValidRoom = ref(false);
-SynchronizeRoom().then((data) => isValidRoom.value = data);
-
-import { useRoomStore } from 'src/stores/RoomStore';
-
-const roomState = <Room>useRoomStore().room;
+fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
 
 // Export to CSV button
 // https://quasar.dev/vue-components/table#introduction
@@ -176,68 +180,8 @@ const columns = ref([
   { name: 'submit', label: 'Submit' }
 ]);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function updateRoomFromResponseData(data: any): Room {
-  const newRows: Array<Auction> = [];
-  if (data.auctions !== null) {
-    for (const auction of data.auctions) {
-      const newAuction = <Auction>{
-        expiration: auction.expiration,
-        guid: auction.guid,
-        itemId: auction.itemId,
-        itemLevel: auction.itemLevel,
-        itemName: auction.itemName,
-        itemSubType: auction.itemSubType,
-        itemType: auction.itemType,
-        minLevel: auction.minLevel,
-        minimumPrice: auction.minimumPrice,
-        quality: auction.quality,
-        rowId: auction.rowId,
-        status: auction.status,
-        // bid and bidderName are null if not started
-        bid: auction.bid,
-        bidderName: auction.bidderName,
-      }
-      newRows.push(newAuction)
-    }
-  }
-  const newRoomState = <Room>{
-    name: data.name,
-    id: data.id,
-    enableDiscordProtection: data.enableDiscordProtection,
-    bidDurationInSeconds: data.bidDurationInSeconds,
-    countDownTimeInSeconds: data.countDownTimeInSeconds,
-    restrictBidsToEquipable: data.restrictBidsToEquipable,
-    hideNameOfHighestBidder: data.hideNameOfHighestBidder,
-    hidePayoutDetails: data.hidePayoutDetails,
-    organiserFee: data.organiserFee,
-    minimumBid: data.minimumBid,
-    minimumBidIncrement: data.minimumBidIncrement,
-    auctions: newRows,
-  };
-  return newRoomState
-}
-
-async function SynchronizeRoom(): Promise<boolean> {
-  return api
-    .get(`/api/rooms/${roomId}`)
-    .then((response) => {
-      console.log(response);
-      // Object.assign better than? `settings.value = updateSessionSettingsFromResponse(response.data);`
-      const newRoomState: Room = updateRoomFromResponseData(response.data);
-      Object.assign(roomState, newRoomState);
-      Object.assign(rows.value, roomState.auctions);
-      return true;
-    })
-    .catch(() => {
-      $q.notify({
-        color: 'negative',
-        position: 'bottom',
-        message: 'Synchronizing failed',
-        icon: 'report_problem',
-      });
-      return false;
-    });
+async function SynchronizeRoom(): Promise<void> {
+  roomStore.fetch(roomId);
 }
 
 async function onSubmitSyncRoom() {
@@ -249,11 +193,11 @@ async function onSubmitSyncRoom() {
 function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
   console.log(auction);
-  console.log(roomState);
-  auction.myBid = minimumAcceptableBid(auction, roomState);
+  console.log(room);
+  auction.myBid = minimumAcceptableBid(auction, room);
 }
 
-async function onSubmit(auction: Auction): void {
+async function onSubmit(auction: Auction): Promise<void> {
   console.log('@onSubmit');
   console.log(auction);
   if (auction.myBid == undefined) {
@@ -288,7 +232,7 @@ async function onSubmit(auction: Auction): void {
       const newRoomState: Room = updateRoomFromResponseData(
         response.data,
       );
-      Object.assign(roomState, newRoomState);
+      Object.assign(room, newRoomState);
       $q.notify({
         color: 'positive',
         position: 'right',

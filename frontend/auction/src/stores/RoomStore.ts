@@ -1,6 +1,49 @@
 import { defineStore } from 'pinia';
+import { api } from 'boot/axios';
 
 import { Auction, Room } from 'src/components/models';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function newRoomFromResponseData(data: any): Room {
+  const newRows: Array<Auction> = [];
+  if (data.auctions !== null) {
+    for (const auction of data.auctions) {
+      const newAuction = <Auction>{
+        expiration: auction.expiration,
+        guid: auction.guid,
+        itemId: auction.itemId,
+        itemLevel: auction.itemLevel,
+        itemName: auction.itemName,
+        itemSubType: auction.itemSubType,
+        itemType: auction.itemType,
+        minLevel: auction.minLevel,
+        minimumPrice: auction.minimumPrice,
+        quality: auction.quality,
+        rowId: auction.rowId,
+        status: auction.status,
+        // bid and bidderName are null if not started
+        bid: auction.bid,
+        bidderName: auction.bidderName,
+      };
+      newRows.push(newAuction);
+    }
+  }
+  const newRoomState = <Room>{
+    name: data.name,
+    id: data.id,
+    enableDiscordProtection: data.enableDiscordProtection,
+    bidDurationInSeconds: data.bidDurationInSeconds,
+    countDownTimeInSeconds: data.countDownTimeInSeconds,
+    restrictBidsToEquipable: data.restrictBidsToEquipable,
+    hideNameOfHighestBidder: data.hideNameOfHighestBidder,
+    hidePayoutDetails: data.hidePayoutDetails,
+    organiserFee: data.organiserFee,
+    minimumBid: data.minimumBid,
+    minimumBidIncrement: data.minimumBidIncrement,
+    auctions: newRows,
+  };
+  return newRoomState;
+}
 
 export const useRoomStore = defineStore('RoomStore', {
   state: () => ({
@@ -23,8 +66,27 @@ export const useRoomStore = defineStore('RoomStore', {
     //doubleCount: (state) => state.counter * 2,
   },
   actions: {
-    //increment() {
-    //  this.counter++;
-    //},
+    async create(): Promise<number> {
+      return api.post('/api/rooms/create').then((response) => {
+        console.log(response);
+        const newRoomState: Room = newRoomFromResponseData(response.data);
+        this.room = newRoomState;
+        return response.data.id;
+      });
+    },
+    async fetch(roomId: string): Promise<boolean> {
+      try {
+        const response = await api.get(`/api/rooms/${roomId}`);
+        console.log(response);
+        const newRoomState: Room = newRoomFromResponseData(response.data);
+        this.room = newRoomState;
+        console.log('newRoomState: ');
+        console.log(this.room);
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
   },
 });

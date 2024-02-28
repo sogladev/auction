@@ -26,20 +26,15 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
+import { useRoomStore } from 'src/stores/RoomStore';
 
 const $q = useQuasar();
 const router = useRouter();
 
 async function onSubmitCreateRoom() {
   console.log('@submet.prevent');
-  api
-    .post('/api/rooms/create')
-    .then((response) => {
-      console.log(response);
-      router.push({ path: `/room/${response.data.id}` })
-    })
+  useRoomStore().create().then((roomId) => router.push({ path: `/room/${roomId}` }))
     .catch(() => {
       $q.notify({
         color: 'negative',
