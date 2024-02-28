@@ -109,37 +109,36 @@
     </q-form>
 
     <q-card-section>
-      <q-form ref="for" @update.prevent="onSubmitUpdateItems" @replace.prevent="onSubmitReplaceItems">
-        <div class="text-h6">Items</div>
-        <q-card-section class="justify-around">
-          <div class="text-h7">
-            Import items by pasting your import string
-          </div>
-          <q-input max debounce="500" label="Paste your string here" v-model="csvString" filled type="textarea" :rules="[
-            (val) =>
-              (typeof val == 'string' &&
-                val.startsWith(validationHeader)) ||
-              'Invalid import string. Copy all output from /hlm e!',
-          ]" />
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn icon="add" unelevated type="update" color="primary" label="Append items" />
-          <q-btn icon="change_circle" unelevated type="replace" color="red" label="Replace items" />
-        </q-card-actions>
-      </q-form>
-      <q-form ref="for" @update.prevent="onSubmitUpdateItemsById" @replace.prevent="onSubmitReplaceItemsById">
-        <q-card-section class="justify-around">
-          <div class="text-h7">
-            Import items by writing itemIds seperated by commas
-          </div>
-          <q-input max debounce="500" label="Write itemIds here e.g. 19137,18814" v-model="itemIds" filled
-            type="textarea" />
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn icon="add" unelevated type="update" color="primary" label="Append items" />
-          <q-btn icon="change_circle" unelevated type="replace" color="red" label="Replace items" />
-        </q-card-actions>
-      </q-form>
+      <div class="text-h6">Items</div>
+      <q-card-section class="justify-around">
+        <div class="text-h7">
+          Import items by pasting your import string
+        </div>
+        <q-input max debounce="500" label="Paste your string here" v-model="csvString" filled type="textarea" :rules="[
+          (val) =>
+            (typeof val == 'string' &&
+              val.startsWith(validationHeader)) ||
+            'Invalid import string. Copy all output from /hlm e!',
+        ]" />
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary" label="Append items" />
+        <q-btn @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace" color="red"
+          label="Replace items" />
+      </q-card-actions>
+      <q-card-section class="justify-around">
+        <div class="text-h7">
+          Import items by writing itemIds seperated by commas
+        </div>
+        <q-input max debounce="500" label="Write itemIds here e.g. 19137,18814" v-model="itemIds" filled
+          type="textarea" />
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary"
+          label="Append items" />
+        <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
+          label="Replace items" />
+      </q-card-actions>
     </q-card-section>
   </q-card>
   <q-ajax-bar ref="bar" position="bottom" color="accent" size="10px" skip-hijack />
@@ -188,8 +187,35 @@ async function onSubmitReplaceItems() {
   const output = Papa.parse(csvString.value);
   console.log(output);
   console.log('TODO: Replace items');
+  console.log(csvString.value)
   // TODO: Create session from import string
   // Populate "Auctions" data and start session
+  api
+    .put(`/api/rooms/${roomId}/items`, {
+      csvData : JSON.stringify(debugImportString),
+    })
+    .then((response) => {
+      console.log(response);
+      console.log('AAAAAAAAAAA NO ERRORE');
+    })
+
+    .catch((error) => {
+      if (error.response.status === 400) {
+        $q.notify({
+          color: 'warning',
+          position: 'right',
+          message: error.response.data,
+          icon: 'warning',
+        });
+      } else {
+        $q.notify({
+          color: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+          icon: 'report_problem',
+        });
+      }
+    });
 }
 
 
