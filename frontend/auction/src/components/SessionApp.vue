@@ -78,8 +78,9 @@
             {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
           </q-badge>
           <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
-            <q-input type="number" :min="minimumAcceptableBid(props.row, room)" :step="props.row.minimumIncrement"
-              v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" :rules="[
+            <q-input ref="qinputMyBid" type="number" :min="minimumAcceptableBid(props.row, room)"
+              :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
+              :rules="[
                 (val) =>
                   (!isNaN(val) && val >= minimumAcceptableBid(props.row, room)) ||
                   `Minimum bid is ${minimumAcceptableBid(props.row, room)}!`,
@@ -202,26 +203,36 @@ function onIncrement(auction: Auction): void {
   console.log('myBid ', auction.myBid);
 }
 
+const qinputMyName = ref(null)
+const qinputMyBid = ref(null)
+
 async function onSubmitBid(auction: Auction): Promise<void> {
   console.log('@onSubmit');
   console.log(auction);
-  if (myName.value == undefined) {
-    console.log('@onSubmit myName undefined. Not submitting');
+  // Validate myName
+  try {
+    const isValidMyName: boolean = await qinputMyName.value.validate()
+    if (!isValidMyName) {
+      throw new Error('Myname invalid');
+    }
+  }
+  catch {
+    console.log('@onSubmit Myname invalid. Not submitting');
     return;
-  }
-  const val: string = myName.value;
-  // Copypasted from validate above. Can I call .validate() instead?
-  if (!(typeof val == 'string')) {
-    return console.log('Name must be a string');
-  }
-  if (!(/^[a-zA-Z0-9]{0,12}$/.test(val))) {
-    return console.log('Name can only contain alphanumeric characters and be max 12 chars')
   }
 
-  if (auction.myBid == undefined) {
-    console.log('@onSubmit Bid undefined. Not submitting');
+  // Validate myBid
+  try {
+    const isValidMyBid: boolean = await qinputMyBid.value.validate()
+    if (!isValidMyBid) {
+      throw new Error('MyBid invalid');
+    }
+  }
+  catch {
+    console.log('@onSubmit MyBid invalid. Not submitting');
     return;
   }
+
   // Submit bid to API
   const myBid = <BidRequest>{
     itemId: auction.itemId,
