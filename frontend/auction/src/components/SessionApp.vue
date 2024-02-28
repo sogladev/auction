@@ -203,6 +203,7 @@ function updateRoomFromResponseData(data: any): Room {
   }
   const newRoomState = <Room>{
     name: data.name,
+    id: data.id,
     enableDiscordProtection: data.enableDiscordProtection,
     bidDurationInSeconds: data.bidDurationInSeconds,
     countDownTimeInSeconds: data.countDownTimeInSeconds,

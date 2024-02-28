@@ -18,6 +18,7 @@ export type Auction = {
 
 export type Room = {
   name: string;
+  id: string;
   enableDiscordProtection: boolean;
   bidDurationInSeconds: number;
   countDownTimeInSeconds: number;

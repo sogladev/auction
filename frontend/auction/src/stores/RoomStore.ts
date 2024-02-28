@@ -6,6 +6,7 @@ export const useRoomStore = defineStore('RoomStore', {
   state: () => ({
     room: <Room>{
       name: 'default',
+      id: 'default',
       enableDiscordProtection: false,
       bidDurationInSeconds: 240,
       countDownTimeInSeconds: 40,
