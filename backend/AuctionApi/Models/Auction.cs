@@ -5,38 +5,38 @@ namespace AuctionApi.Models;
 
 public class Auction
 {
-    [BsonElement("rowId")]
-    public int RowId { get; set; }
-
     [BsonElement("itemId")]
     public int ItemId { get; set; }
 
+    [BsonElement("rowId")]
+    public int RowId { get; set; }
+
     [BsonElement("status")]
-    public int Status { get; set; }
+    public int? Status { get; set; }
 
     [BsonElement("minimumPrice")]
-    public int MinimumPrice { get; set; }
+    public int? MinimumPrice { get; set; }
 
     [BsonElement("expiration")]
-    public int Expiration { get; set; }
+    public int? Expiration { get; set; }
 
     [BsonElement("itemName")]
-    public string ItemName { get; set; } = null!;
+    public string? ItemName { get; set; }
 
     [BsonElement("quality")]
-    public int Quality { get; set; }
+    public int? Quality { get; set; }
 
     [BsonElement("itemLevel")]
-    public int ItemLevel { get; set; }
+    public int? ItemLevel { get; set; }
 
     [BsonElement("minLevel")]
-    public int MinLevel { get; set; }
+    public int? MinLevel { get; set; }
 
     [BsonElement("itemType")]
-    public string ItemType { get; set; } = null!;
+    public string? ItemType { get; set; }
 
     [BsonElement("itemSubType")]
-    public string ItemSubType { get; set; } = null!;
+    public string? ItemSubType { get; set; }
 
     [BsonElement("guid")]
     public string Guid { get; set; } = null!;
