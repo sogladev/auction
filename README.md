@@ -96,13 +96,26 @@ philosophy: build like a CRUD app and then expand
 - [j] display auctions of room from db
 - [x] display a list of auctions
 - [x] increment auction
-- [ ] submit auction to db
-- [x] refresh auction data from db
 - [x] load room settings from db
 - [x] make scrollable list for many auctions
 - [ ] Keep footer or a header on top for data / filtering
-- [ ]
-- [ ]
+- [x] Display valid room 
+- [x] Conditional load of valid room
+- [x] global room data
+- [x] load room data when creating
+- [x] load room data when loading
+
+
+Items
+- [ ] create new auction form items CSV
+- [ ] create new auction from ID list
+- [ ] load itemInfo data from Blizzard API
+- [ ] fix increment
+
+Session
+- [ ] submit auction to db
+- [ ] refresh auction data from db
+
 
 
 ## Notes
