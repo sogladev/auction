@@ -248,7 +248,9 @@ async function onSubmitBid(auction: Auction): Promise<void> {
     .then((response) => {
       console.log('response: ', response);
       console.log(response);
-      fetch(roomId); // update table
+      fetch(roomId).catch((error) => {
+        console.log('Submit fetch error: ', error)
+      }); // update table
       $q.notify({
         color: 'positive',
         position: 'right',
