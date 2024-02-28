@@ -94,14 +94,6 @@
         </q-tr>
       </template>
     </q-table>
-
-    <div v-if="isValidRoom">
-      validRoom
-    </div>
-    <div v-else>
-      not valid
-    </div>
-
   </div>
 </template>
 
@@ -124,11 +116,6 @@ const roomId = typeof route.params.id === 'string' ? route.params.id : route.par
 const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
 const { fetch } = roomStore;
-
-// Instantly load room settings on load
-// TODO: skip this if coming from create
-const isValidRoom = ref(false);
-fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
 
 // Export to CSV button
 // https://quasar.dev/vue-components/table#introduction
@@ -181,7 +168,7 @@ const columns = ref([
 ]);
 
 async function SynchronizeRoom(): Promise<void> {
-  roomStore.fetch(roomId);
+  fetch(roomId);
 }
 
 async function onSubmitSyncRoom() {
