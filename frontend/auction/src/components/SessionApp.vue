@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
@@ -110,6 +110,10 @@ import { minimumAcceptableBid } from 'src/components/MinimumAcceptableBid';
 const $q = useQuasar();
 const route = useRoute();
 const roomId = route.params.id;
+
+import { useRoomStore } from 'src/stores/RoomStore';
+
+const roomState = <Room>useRoomStore().room;
 
 // Export to CSV button
 // https://quasar.dev/vue-components/table#introduction
@@ -160,21 +164,6 @@ const columns = ref([
   { name: 'increment', label: 'Increment' },
   { name: 'submit', label: 'Submit' }
 ]);
-
-// Load from database?
-const roomState = reactive<Room>({
-  name: 'default',
-  enableDiscordProtection: false,
-  bidDurationInSeconds: 240,
-  countDownTimeInSeconds: 40,
-  restrictBidsToEquipable: false,
-  hideNameOfHighestBidder: false,
-  hidePayoutDetails: false,
-  organiserFee: 10,
-  minimumBid: 10,
-  minimumBidIncrement: 2,
-  auctions: [],
-});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function updateRoomFromResponseData(data: any): Room {
