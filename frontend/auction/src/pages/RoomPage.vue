@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-center column">
     <div v-if="isValidRoom" class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
-    <q-card-section class="justify-left">
+    <q-card-section>
       <div v-if="isValidRoom">
         <q-field bg-color="green" filled>
           <template v-slot:prepend>
@@ -57,3 +57,22 @@ const isValidRoom = ref(false);
 fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
 
 </script>
+
+<style>
+.room-card {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  max-width: 33%;
+  min-width: 33em;
+  margin: auto;
+}
+
+.admin-room-settings {
+  margin: 10px;
+}
+
+.session-app {
+  margin: 10px;
+}
+</style>

@@ -1,157 +1,152 @@
 <template>
   <!-- justify-around or justiy-between -->
-  <q-card class="admin-room-card">
-    <q-card-section class="justify-left">
-      <q-field bg-color="primary" filled label="Admin secret key (click to copy)" stack-label>
-        <template v-slot:prepend>
-          <q-icon name="key" />
-        </template>
-        <template v-slot:append>
-          <q-btn icon="content_copy" @click="copyToClipboard(adminKey)" />
-        </template>
-        <template v-slot:control>
-          <div class="self-center full-width no-outline" tabindex="0">{{ adminKey }}</div>
-        </template>
-      </q-field>
+  <q-card-section class="justify-left">
+    <q-field bg-color="primary" filled label="Admin secret key (click to copy)" stack-label>
+      <template v-slot:prepend>
+        <q-icon name="key" />
+      </template>
+      <template v-slot:append>
+        <q-btn icon="content_copy" @click="copyToClipboard(adminKey)" />
+      </template>
+      <template v-slot:control>
+        <div class="self-center full-width no-outline" tabindex="0">{{ adminKey }}</div>
+      </template>
+    </q-field>
+  </q-card-section>
+
+  <q-form ref="for" @submit.prevent="onSubmit">
+    <q-card-section>
+      <div class="text-h6">General</div>
+      <q-card-section class="justify-around" horizontal>
+        <q-input v-model="room.name" label="Name" :rules="[
+          (val) => typeof val == 'string' || 'Name must be a string',
+          (val) =>
+            /^[a-zA-Z0-9]{0,12}$/.test(val) ||
+            'Name can only contain alphanumeric characters and be max 12 chars',
+        ]" />
+        <q-input v-model.number="room.organiserFee" type="number" label="Organiser fee (%)" prefix="%" min="0" max="100"
+          :rules="[
+            (val) =>
+              (!isNaN(val) && val <= 100 && val >= 0) ||
+              'Fee must be a number between 0 and 100!',
+          ]" />
+      </q-card-section>
     </q-card-section>
-
-    <q-form ref="for" @submit.prevent="onSubmit">
-      <q-card-section>
-        <div class="text-h6">General</div>
-        <q-card-section class="justify-around" horizontal>
-          <q-input v-model="room.name" label="Name" :rules="[
-            (val) => typeof val == 'string' || 'Name must be a string',
-            (val) =>
-              /^[a-zA-Z0-9]{0,12}$/.test(val) ||
-              'Name can only contain alphanumeric characters and be max 12 chars',
-          ]" />
-          <q-input v-model.number="room.organiserFee" type="number" label="Organiser fee (%)" prefix="%" min="0" max="100"
-            :rules="[
-              (val) =>
-                (!isNaN(val) && val <= 100 && val >= 0) ||
-                'Fee must be a number between 0 and 100!',
-            ]" />
-        </q-card-section>
-      </q-card-section>
-
-      <q-card-section>
-        <div class="text-h6">Security</div>
-        <q-card-section class="justify-around" horizontal>
-          <q-toggle v-model="room.enableDiscordProtection" checked-icon="check" color="green"
-            label="Enable Discord verification" unchecked-icon="clear" />
-        </q-card-section>
-      </q-card-section>
-
-      <q-card-section>
-        <div class="text-h6">Bid</div>
-        <q-card-section class="justify-around" horizontal>
-          <div class="q-pa-md">
-            <q-icon name="timer" />
-            <q-badge color="primary">
-              Bid Duration {{ room.bidDurationInSeconds }}s
-              {{ formatTime(room.bidDurationInSeconds) }}(MM:SS)
-            </q-badge>
-
-            <q-slider v-model="room.bidDurationInSeconds" :min="0" :max="720" :step="5" label
-              :label-value="formatTime(room.bidDurationInSeconds)" color="primary" :rules="[
-                (val: number) =>
-                  (!isNaN(val) && val >= 0) ||
-                  'Bid duration must be a number greater or equal than 0!',
-              ]" />
-          </div>
-
-          <div class="q-pa-md">
-            <q-icon name="timer" />
-            <q-badge color="primary">
-              Countdown Duration {{ room.countDownTimeInSeconds }}s
-              {{ formatTime(room.countDownTimeInSeconds) }}(MM:SS)
-            </q-badge>
-            <q-slider v-model="room.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
-              :label-value="formatTime(room.countDownTimeInSeconds)" color="primary" :rules="[
-                (val: number) =>
-                  (!isNaN(val) && val >= 20) ||
-                  'Countdown duration must be a number greater or equal than 20!',
-              ]" />
-          </div>
-        </q-card-section>
-
-        <q-card-section class="justify-around" horizontal>
-          <q-input v-model.number="room.minimumBid" type="number" label="Minimum bid" min="0" :rules="[
-            (val) =>
-              (!isNaN(val) && val >= 0) ||
-              'Min bid must be a positive numberl!',
-          ]" />
-          <q-input v-model.number="room.minimumBidIncrement" type="number" label="Minimum increment" min="1" :rules="[
-            (val) =>
-              (!isNaN(val) && val >= 0) ||
-              'Field must be a number greater than 0!',
-          ]" />
-        </q-card-section>
-      </q-card-section>
-
-      <q-expansion-item group="somegroup" label="Advanced" switch-toggle-side header-class="text-primary">
-        <q-card>
-          <q-card-section>
-            <q-card-section class="justify-around">
-              <q-toggle v-model="room.restrictBidsToEquipable" color="primary" label="Restrict bids to equipable items" />
-              <q-toggle v-model="room.hidePayoutDetails" color="primary" label="Hide payout details" />
-            </q-card-section>
-            <q-card-section class="justify-around">
-              <q-toggle v-model="room.hideNameOfHighestBidder" color="primary" label="Hide name of highest bidder" />
-            </q-card-section>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-      <q-card-actions align="right">
-        <q-btn icon="save" elevated type="submit" color="secondary" label="Save settings to Database" />
-      </q-card-actions>
-    </q-form>
 
     <q-card-section>
-      <div class="text-h6">Items</div>
-      <div class="text-h7">
-        The web page allows users to import items into their existing listings. There are two methods for importing
-        items:
-        pasting an import string and writing item IDs separated by commas. These methods can be used to either append
-        new
-        items or replace existing ones in the user's listings. Below this section, the imported auctions will be
-        appended
-        or
-        replaced based on the chosen option.
-      </div>
+      <div class="text-h6">Security</div>
+      <q-card-section class="justify-around" horizontal>
+        <q-toggle v-model="room.enableDiscordProtection" checked-icon="check" color="green"
+          label="Enable Discord verification" unchecked-icon="clear" />
+      </q-card-section>
+    </q-card-section>
 
-      <q-card-section class="justify-around">
-        <div class="text-h7">
-          Import items by pasting your import string
+    <q-card-section>
+      <div class="text-h6">Bid</div>
+      <q-card-section class="justify-around" horizontal>
+        <div class="q-pa-md">
+          <q-icon name="timer" />
+          <q-badge color="primary">
+            Bid Duration {{ room.bidDurationInSeconds }}s
+            {{ formatTime(room.bidDurationInSeconds) }}(MM:SS)
+          </q-badge>
+
+          <q-slider v-model="room.bidDurationInSeconds" :min="0" :max="720" :step="5" label
+            :label-value="formatTime(room.bidDurationInSeconds)" color="primary" :rules="[
+              (val: number) =>
+                (!isNaN(val) && val >= 0) ||
+                'Bid duration must be a number greater or equal than 0!',
+            ]" />
         </div>
-        <q-input max debounce="500" label="Paste your string here" v-model="csvString" filled type="textarea" :rules="[
+
+        <div class="q-pa-md">
+          <q-icon name="timer" />
+          <q-badge color="primary">
+            Countdown Duration {{ room.countDownTimeInSeconds }}s
+            {{ formatTime(room.countDownTimeInSeconds) }}(MM:SS)
+          </q-badge>
+          <q-slider v-model="room.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
+            :label-value="formatTime(room.countDownTimeInSeconds)" color="primary" :rules="[
+              (val: number) =>
+                (!isNaN(val) && val >= 20) ||
+                'Countdown duration must be a number greater or equal than 20!',
+            ]" />
+        </div>
+      </q-card-section>
+
+      <q-card-section class="justify-around" horizontal>
+        <q-input v-model.number="room.minimumBid" type="number" label="Minimum bid" min="0" :rules="[
           (val) =>
-            (typeof val == 'string' &&
-              val.startsWith(validationHeader)) ||
-            'Invalid import string. Copy all output from /hlm e!',
+            (!isNaN(val) && val >= 0) ||
+            'Min bid must be a positive numberl!',
+        ]" />
+        <q-input v-model.number="room.minimumBidIncrement" type="number" label="Minimum increment" min="1" :rules="[
+          (val) =>
+            (!isNaN(val) && val >= 0) ||
+            'Field must be a number greater than 0!',
         ]" />
       </q-card-section>
-      <q-card-actions align="right">
-        <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary" label="Append items" />
-        <q-btn @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace" color="red"
-          label="Replace items" />
-      </q-card-actions>
-      <q-card-section class="justify-around">
-        <div class="text-h7">
-          Import items by writing itemIds seperated by commas
-        </div>
-        <q-input max debounce="500" label="Write itemIds here e.g. 19137,18814" v-model="itemIds" filled
-          type="textarea" />
-      </q-card-section>
-      <q-card-actions align="right">
-        <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary"
-          label="Append items" />
-        <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
-          label="Replace items" />
-      </q-card-actions>
     </q-card-section>
-  </q-card>
-  <q-ajax-bar ref="bar" position="bottom" color="accent" size="10px" skip-hijack />
+
+    <q-expansion-item group="somegroup" label="Advanced" switch-toggle-side header-class="text-primary">
+      <q-card>
+        <q-card-section>
+          <q-card-section class="justify-around">
+            <q-toggle v-model="room.restrictBidsToEquipable" color="primary" label="Restrict bids to equipable items" />
+            <q-toggle v-model="room.hidePayoutDetails" color="primary" label="Hide payout details" />
+          </q-card-section>
+          <q-card-section class="justify-around">
+            <q-toggle v-model="room.hideNameOfHighestBidder" color="primary" label="Hide name of highest bidder" />
+          </q-card-section>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+    <q-card-actions align="right">
+      <q-btn icon="save" elevated type="submit" color="secondary" label="Save settings to Database" />
+    </q-card-actions>
+  </q-form>
+
+  <q-card-section>
+    <div class="text-h6">Items</div>
+    <div class="text-h7">
+      The web page allows users to import items into their existing listings. There are two methods for importing
+      items:
+      pasting an import string and writing item IDs separated by commas. These methods can be used to either append
+      new
+      items or replace existing ones in the user's listings. Below this section, the imported auctions will be
+      appended
+      or
+      replaced based on the chosen option.
+    </div>
+
+    <q-card-section class="justify-around">
+      <div class="text-h7">
+        Import items by pasting your import string
+      </div>
+      <q-input max debounce="500" label="Paste your string here" v-model="csvString" filled type="textarea" :rules="[
+        (val) =>
+          (typeof val == 'string' &&
+            val.startsWith(validationHeader)) ||
+          'Invalid import string. Copy all output from /hlm e!',
+      ]" />
+    </q-card-section>
+    <q-card-actions align="right">
+      <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary" label="Append items" />
+      <q-btn @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace" color="red"
+        label="Replace items" />
+    </q-card-actions>
+    <q-card-section class="justify-around">
+      <div class="text-h7">
+        Import items by writing itemIds seperated by commas
+      </div>
+      <q-input max debounce="500" label="Write itemIds here e.g. 19137,18814" v-model="itemIds" filled type="textarea" />
+    </q-card-section>
+    <q-card-actions align="right">
+      <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary" label="Append items" />
+      <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
+        label="Replace items" />
+    </q-card-actions>
+  </q-card-section>
 </template>
 
 <script lang="ts" setup>
@@ -165,7 +160,6 @@ import { storeToRefs } from 'pinia';
 
 import { useRoomStore } from 'src/stores/RoomStore';
 
-const bar = ref(null); // ajax bar
 const adminKey = ref('this is some key'); // ajax bar
 const $q = useQuasar();
 const route = useRoute();
@@ -211,7 +205,6 @@ async function onSubmitReplaceItems() {
     })
     .then((response) => {
       console.log(response);
-      console.log('AAAAAAAAAAA NO ERRORE');
     })
     .catch((error) => {
       if (error.response.status === 400) {

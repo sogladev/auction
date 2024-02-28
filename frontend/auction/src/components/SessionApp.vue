@@ -1,100 +1,97 @@
 <template>
-  <div class="q-pa-md">
+  <q-card class="settings-card">
+    <div class="text-h6">Settings</div>
 
-    <q-card class="settings-card">
-      <div class="text-h6">Settings</div>
+    <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
+    <p v-if:="Object.keys(room).length === 0">Session is not loaded!</p>
+    <q-list dense v-if:="Object.keys(room).length > 0">
+      <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ room.name }}</q-item-section>
+      </q-item>
+      <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
+        room.enableDiscordProtection }}</q-item-section> </q-item>
+      <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ room.bidDurationInSeconds
+      }}</q-item-section> </q-item>
+      <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{
+        room.countDownTimeInSeconds }}</q-item-section> </q-item>
+      <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
+        room.restrictBidsToEquipable }}</q-item-section> </q-item>
+      <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
+        room.hideNameOfHighestBidder }}</q-item-section> </q-item>
+      <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ room.hidePayoutDetails
+      }}</q-item-section> </q-item>
+      <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ room.organiserFee
+      }}</q-item-section> </q-item>
+      <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ room.minimumBid }}</q-item-section>
+      </q-item>
+      <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ room.minimumBidIncrement
+      }}</q-item-section> </q-item>
+    </q-list>
+  </q-card>
 
-      <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
-      <p v-if:="Object.keys(room).length === 0">Session is not loaded!</p>
-      <q-list dense v-if:="Object.keys(room).length > 0">
-        <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ room.name }}</q-item-section>
-        </q-item>
-        <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
-          room.enableDiscordProtection }}</q-item-section> </q-item>
-        <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ room.bidDurationInSeconds
-        }}</q-item-section> </q-item>
-        <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{
-          room.countDownTimeInSeconds }}</q-item-section> </q-item>
-        <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
-          room.restrictBidsToEquipable }}</q-item-section> </q-item>
-        <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
-          room.hideNameOfHighestBidder }}</q-item-section> </q-item>
-        <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ room.hidePayoutDetails
-        }}</q-item-section> </q-item>
-        <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ room.organiserFee
-        }}</q-item-section> </q-item>
-        <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ room.minimumBid }}</q-item-section>
-        </q-item>
-        <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ room.minimumBidIncrement
-        }}</q-item-section> </q-item>
-      </q-list>
-    </q-card>
+  <q-card class="sync-session-card">
+    <div class="text-h6">Synchronize Session with Database</div>
+    <q-card-actions align="center">
+      <q-btn unelevated icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
+    </q-card-actions>
+  </q-card>
 
-    <q-card class="sync-session-card">
-      <div class="text-h6">Synchronize Session with Database</div>
-      <q-card-actions align="center">
-        <q-btn unelevated icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
-      </q-card-actions>
-    </q-card>
-
-    <div class="text-h6">Auctions</div>
-    <q-table flat bordered v-model:rows="rows" v-model:columns="columns">
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="rowId" :props="props">
-            <q-badge color="green">
-              {{ props.row.rowId }}
-            </q-badge>
-          </q-td>
-          <q-td key="itemName" :props="props">
-            {{ props.row.itemName }}
-          </q-td>
-          <q-td key="bidderName" :props="props">
-            {{ props.row.bidderName }}
-          </q-td>
-          <q-td key="bid" :props="props">
-            <q-badge color="secondary">
-              <div v-if="props.row.bid">
-                {{ props.row.bid }}
-              </div>
-              <div v-else>
-                {{ props.row.minimumPrice }}
-              </div>
-            </q-badge>
-          </q-td>
-          <q-td key="myBid" :props="props">
-            <q-badge color="purple">
-              {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
-            </q-badge>
-            <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
-              <q-input type="number" :min="minimumAcceptableBid(props.row, room)" :step="props.row.minimumIncrement"
-                v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" :rules="[
-                  (val) =>
-                    (!isNaN(val) && val >= minimumAcceptableBid(props.row, room)) ||
-                    `Minimum bid is ${minimumAcceptableBid(props.row, room)}!`,
-                ]" />
-            </q-popup-edit>
-          </q-td>
-          <q-td key="expiration" :props="props">
-            <q-badge color="orange">
-              {{ props.row.expiration }}
-            </q-badge>
-          </q-td>
-          <q-td key="increment" :props="props">
-            <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
-          </q-td>
-          <q-td key="submit" :props="props">
-            <q-btn icon="shopping_cart" @click="onSubmit(props.row)"></q-btn>
-          </q-td>
-          <!--
+  <div class="text-h6">Auctions</div>
+  <q-table flat bordered v-model:rows="rows" v-model:columns="columns">
+    <template v-slot:body="props">
+      <q-tr :props="props">
+        <q-td key="rowId" :props="props">
+          <q-badge color="green">
+            {{ props.row.rowId }}
+          </q-badge>
+        </q-td>
+        <q-td key="itemName" :props="props">
+          {{ props.row.itemName }}
+        </q-td>
+        <q-td key="bidderName" :props="props">
+          {{ props.row.bidderName }}
+        </q-td>
+        <q-td key="bid" :props="props">
+          <q-badge color="secondary">
+            <div v-if="props.row.bid">
+              {{ props.row.bid }}
+            </div>
+            <div v-else>
+              {{ props.row.minimumPrice }}
+            </div>
+          </q-badge>
+        </q-td>
+        <q-td key="myBid" :props="props">
+          <q-badge color="purple">
+            {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
+          </q-badge>
+          <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
+            <q-input type="number" :min="minimumAcceptableBid(props.row, room)" :step="props.row.minimumIncrement"
+              v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" :rules="[
+                (val) =>
+                  (!isNaN(val) && val >= minimumAcceptableBid(props.row, room)) ||
+                  `Minimum bid is ${minimumAcceptableBid(props.row, room)}!`,
+              ]" />
+          </q-popup-edit>
+        </q-td>
+        <q-td key="expiration" :props="props">
+          <q-badge color="orange">
+            {{ props.row.expiration }}
+          </q-badge>
+        </q-td>
+        <q-td key="increment" :props="props">
+          <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
+        </q-td>
+        <q-td key="submit" :props="props">
+          <q-btn icon="shopping_cart" @click="onSubmit(props.row)"></q-btn>
+        </q-td>
+        <!--
           <q-td key="Delete" :props="props">
               <q-btn icon="delete" @click="onDelete(props.row)"></q-btn>
             </q-td>
 -->
-        </q-tr>
-      </template>
-    </q-table>
-  </div>
+      </q-tr>
+    </template>
+  </q-table>
 </template>
 
 <script lang="ts" setup>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-center column">
     <div class="text-h6">Auction App</div>
-    <q-card-section>
+    <q-card-section class="index-card-section">
       <div class="text-h6">Room</div>
       <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
         <q-card-section>
@@ -45,3 +45,14 @@ async function onSubmitCreateRoom() {
     });
 }
 </script>
+
+<style>
+.index-card-section {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  max-width: 33%;
+  min-width: 33em;
+  margin: auto;
+}
+</style>
