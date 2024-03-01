@@ -123,7 +123,7 @@
       <div class="text-h7">
         Import items by pasting your import string
       </div>
-      <q-input max debounce="500" label="Paste your string here" v-model="csvString" filled type="textarea" :rules="[
+      <q-input max debounce="500" label="Paste your string here" v-model="textAreaItemsCSV" filled type="textarea" :rules="[
         (val) =>
           (typeof val == 'string' &&
             val.startsWith(validationHeader)) ||
@@ -139,7 +139,8 @@
       <div class="text-h7">
         Import items by writing itemIds seperated by commas
       </div>
-      <q-input max debounce="500" label="Write itemIds here e.g. 19137,18814" v-model="itemIds" filled type="textarea" />
+      <q-input max debounce="500" label="Write itemIds here e.g. 19137,18814" v-model="textAreaItemIds" filled
+        type="textarea" />
     </q-card-section>
     <q-card-actions align="right">
       <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary" label="Append items" />
@@ -155,11 +156,11 @@ import { ref } from 'vue';
 import { useQuasar, copyToClipboard } from 'quasar';
 import { api } from 'boot/axios';
 
-import Papa from 'papaparse';
 import { storeToRefs } from 'pinia';
 
 import { useRoomStore } from 'src/stores/RoomStore';
 import { Auction } from './models';
+import { newAuctionsFromCsv, newAuctionsFromItemIds } from 'src/components/ParseTextImportNewAuctions';
 
 const adminKey = ref('this is some key'); // ajax bar
 const $q = useQuasar();
@@ -180,46 +181,11 @@ const debugImportString = `rowId,itemId,itemName,quality,ilvl,minLevel,itemType,
 
 const debugItemIds = '19137,18814,17076,12282';
 
-const csvString = ref(debugImportString);
-const itemIds = ref(debugItemIds);
+const textAreaItemsCSV = ref(debugImportString);
+const textAreaItemIds = ref(debugItemIds);
 
-async function onSubmitUpdateItems() {
-  console.log('@update.prevent');
-  const output = Papa.parse(csvString.value);
-  console.log(output);
-  console.log('TODO: Update items');
-  // TODO: Create session from import string
-  // Populate "Auctions" data and start session
-}
 
-async function onSubmitReplaceItems() {
-  console.log('@replace.prevent');
-  console.log(csvString.value)
-  // TODO: Create session from import string
-  // Populate "Auctions" data and start session
-  // Create Array of Auction[]
-  const results = Papa.parse(csvString.value,
-    {
-      skipEmptyLines: true,
-      header: true,
-    });
-  console.log('parsed items: ', results);
-
-  const newAuctions: Array<Auction> = [];
-  let item: Auction;
-  for (item of results.data) {
-    console.log(item)
-    const newAuction = <Auction>{
-      //'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
-      rowId: Number(item.rowId),
-      itemId: Number(item.itemId),
-      itemName: item.itemName,
-      itemType: item.itemType,
-      itemSubType: item.itemSubType,
-    }
-    newAuctions.push(newAuction)
-  }
-
+async function putAuctionsToDb(newAuctions: Array<Auction>) {
   console.log('putting these: ', newAuctions)
   api
     .put(`/api/rooms/${roomId}/items`, newAuctions)
@@ -245,22 +211,26 @@ async function onSubmitReplaceItems() {
     });
 }
 
-async function onSubmitUpdateItemsById() {
-  console.log('@update.prevent');
-  const output = Papa.parse(csvString.value);
-  console.log(output);
-  console.log('TODO: Update items by Id');
-  // TODO: Create session from import string
-  // Populate "Auctions" data and start session
+async function onSubmitReplaceItems() {
+  console.log('@replace.prevent');
+  const newAuctions: Array<Auction> = newAuctionsFromCsv(textAreaItemsCSV.value);
+  putAuctionsToDb(newAuctions);
 }
 
 async function onSubmitReplaceItemsById() {
   console.log('@replace.prevent');
-  const output = Papa.parse(csvString.value);
-  console.log(output);
-  console.log('TODO: Replace items by Id');
-  // TODO: Create session from import string
-  // Populate "Auctions" data and start session
+  const newAuctions: Array<Auction> = newAuctionsFromItemIds(textAreaItemIds.value);
+  putAuctionsToDb(newAuctions);
+}
+
+async function onSubmitUpdateItems() {
+  console.log('@update.prevent');
+  console.log('TODO: Update items');
+}
+
+async function onSubmitUpdateItemsById() {
+  console.log('@update.prevent');
+  console.log('TODO: onSubmitUpdateItemsById')
 }
 
 function formatTime(seconds: number) {
@@ -298,3 +268,4 @@ async function onSubmit() {
     });
 }
 </script>
+./ParseTextImportNewAuctions

@@ -76,14 +76,14 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
         int i = 1;
         foreach (Auction auction in newAuctions)
         {
-            // auction.ItemId // already set
+            // Set fields from room settings
+            auction.MinimumPrice = room.MinimumBid;
+            // TODO: Load Item details from Blizzard API
             auction.RowId = i++;
             auction.Status = 1;
             auction.Quality = 1; ;
             auction.ItemLevel = 62; ;
             auction.MinLevel = 60; ;
-            // From room settings
-            auction.MinimumPrice = room.MinimumBid;
         }
 
         room.Auctions = newAuctions;
