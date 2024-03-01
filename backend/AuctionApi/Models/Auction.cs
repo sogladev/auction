@@ -3,11 +3,11 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace AuctionApi.Models;
 
-enum Status
+public enum Status
 {
-  Pending = 1,
-  Bidding = 2,
-  Assigned = 3,
+  Pending,
+  Bidding,
+  Assigned,
 }
 
 public class Auction

@@ -78,7 +78,7 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
         {
             // Set fields from room settings
             auction.MinimumPrice = room.MinimumBid;
-            auction.Status = 1;
+            auction.Status = Status.Pending;
             auction.RowId = i++;
             // TODO: Load Item details from Blizzard API
             auction.Quality = 1; // TODO: Load from Blizzard API

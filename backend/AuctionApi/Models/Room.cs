@@ -20,10 +20,10 @@ public class Room
 
     [BsonElement("minimumBid")]
     public int MinimumBid { get; set; } = 10;
- 
+
     [BsonElement("minimumBidIncrement")]
     public int MinimumBidIncrement { get; set; } = 2;
-    
+
     [BsonElement("bidDurationInSeconds")]
     public int BidDurationInSeconds { get; set; } = 240;
 
