@@ -46,7 +46,7 @@ public class Auction
     public string? ItemSubType { get; set; }
 
     [BsonElement("guid")]
-    public string? Guid { get; set; } = null!;
+    public string Guid { get; set; } = "noguid"; // always noguid if not set
 
    // bidder. Set once auction starts
     [BsonElement("bidderName")]

@@ -7,7 +7,7 @@ describe('newAuctionsFromCSV', () => {
   it('Should parse if given a single auction', () => {
     const itemsCSV = `
 rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
-1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
+1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,Item-5827-0-40000000C90648E0
 `;
 
     const expectedAuctions = [
@@ -17,6 +17,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Onslaught Girdle',
         itemType: 'Armor',
         itemSubType: 'Plate',
+        guid: 'Item-5827-0-40000000C90648E0',
       },
     ];
 
@@ -50,6 +51,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Onslaught Girdle',
         itemType: 'Armor',
         itemSubType: 'Plate',
+        guid: 'noguid',
       },
       <Auction>{
         rowId: 2,
@@ -57,6 +59,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Choker of the Fire Lord',
         itemType: 'Armor',
         itemSubType: 'Miscellaneous',
+        guid: 'noguid',
       },
       <Auction>{
         rowId: 3,
@@ -64,6 +67,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Bonereaver\'s Edge',
         itemType: 'Weapon',
         itemSubType: 'Two-Handed Swords',
+        guid: 'noguid',
       },
     ];
 
@@ -86,6 +90,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Onslaught Girdle',
         itemType: 'Armor',
         itemSubType: 'Plate',
+        guid: 'noguid',
       },
       <Auction>{
         rowId: 2,
@@ -93,6 +98,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Choker of the Fire Lord',
         itemType: 'Armor',
         itemSubType: 'Miscellaneous',
+        guid: 'noguid',
       },
       <Auction>{
         rowId: 3,
@@ -100,6 +106,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Bonereaver\'s Edge',
         itemType: 'Weapon',
         itemSubType: 'Two-Handed Swords',
+        guid: 'noguid',
       },
     ];
 
@@ -112,7 +119,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
 
 rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
 
-1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
+1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,Item-5827-0-40000000C90648E0
 3,18814,Choker of the Fire Lord,4,78,60,Armor,Miscellaneous,1,3000,noguid
 
 
@@ -128,6 +135,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Onslaught Girdle',
         itemType: 'Armor',
         itemSubType: 'Plate',
+        guid: 'Item-5827-0-40000000C90648E0',
       },
       <Auction>{
         rowId: 2,
@@ -135,6 +143,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Choker of the Fire Lord',
         itemType: 'Armor',
         itemSubType: 'Miscellaneous',
+        guid: 'noguid',
       },
       <Auction>{
         rowId: 3,
@@ -142,6 +151,7 @@ rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,info
         itemName: 'Bonereaver\'s Edge',
         itemType: 'Weapon',
         itemSubType: 'Two-Handed Swords',
+        guid: 'noguid',
       },
     ];
 

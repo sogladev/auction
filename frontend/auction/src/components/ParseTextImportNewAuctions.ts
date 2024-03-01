@@ -36,6 +36,7 @@ export function newAuctionsFromCsv(csvStringValue: string): Array<Auction> {
         itemName: item.itemName,
         itemType: item.itemType,
         itemSubType: item.itemSubType,
+        guid: item.guid,
       };
     },
   );
