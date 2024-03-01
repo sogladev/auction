@@ -212,8 +212,8 @@ async function onSubmitReplaceItems() {
     const newAuction = <Auction>{
       //'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
       rowId: Number(item.rowId),
-      itemId: Number(item.itemId), // TODO: adjust CSV input string "id" to "itemId"
-      itemName: item.itemName, // TODO: adjust "name" to "itemName"
+      itemId: Number(item.itemId),
+      itemName: item.itemName,
       itemType: item.itemType,
       itemSubType: item.itemSubType,
     }
