@@ -5,8 +5,10 @@ export function minimumAcceptableBid(auction: Auction, room: Room): number {
   // if existing bid: bid + minimumIncrement
   const noBidHasBeenPlaced = !(typeof auction.bidderName === 'string');
   if (noBidHasBeenPlaced) {
+    console.log('minimumAcceptableBid: noBidHasBeenPlaced');
     return auction.minimumPrice as number;
   } else {
+    console.log('minimumAcceptableBid: BidHasBeenPlaced');
     return (auction.bid as number) + room.minimumBidIncrement;
   }
 }

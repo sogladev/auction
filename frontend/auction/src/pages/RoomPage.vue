@@ -59,6 +59,7 @@ const { fetch } = roomStore;
 const isValidRoom = ref(false);
 fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
 
+// max-width: 66%;
 </script>
 
 <style>
@@ -66,16 +67,18 @@ fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
   display: flex;
   flex-direction: column;
   padding: 5px;
-  max-width: 66%;
-  min-width: 33em;
   margin: auto;
 }
 
 .admin-room-settings {
-  margin: 16px;
+  margin: 16px auto;
 }
 
 .session-app {
-  margin: 16px;
+  margin: 16px auto;
+}
+
+p {
+  width: 33em;
 }
 </style>

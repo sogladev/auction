@@ -88,7 +88,7 @@
       </q-card-section>
     </q-card-section>
 
-    <q-expansion-item group="somegroup" label="Advanced" switch-toggle-side header-class="text-primary">
+    <q-expansion-item group="advancedSettings" label="Advanced" switch-toggle-side header-class="text-primary">
       <q-card>
         <q-card-section>
           <q-card-section class="justify-around">
@@ -109,14 +109,16 @@
   <q-card-section>
     <div class="text-h6">Items</div>
     <div class="text-h7">
-      The web page allows users to import items into their existing listings. There are two methods for importing
-      items:
-      pasting an import string and writing item IDs separated by commas. These methods can be used to either append
-      new
-      items or replace existing ones in the user's listings. Below this section, the imported auctions will be
-      appended
-      or
-      replaced based on the chosen option.
+      <p>
+        The web page allows users to import items into their existing listings. There are two methods for importing
+        items:
+        pasting an import string and writing item IDs separated by commas. These methods can be used to either append
+        new
+        items or replace existing ones in the user's listings. Below this section, the imported auctions will be
+        appended
+        or
+        replaced based on the chosen option.
+      </p>
     </div>
 
     <q-card-section class="justify-around">
@@ -268,4 +270,3 @@ async function onSubmit() {
     });
 }
 </script>
-./ParseTextImportNewAuctions

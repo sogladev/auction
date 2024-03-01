@@ -4,51 +4,52 @@
 
     <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
     <p v-if:="Object.keys(room).length === 0">Session is not loaded!</p>
-    <q-list dense v-if:="Object.keys(room).length > 0">
+    <q-list align="center" dense v-if:="Object.keys(room).length > 0">
       <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ room.name }}</q-item-section>
       </q-item>
-      <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
-        room.enableDiscordProtection }}</q-item-section> </q-item>
       <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ room.bidDurationInSeconds
       }}</q-item-section> </q-item>
       <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{
         room.countDownTimeInSeconds }}</q-item-section> </q-item>
-      <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
-        room.restrictBidsToEquipable }}</q-item-section> </q-item>
-      <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
-        room.hideNameOfHighestBidder }}</q-item-section> </q-item>
-      <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ room.hidePayoutDetails
-      }}</q-item-section> </q-item>
       <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ room.organiserFee
       }}</q-item-section> </q-item>
       <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ room.minimumBid }}</q-item-section>
       </q-item>
       <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ room.minimumBidIncrement
       }}</q-item-section> </q-item>
+      <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
+        room.enableDiscordProtection }}</q-item-section> </q-item>
+      <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
+        room.restrictBidsToEquipable }}</q-item-section> </q-item>
+      <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
+        room.hideNameOfHighestBidder }}</q-item-section> </q-item>
+      <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ room.hidePayoutDetails
+      }}</q-item-section> </q-item>
     </q-list>
   </q-card>
 
-  <q-card class="sync-session-card">
-    <div class="text-h6">Synchronize Session with Database</div>
-    <q-card-actions align="center">
-      <q-btn unelevated icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
-    </q-card-actions>
-  </q-card>
-
-  <q-card class="sync-session-card">
-    <div class="text-h6">User</div>
-    <q-card-actions align="left">
-      <q-input ref="qinputMyName" v-model="myName" label="UserName" :rules="[
+  <q-card-section class="justify-around" horizontal>
+    <q-card class="user-card">
+      <div class="text-h6">User</div>
+      <q-card-actions class="justify-around">
+      <q-input ref="qinputMyNameRef" v-model="myName" label="UserName" :rules="[
         (val) => typeof val == 'string' || 'Name must be a string',
         (val) =>
           /^[a-zA-Z0-9]{0,12}$/.test(val) ||
           'Name can only contain alphanumeric characters and be max 12 chars',
       ]" />
-    </q-card-actions>
-  </q-card>
+      </q-card-actions>
+    </q-card>
+    <q-card class="sync-session-card">
+      <div class="text-h6">Synchronize Session</div>
+      <q-card-actions class="justify-around">
+        <q-btn unelevated icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
+      </q-card-actions>
+    </q-card>
+  </q-card-section>
 
   <div class="text-h6">Auctions</div>
-  <q-table flat bordered v-model:rows="room.auctions" v-model:columns="columns">
+  <q-table dense flat bordered v-model:rows="room.auctions" v-model:columns="columns">
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="rowId" :props="props">
@@ -70,7 +71,7 @@
         </q-td>
         <q-td key="bid" :props="props">
           <q-badge color="secondary">
-            {{ props.row.bid }}
+            {{ props.row.bid ? props.row.bid : props.row.minimumPrice }}
           </q-badge>
         </q-td>
         <q-td key="myBid" :props="props">
@@ -78,7 +79,7 @@
             {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
           </q-badge>
           <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
-            <q-input ref="qinputMyBid" type="number" :min="minimumAcceptableBid(props.row, room)"
+            <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, room)"
               :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
               :rules="[
                 (val) =>
@@ -132,7 +133,7 @@ const { fetch } = roomStore;
 // https://quasar.dev/vue-components/table#introduction
 // Not reactive
 //const rows = room.value.auctions;
-const myName = ref();
+const myName = ref('DefaultAndy');
 const columns = ref([
   {
     name: 'rowId',
@@ -160,7 +161,7 @@ const columns = ref([
   {
     name: 'bidderName',
     align: 'center',
-    label: 'Highest Bidder',
+    label: 'Top Bidder',
     field: 'bidderName',
     sortable: true,
   },
@@ -203,33 +204,33 @@ function onIncrement(auction: Auction): void {
   console.log('myBid ', auction.myBid);
 }
 
-const qinputMyName = ref(null)
-const qinputMyBid = ref(null)
+const qinputMyNameRef = ref({ validate: () => false });
 
 async function onSubmitBid(auction: Auction): Promise<void> {
   console.log('@onSubmit');
-  console.log(auction);
+  console.log({ auction });
+  // TODO: Validate fields and this. Extract to validation.ts
   // Validate myName
-  try {
-    const isValidMyName: boolean = await qinputMyName.value.validate()
-    if (!isValidMyName) {
-      throw new Error('Myname invalid');
-    }
-  }
-  catch {
+
+  // Trigger validation of input field
+  const isValidMyName: boolean = qinputMyNameRef.value.validate()
+  if (!isValidMyName) {
     console.log('@onSubmit Myname invalid. Not submitting');
     return;
   }
 
   // Validate myBid
-  try {
-    const isValidMyBid: boolean = await qinputMyBid.value.validate()
-    if (!isValidMyBid) {
-      throw new Error('MyBid invalid');
-    }
-  }
-  catch {
-    console.log('@onSubmit MyBid invalid. Not submitting');
+  const val = auction.myBid
+  const isValidMyBid: boolean = (val !== undefined) && (!isNaN(val)) && (val >= minimumAcceptableBid(auction, room.value))
+  if (!isValidMyBid) {
+    $q.notify({
+      progress: true,
+      timeout: 1500,
+      message: `Minimum bid is ${minimumAcceptableBid(auction, room.value)}!`,
+      type: 'warning',
+      position: 'bottom',
+    })
+
     return;
   }
 
@@ -252,26 +253,25 @@ async function onSubmitBid(auction: Auction): Promise<void> {
         console.log('Submit fetch error: ', error)
       }); // update table
       $q.notify({
-        color: 'positive',
+        type: 'positive',
         position: 'right',
         message: 'Bid success',
-        icon: 'done',
+        progress: true,
+        timeout: 2000,
       });
     })
     .catch((error) => {
       if (error.response.status === 400) {
         $q.notify({
-          color: 'warning',
+          type: 'warning',
           position: 'right',
           message: error.response.data,
-          icon: 'warning',
         });
       } else {
         $q.notify({
-          color: 'negative',
+          type: 'negative',
           position: 'bottom',
           message: 'Something went wrong while handling response',
-          icon: 'report_problem',
         });
       }
     });
