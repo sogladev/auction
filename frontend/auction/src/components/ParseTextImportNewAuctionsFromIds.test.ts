@@ -91,4 +91,27 @@ describe('newAuctionsFromItemIds', () => {
 
     expect(result).toEqual(expectedAuctions);
   });
+  it('Should parse if given a string of itemIds malformed with spaces', () => {
+    const itemIds = ', ,123 , , 456, 789 ,';
+
+    const expectedAuctions = [
+      <Auction>{
+        rowId: 1,
+        itemId: 123,
+      },
+      <Auction>{
+        rowId: 2,
+        itemId: 456,
+      },
+      <Auction>{
+        rowId: 3,
+        itemId: 789,
+      },
+    ];
+
+    const result = newAuctionsFromItemIds(itemIds);
+
+    expect(result).toEqual(expectedAuctions);
+  });
+
 });

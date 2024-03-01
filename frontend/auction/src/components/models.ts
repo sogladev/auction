@@ -10,7 +10,7 @@ export type Auction = {
   minLevel?: number;
   minimumPrice?: number;
   quality?: number;
-  status?: number;
+  status?: Status;
   bid?: number;
   bidderName?: string;
   myBid?: number;
@@ -37,3 +37,10 @@ export type BidRequest = {
   myBid: number;
   myName: string;
 };
+
+export enum Status
+{
+  Pending = 1,
+  Bidding = 2,
+  Assigned = 3,
+}

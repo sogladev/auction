@@ -3,6 +3,13 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace AuctionApi.Models;
 
+enum Status
+{
+  Pending = 1,
+  Bidding = 2,
+  Assigned = 3,
+}
+
 public class Auction
 {
     [BsonElement("itemId")]
@@ -12,7 +19,7 @@ public class Auction
     public int RowId { get; set; }
 
     [BsonElement("status")]
-    public int? Status { get; set; } = 1;
+    public Status? Status { get; set; } = Models.Status.Pending;
 
     [BsonElement("minimumPrice")]
     public int? MinimumPrice { get; set; }
