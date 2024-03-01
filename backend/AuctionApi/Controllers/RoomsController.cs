@@ -122,7 +122,7 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
             return NotFound();
         }
 
-        // RowId and ItemId must match the auction we're trying to udpate
+        // RowId and ItemId must match the auction we're trying to update
         Auction? auction = room.Auctions.Where(a => (a.RowId == newBid.RowId) && (a.ItemId == newBid.ItemId)).FirstOrDefault();
         if (auction is null)
         {
@@ -137,9 +137,7 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
         }
         else
         {
-            #pragma warning disable CS8629 // Nullable value type may be null.
-            BidMinimumAcceptable = (int)auction.Bid + room.MinimumBidIncrement;
-            #pragma warning restore CS8629 // Nullable value type may be null.
+            BidMinimumAcceptable = (int)auction.Bid! + room.MinimumBidIncrement;
         }
 
         if (newBid.MyBid < BidMinimumAcceptable)
