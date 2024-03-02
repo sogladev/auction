@@ -7,9 +7,10 @@ namespace AuctionApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class RoomsController(RoomsService roomsService) : ControllerBase
+public class RoomsController(RoomsService roomsService, WarcraftService warcraftService) : ControllerBase
 {
     private readonly RoomsService _roomsService = roomsService;
+    private readonly WarcraftService _itemsService = warcraftService;
 
     [HttpGet]
     public async Task<List<Room>> Get() =>
@@ -84,6 +85,8 @@ public class RoomsController(RoomsService roomsService) : ControllerBase
             auction.Quality = 1; // TODO: Load from Blizzard API
             auction.ItemLevel = 62; // TODO: Load from Blizzard API
             auction.MinLevel = 60; // TODO: Load from Blizzard API
+
+            LocalItem item = await _itemsService.GetFromWarcraftAPI(auction.ItemId);
         }
 
         room.Auctions = newAuctions;
