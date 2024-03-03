@@ -9,6 +9,9 @@ public class Room
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
 
+    [BsonElement("namespace")]
+    public string Namespace { get; set; } = APINamespace.Progression;
+
     [BsonElement("name")]
     public string Name { get; set; } = "defaultName";
 

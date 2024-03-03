@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 
-import { Auction, Room } from 'src/components/models';
+import { Auction, Room, Namespace } from 'src/components/models';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function newRoomFromResponseData(data: any): Room {
@@ -41,6 +41,7 @@ function newRoomFromResponseData(data: any): Room {
     minimumBid: data.minimumBid,
     minimumBidIncrement: data.minimumBidIncrement,
     auctions: newRows,
+    namespace: data.namespace,
   };
   return newRoomState;
 }
@@ -50,6 +51,7 @@ export const useRoomStore = defineStore('RoomStore', {
     room: <Room>{
       name: 'default',
       id: 'default',
+      namespace: Namespace.Progression,
       enableDiscordProtection: false,
       bidDurationInSeconds: 240,
       countDownTimeInSeconds: 40,

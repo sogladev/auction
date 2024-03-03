@@ -29,6 +29,7 @@
   </q-card>
 
   <q-card-section class="justify-around" horizontal>
+
     <q-card class="user-card">
       <div class="text-h6">User</div>
       <q-card-actions class="justify-around">
@@ -64,7 +65,12 @@
           </q-badge>
         </q-td>
         <q-td key="itemName" :props="props">
-          {{ props.row.itemName }}
+            <a
+              :href="getWowheadURL(props.row.itemId, room.namespace)"
+              :class="`q${props.row.quality}`"
+              >[{{ props.row.itemName }}]</a
+            ><br />
+
         </q-td>
         <q-td key="bidderName" :props="props">
           {{ props.row.bidderName }}
@@ -111,15 +117,16 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
+import { api } from 'boot/axios';
+import { storeToRefs } from 'pinia';
+
 import { Auction, BidRequest } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
-
 import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
-import { storeToRefs } from 'pinia';
+import { getWowheadURL } from 'src/components/WowheadURLBuilder';
 
 const $q = useQuasar();
 const route = useRoute();

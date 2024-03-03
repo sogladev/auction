@@ -81,12 +81,11 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             auction.MinimumPrice = room.MinimumBid;
             auction.Status = Status.Pending;
             auction.RowId = i++;
-            // TODO: Load Item details from Blizzard API
-            auction.Quality = 1; // TODO: Load from Blizzard API
-            auction.ItemLevel = 62; // TODO: Load from Blizzard API
-            auction.MinLevel = 60; // TODO: Load from Blizzard API
-
-            LocalItem item = await _itemsService.GetFromWarcraftAPI(auction.ItemId);
+            // Update item info from warcraft API
+            LocalItemInfo item = await _itemsService.GetFromWarcraftAPI(auction.ItemId, room.Namespace);
+            auction.Quality = item.Quality;
+            auction.ItemLevel = item.Level;
+            auction.ItemName = item.Name;
         }
 
         room.Auctions = newAuctions;

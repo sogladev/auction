@@ -10,7 +10,11 @@ public class BlizzardAPISecrets
 
     public BlizzardAPISecrets(IConfiguration configuration)
     {
-        _clientId = configuration["Blizzard:ClientId"];
-        _clientSecret = configuration["Blizzard:ClientSecret"];
+        ArgumentNullException.ThrowIfNull(configuration);
+        _clientId = configuration["Blizzard:ClientId"]
+            ?? throw new ArgumentNullException("ClientId is required.");
+        _clientSecret = configuration["Blizzard:ClientSecret"]
+            ?? throw new ArgumentNullException("ClientSecret is required.");
+
     }
 }
