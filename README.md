@@ -103,7 +103,6 @@ philosophy: build like a CRUD app and then expand
 - [x] load room data when creating
 - [x] load room data when loading
 
-
 Items
 - [x] create new auction form items CSV
 - [x] create new auction from ID list
@@ -111,13 +110,10 @@ Items
 - [x] fix increment
 - [ ] Add caching before API
 
-
 Session
 - [x] submit auction to db
 - [x] refresh auction data from db
 - [ ] auto refreshing
-
-
 
 ## Notes
 
