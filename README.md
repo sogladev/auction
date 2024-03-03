@@ -69,14 +69,12 @@ TODO
 Addon export [ ]
 - [x] export game data
 - [x] import game data
-- [ ] data model adjustments
-
-Frontend Website [ ]
+- [x] data model adjustments
 
 philosophy: build like a CRUD app and then expand
 
-- [ ] same data format addon
 - [ ] cut addon to reduce unneeded features
+- [x] same data format addon
 - [ ] join room as viewer or lootmaster
 - [ ] authenticate viewer
 - [ ] authenticate lootmaster
@@ -107,14 +105,17 @@ philosophy: build like a CRUD app and then expand
 
 
 Items
-- [ ] create new auction form items CSV
-- [ ] create new auction from ID list
-- [ ] load itemInfo data from Blizzard API
-- [ ] fix increment
+- [x] create new auction form items CSV
+- [x] create new auction from ID list
+- [x] load itemInfo data from Blizzard API
+- [x] fix increment
+- [ ] Add caching before API
+
 
 Session
-- [ ] submit auction to db
-- [ ] refresh auction data from db
+- [x] submit auction to db
+- [x] refresh auction data from db
+- [ ] auto refreshing
 
 
 
@@ -296,8 +297,6 @@ https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetco
 dotnet user-secrets init
 dotnet user-secrets set "Blizzard:ClientId" "clientId-xxxxxxxxxxxxxxxxxxxx"
 dotnet user-secrets set "Blizzard:ClientSecret" "clientSecret-xxxxxxxxxxxxxxxxxxxx"
-
-
 
 https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-8.0&tabs=visual-studio-code
 
