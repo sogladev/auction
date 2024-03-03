@@ -5,9 +5,9 @@ namespace AuctionApi.Models;
 
 public enum Status
 {
-  Pending,
-  Bidding,
-  Assigned,
+  Pending = 1,
+  Bidding = 2,
+  Assigned = 3,
 }
 
 public class Auction
