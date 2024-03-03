@@ -291,6 +291,14 @@ TODO: Use pony client to gather data. Does it cache? Store item data in mongo
 
 dotnet add package ArgentPonyWarcraftClient --version 8.1.8
 
+https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#secret-manager
+
+dotnet user-secrets init
+dotnet user-secrets set "Blizzard:ClientId" "clientId-xxxxxxxxxxxxxxxxxxxx"
+dotnet user-secrets set "Blizzard:ClientSecret" "clientSecret-xxxxxxxxxxxxxxxxxxxx"
+
+
+
 https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mongo-app?view=aspnetcore-8.0&tabs=visual-studio-code
 
 mongodb
