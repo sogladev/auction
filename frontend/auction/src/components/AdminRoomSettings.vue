@@ -172,7 +172,7 @@ const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
 
 const validationHeader =
-  'rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
+  'rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
 
 const debugImportString = `rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
 1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
