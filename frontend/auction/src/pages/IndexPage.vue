@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-center column">
+  <div class="flex-center column">
     <div class="text-h6">Auction App</div>
     <q-card-section class="index-card-section">
       <div class="text-h6">Room</div>
@@ -16,6 +16,34 @@
             restricting bids to only items that are equipable.
           </div>
         </q-card-section>
+
+        <q-card-section class="namespace-selection">
+          <div class="text-h6">Select namespace</div>
+          <div class="row">
+            <div class="col-sm-4 col-xs-12">
+              <div class="namespace-select q-mx-sm">
+                <q-img ratio="1" fit="contain" src="/src/assets/wow-logo/wow-classic_1_1_240.png" spinner-color="white"
+                  img-class="img-namespace">
+                </q-img>
+              </div>
+            </div>
+            <div class=" col-sm-4 col-xs-12">
+              <div class="namespace-select q-mx-sm">
+                <q-img ratio="1" fit="contain" src="/src/assets/wow-logo/wow-wrath_1_1_240.png" spinner-color="white"
+                  img-class="img-namespace">
+                </q-img>
+              </div>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+              <div class="namespace-select q-mx-sm">
+                <q-img ratio="1" fit="contain" src="/src/assets/wow-logo/wow-dragonflight_1_1_240.png" spinner-color="white"
+                  img-class="img-namespace">
+                </q-img>
+              </div>
+            </div>
+          </div>
+        </q-card-section>
+
         <q-card-actions align="right">
           <q-btn unelevated type="submit" color="secondary" label="Create Room" />
         </q-card-actions>
@@ -56,4 +84,20 @@ async function onSubmitCreateRoom() {
   margin: auto;
 }
 
+.namespace-select {
+  border-radius: 15px;
+  border: 3px solid #06485A;
+  cursor: pointer;
+  user-select: none;
+  max-height: 180px;
+}
+
+.img-namespace {
+  opacity: 0.8;
+  max-height: 180px;
+}
+
+.img-namespace-selected {
+  opacity: 1.0;
+}
 </style>
