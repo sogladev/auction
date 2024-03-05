@@ -1,5 +1,5 @@
 <template>
-  <q-card class="settings-card">
+  <q-card-section class="settings-card">
     <div class="text-h6">Settings</div>
 
     <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
@@ -8,37 +8,36 @@
       <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ room.name }}</q-item-section>
       </q-item>
       <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ room.bidDurationInSeconds
-      }}</q-item-section> </q-item>
+          }}</q-item-section> </q-item>
       <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{
-        room.countDownTimeInSeconds }}</q-item-section> </q-item>
+      room.countDownTimeInSeconds }}</q-item-section> </q-item>
       <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ room.organiserFee
-      }}</q-item-section> </q-item>
+          }}</q-item-section> </q-item>
       <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ room.minimumBid }}</q-item-section>
       </q-item>
       <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ room.minimumBidIncrement
-      }}</q-item-section> </q-item>
+          }}</q-item-section> </q-item>
       <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
-        room.enableDiscordProtection }}</q-item-section> </q-item>
+      room.enableDiscordProtection }}</q-item-section> </q-item>
       <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
-        room.restrictBidsToEquipable }}</q-item-section> </q-item>
+      room.restrictBidsToEquipable }}</q-item-section> </q-item>
       <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
-        room.hideNameOfHighestBidder }}</q-item-section> </q-item>
+      room.hideNameOfHighestBidder }}</q-item-section> </q-item>
       <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ room.hidePayoutDetails
-      }}</q-item-section> </q-item>
+          }}</q-item-section> </q-item>
     </q-list>
-  </q-card>
+  </q-card-section>
 
   <q-card-section class="justify-around" horizontal>
-
     <q-card class="user-card">
       <div class="text-h6">User</div>
       <q-card-actions class="justify-around">
-      <q-input ref="qinputMyNameRef" v-model="myName" label="UserName" :rules="[
-        (val) => typeof val == 'string' || 'Name must be a string',
-        (val) =>
-          /^[a-zA-Z0-9]{0,12}$/.test(val) ||
-          'Name can only contain alphanumeric characters and be max 12 chars',
-      ]" />
+        <q-input ref="qinputMyNameRef" v-model="myName" label="UserName" :rules="[
+      (val) => typeof val == 'string' || 'Name must be a string',
+      (val) =>
+        /^[a-zA-Z0-9]{0,12}$/.test(val) ||
+        'Name can only contain alphanumeric characters and be max 12 chars',
+    ]" />
       </q-card-actions>
     </q-card>
     <q-card class="sync-session-card">
@@ -65,11 +64,8 @@
           </q-badge>
         </q-td>
         <q-td key="itemName" :props="props">
-            <a
-              :href="getWowheadURL(props.row.itemId, room.namespace)"
-              :class="`q${props.row.quality}`"
-              >[{{ props.row.itemName }}]</a
-            ><br />
+          <a :href="getWowheadURL(props.row.itemId, room.namespace)" :class="`q${props.row.quality}`">[{{
+      props.row.itemName }}]</a><br />
 
         </q-td>
         <q-td key="bidderName" :props="props">
@@ -88,10 +84,10 @@
             <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, room)"
               :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
               :rules="[
-                (val) =>
-                  (!isNaN(val) && val >= minimumAcceptableBid(props.row, room)) ||
-                  `Minimum bid is ${minimumAcceptableBid(props.row, room)}!`,
-              ]" />
+      (val) =>
+        (!isNaN(val) && val >= minimumAcceptableBid(props.row, room)) ||
+        `Minimum bid is ${minimumAcceptableBid(props.row, room)}!`,
+    ]" />
           </q-popup-edit>
         </q-td>
         <q-td key="expiration" :props="props">
