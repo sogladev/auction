@@ -49,7 +49,7 @@
   </q-card-section>
 
   <div class="text-h6">Auctions</div>
-  <q-table dense flat bordered v-model:rows="room.auctions" v-model:columns="columns">
+  <q-table dense class="auction-table" flat bordered v-model:rows="room.auctions" v-model:columns="columns">
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="rowId" :props="props">
@@ -69,7 +69,7 @@
 
         </q-td>
         <q-td key="bidderName" :props="props">
-          {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName  }}
+          {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName }}
         </q-td>
         <q-td key="bid" :props="props">
           <q-badge color="secondary">
@@ -107,12 +107,30 @@
             </q-td>
 -->
       </q-tr>
+
+      <q-tr :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev">
+        <q-td colspan="100%">
+          <q-linear-progress :value="progress" :buffer="buffer" color="secondary"/>
+        </q-td>
+      </q-tr>
+
+      <q-tr :props="props" :key="`e_${props.row.index}`">
+        <q-td colspan="100%">
+
+        </q-td>
+      </q-tr>
+
     </template>
+      <template v-slot:bottom>
+        Bottom
+      </template>
   </q-table>
+
+
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
@@ -131,6 +149,34 @@ const roomId = typeof route.params.id === 'string' ? route.params.id : route.par
 const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
 const { fetch } = roomStore;
+
+let interval
+let bufferInterval
+
+const progress = ref(0.01)
+const buffer = ref(0.01)
+onMounted(() => {
+  interval = setInterval(() => {
+    if (progress.value >= 1) {
+      progress.value = 0.01
+      buffer.value = 0.01
+      return
+    }
+
+    progress.value = Math.min(1, buffer.value, progress.value + 0.1)
+  }, 700 + Math.random() * 1000)
+
+  bufferInterval = setInterval(() => {
+    if (buffer.value < 1) {
+      buffer.value = Math.min(1, buffer.value + Math.random() * 0.2)
+    }
+  }, 700)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(interval)
+  clearInterval(bufferInterval)
+})
 
 // Export to CSV button
 // https://quasar.dev/vue-components/table#introduction
@@ -291,3 +337,11 @@ async function onSubmitBid(auction: Auction): Promise<void> {
     });
 }
 </script>
+
+<style>
+.auction-table {
+ td {
+ border-style : hidden!important;
+}
+}
+</style>
