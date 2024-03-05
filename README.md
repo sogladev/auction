@@ -70,26 +70,34 @@ Addon export [ ]
 - [x] export game data
 - [x] import game data
 - [x] data model adjustments
-
-philosophy: build like a CRUD app and then expand
-
 - [ ] cut addon to reduce unneeded features
-- [x] same data format addon
+
+
+Roles
+
 - [ ] join room as viewer or lootmaster
 - [ ] authenticate viewer
 - [ ] authenticate lootmaster
-- [x] join room with a code
 - [ ] show users that are listening
+
+
+Style
 - [x] add dark theme
 - [x] status bar with some content
 - [x] navigate to index, a room
 - [x] room settings form design
 - [x] form slider for fee %, bid duration, countdown
+
+Data
+- [x] same data format addon
+- [x] design room mongoDB document structure
+- [x] validate form input backend
+- [x] validate form input frontend
+
+Pages/navigation
+- [x] join room with a code
 - [x] index page
 - [x] go to a new room
-- [x] design room mongoDB document structure
-- [ ] validate form input backend
-- [x] validate form input frontend
 - [x] form page and navigate to a room
 - [j] display auctions of room from db
 - [x] display a list of auctions
@@ -97,7 +105,7 @@ philosophy: build like a CRUD app and then expand
 - [x] load room settings from db
 - [x] make scrollable list for many auctions
 - [ ] Keep footer or a header on top for data / filtering
-- [x] Display valid room 
+- [x] Display valid room
 - [x] Conditional load of valid room
 - [x] global room data
 - [x] load room data when creating
@@ -114,6 +122,12 @@ Session
 - [x] submit auction to db
 - [x] refresh auction data from db
 - [ ] auto refreshing
+
+- [ ] session state. Start auctions
+- [ ] session state. End auctions
+- [ ] Display progression bars
+- [ ] Admin buttons, delete, countdown, close, restart, etc
+- [ ] Add loot master / admin authentication
 
 ## Notes
 
