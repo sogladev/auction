@@ -69,7 +69,7 @@
 
         </q-td>
         <q-td key="bidderName" :props="props">
-          {{ props.row.bidderName }}
+          {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName  }}
         </q-td>
         <q-td key="bid" :props="props">
           <q-badge color="secondary">
@@ -119,7 +119,7 @@ import { useRoute } from 'vue-router';
 import { api } from 'boot/axios';
 import { storeToRefs } from 'pinia';
 
-import { Auction, BidRequest } from 'src/components/models';
+import { Auction, BidRequest, Status } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
 import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
 import { getWowheadURL } from 'src/components/WowheadURLBuilder';
@@ -212,8 +212,20 @@ const qinputMyNameRef = ref({ validate: () => false });
 async function onSubmitBid(auction: Auction): Promise<void> {
   console.log('@onSubmit');
   console.log({ auction });
-  // TODO: Validate fields and this. Extract to validation.ts
-  // Validate myName
+  // TODO: Extract to validation.ts
+
+  // Only allow bids if auction is in bidding state
+  if (auction.status != Status.Bidding) {
+    console.log('@onSubmit Auction not in Bidding state. Not submitting');
+    $q.notify({
+      progress: true,
+      timeout: 1500,
+      message: 'Auction not in bidding state!',
+      type: 'warning',
+      position: 'bottom',
+    })
+    return;
+  }
 
   // Trigger validation of input field
   const isValidMyName: boolean = qinputMyNameRef.value.validate()
@@ -233,7 +245,6 @@ async function onSubmitBid(auction: Auction): Promise<void> {
       type: 'warning',
       position: 'bottom',
     })
-
     return;
   }
 

@@ -150,6 +150,19 @@
         label="Replace items" />
     </q-card-actions>
   </q-card-section>
+
+
+    <q-card-section class="justify-around">
+    <div class="text-h6">Auction controls</div>
+      <div class="text-h7">
+
+      </div>
+      <q-btn @click="onButtonStartAuctions"  icon="timer" unelevated type="update" color="secondary" label="Start Auctions" >
+      <q-tooltip class="bg-secondary">changes items from pending to bidding</q-tooltip>
+      </q-btn>
+
+    </q-card-section>
+
 </template>
 
 <script lang="ts" setup>
@@ -167,7 +180,7 @@ import { newAuctionsFromCsv, newAuctionsFromItemIds } from 'src/components/Parse
 const adminKey = ref('this is some key'); // ajax bar
 const $q = useQuasar();
 const route = useRoute();
-const roomId = route.params.id;
+const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
 
@@ -233,6 +246,17 @@ async function onSubmitUpdateItems() {
 async function onSubmitUpdateItemsById() {
   console.log('@update.prevent');
   console.log('TODO: onSubmitUpdateItemsById')
+}
+
+async function onButtonStartAuctions() {
+  console.log('@update.prevent');
+  console.log('onButtonStartAuctions')
+  return api
+    .patch(`/api/rooms/${roomId}/start`)
+    .then((response) => {
+      console.log(response);
+      roomStore.fetch(roomId)
+    });
 }
 
 function formatTime(seconds: number) {

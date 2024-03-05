@@ -122,6 +122,30 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
         return NoContent();
     }
 
+
+    [HttpPatch("{id:length(24)}/start")]
+    public async Task<ActionResult<Room>> Patch(string id)
+    {
+        Room? room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Auctions is null)
+        {
+            return NotFound();
+        }
+
+        foreach (Auction auction in room.Auctions)
+        {
+            if (auction.Status == Status.Pending)
+            {
+                auction.Status = Status.Bidding;
+            }
+        }
+
+        await _roomsService.UpdateAsync(id, room);
+
+        return NoContent();
+    }
+
     /// Updates the bid for the auction with the given row ID and item ID.
     /// Validates that the auction exists and is in progress.
     /// Ensures the bid meets the minimum bid amount based on current bid or starting price.
