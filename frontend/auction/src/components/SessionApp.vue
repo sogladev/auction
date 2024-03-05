@@ -35,7 +35,7 @@
         <q-input ref="qinputMyNameRef" v-model="myName" label="UserName" :rules="[
       (val) => typeof val == 'string' || 'Name must be a string',
       (val) =>
-        /^[a-zA-Z0-9]{0,12}$/.test(val) ||
+        /^[a-zA-Z0-9]{1,12}$/.test(val) ||
         'Name can only contain alphanumeric characters and be max 12 chars',
     ]" />
       </q-card-actions>
