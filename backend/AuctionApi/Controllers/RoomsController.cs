@@ -133,11 +133,15 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             return NotFound();
         }
 
+        // Set pending auctions to bid
+        // Set expiration date
+        long StartTimeUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         foreach (Auction auction in room.Auctions)
         {
             if (auction.Status == Status.Pending)
             {
                 auction.Status = Status.Bidding;
+                auction.Expiration = StartTimeUnixTimestamp + room.BidDurationInSeconds;
             }
         }
 

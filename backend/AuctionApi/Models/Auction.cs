@@ -25,7 +25,7 @@ public class Auction
     public int? MinimumPrice { get; set; }
 
     [BsonElement("expiration")]
-    public int? Expiration { get; set; }
+    public long? Expiration { get; set; }
 
     [BsonElement("itemName")]
     public string? ItemName { get; set; }
