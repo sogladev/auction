@@ -135,18 +135,16 @@ async function onSubmitCreateRoom() {
 
 .namespace-select-active {
   border: 3px solid #1976d2;
+  opacity: 1.0;
 }
 
 .namespace-select-inactive {
   border: 3px solid #06485A;
+  opacity: 0.8;
 }
 
 .img-namespace {
-  opacity: 0.8;
   max-height: 180px;
 }
 
-.img-namespace-selected {
-  opacity: 1.0;
-}
 </style>
