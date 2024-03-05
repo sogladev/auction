@@ -30,9 +30,20 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> Post()
+    public async Task<IActionResult> Post(string Namespace)
     {
-        var newRoom = new Room();
+        // Validate if Namespace matches a valid namespace
+        if (!(new[]{
+             APINamespace.Era, APINamespace.Progression, APINamespace.Retail
+            }.Contains(Namespace)))
+        {
+            return BadRequest("Namespace must match a valid namespace. ");
+        };
+
+        Room newRoom = new()
+        {
+            Namespace = Namespace
+        };
         await _roomsService.CreateAsync(newRoom);
 
         return CreatedAtAction(nameof(Get), new { id = newRoom.Id }, newRoom);

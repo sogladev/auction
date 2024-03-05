@@ -68,13 +68,15 @@ export const useRoomStore = defineStore('RoomStore', {
     //doubleCount: (state) => state.counter * 2,
   },
   actions: {
-    async create(): Promise<number> {
-      return api.post('/api/rooms/create').then((response) => {
-        console.log(response);
-        const newRoomState: Room = newRoomFromResponseData(response.data);
-        this.room = newRoomState;
-        return response.data.id;
-      });
+    async create(namespace: Namespace): Promise<number> {
+      return api
+        .post(`/api/rooms/create?Namespace=${namespace}`)
+        .then((response) => {
+          console.log(response);
+          const newRoomState: Room = newRoomFromResponseData(response.data);
+          this.room = newRoomState;
+          return response.data.id;
+        });
     },
     async fetch(roomId: string): Promise<boolean> {
       try {
