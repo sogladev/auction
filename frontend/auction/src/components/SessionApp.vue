@@ -100,16 +100,22 @@
           <q-btn icon="shopping_cart" @click="onSubmitBid(props.row)"
             :disable="props.row.status != Status.Bidding"></q-btn>
         </q-td>
-        <q-td key="expiration" :props="props">
-          <q-badge color="orange">
-            {{ props.row.expiration }}
+        <q-td key="status" :props="props">
+          <q-badge v-if:="props.row.status === Status.Pending" color="primary">
+            Pending
+          </q-badge>
+          <q-badge v-if:="props.row.status === Status.Bidding" color="secondary">
+            Bidding
+          </q-badge>
+          <q-badge v-if:="props.row.status === Status.Assigned" color="orange">
+            Assigned
           </q-badge>
         </q-td>
       </q-tr>
 
       <q-tr :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev">
         <q-td colspan="100%">
-          <q-linear-progress :value="progress" :buffer="buffer" color="secondary" />
+          <q-linear-progress :value="calcProgress(props.row)" :color="calcColor(props.row)" />
         </q-td>
       </q-tr>
 
@@ -162,34 +168,81 @@ const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
 const { fetch } = roomStore;
 
+
+const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
+
 // TODO:Add these to props
 // TODO: Consider making Auction class. isPending, isAssigned etc
 let interval
-let bufferInterval
 
-const progress = ref(0.01)
-const buffer = ref(0.01)
+
+function calcColor(auction: Auction): string {
+
+
+  console.log(auction.expiration)
+
+  const isPending = (auction.status === Status.Pending)
+  const isAssigned = (auction.status === Status.Assigned)
+  if (isAssigned) { return 'orange' }
+  if (isPending) { return 'primary' }
+  if (auction.expiration === undefined) {
+    console.log('primary undefined')
+    return 'primary';
+  }
+  const isExpired = (auction.expiration - currentTimeInUnixTimeStamp.value) <= 0
+  if (isExpired) {
+    auction.status = Status.Assigned
+    return 'orange'
+  }
+  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= room.value.countDownTimeInSeconds + 2.0 // magic number 2
+  if (isCountdown) {
+    // top bid?
+    if (auction.bidderName !== undefined && auction.bidderName === myName.value) {
+      return 'green'
+    }
+    else {
+      return 'red'
+    }
+  }
+  console.log('secondary no countdown')
+  return 'secondary'
+}
+
+function calcProgress(auction: Auction): number {
+  const isPending = (auction.status === Status.Pending)
+  if (isPending) { return 1.0 }
+  const isAssigned = (auction.status === Status.Assigned)
+  if (isAssigned) { return 1.0 }
+
+  if (auction.expiration === undefined) {
+    auction.status = Status.Assigned
+    return 0;
+  }
+  const isExpired = (auction.expiration - currentTimeInUnixTimeStamp.value) <= 0
+  if (isExpired) { return 1.0 }
+
+  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= room.value.countDownTimeInSeconds + 2.0 // magic number 2
+  let progress
+  if (isCountdown) {
+
+    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / room.value.countDownTimeInSeconds
+  }
+  else {
+    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / room.value.bidDurationInSeconds
+  }
+  progress = Math.max(0, progress)
+  progress = Math.min(1, progress)
+  return progress
+}
+
 onMounted(() => {
   interval = setInterval(() => {
-    if (progress.value >= 1) {
-      progress.value = 0.01
-      buffer.value = 0.01
-      return
-    }
-
-    progress.value = Math.min(1, buffer.value, progress.value + 0.1)
-  }, 700 + Math.random() * 1000)
-
-  bufferInterval = setInterval(() => {
-    if (buffer.value < 1) {
-      buffer.value = Math.min(1, buffer.value + Math.random() * 0.2)
-    }
-  }, 700)
+    currentTimeInUnixTimeStamp.value = Math.floor(Date.now() / 1000)
+  }, 400) // 400ms update
 })
 
 onBeforeUnmount(() => {
   clearInterval(interval)
-  clearInterval(bufferInterval)
 })
 
 // Export to CSV button
@@ -245,11 +298,10 @@ const columns = ref([
   { name: 'increment', label: 'Increment' },
   { name: 'submit', label: 'Submit' },
   {
-    name: 'expiration',
-    label: 'Expiration',
-    field: 'expiration',
+    name: 'status',
+    label: 'Status',
+    field: 'status',
     sortable: true,
-    sort: (a: string, b: string) => parseInt(a, 10) - parseInt(b, 10),
   },
 ]);
 
