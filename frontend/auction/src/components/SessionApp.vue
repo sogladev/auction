@@ -179,11 +179,7 @@ const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 // TODO: Consider making Auction class. isPending, isAssigned etc
 let interval
 
-
 function calcColor(auction: Auction): string {
-
-
-  console.log(auction.expiration)
   const isPending = (auction.status === Status.Pending)
   const isAssigned = (auction.status === Status.Assigned)
   const isAssignedAndWon = (auction.status === Status.Assigned && auction.bidderName === myName.value)
@@ -191,7 +187,6 @@ function calcColor(auction: Auction): string {
   if (isAssigned) { return 'orange' }
   if (isPending) { return 'primary' }
   if (auction.expiration === undefined) {
-    console.log('primary undefined')
     return 'primary';
   }
   const isExpired = (auction.expiration - currentTimeInUnixTimeStamp.value) <= 0
@@ -201,7 +196,6 @@ function calcColor(auction: Auction): string {
   }
   const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= room.value.countDownTimeInSeconds + 2.0 // magic number 2
   if (isCountdown) {
-    // top bid?
     if (auction.bidderName !== undefined && auction.bidderName === myName.value) {
       return 'green'
     }
@@ -209,7 +203,6 @@ function calcColor(auction: Auction): string {
       return 'red'
     }
   }
-  console.log('secondary no countdown')
   return 'secondary'
 }
 
@@ -320,7 +313,6 @@ async function onSubmitSyncRoom() {
 function onClose(auction: Auction): void {
   console.log('@onClose');
   console.log(auction);
-  console.log('TODO: onClose')
   api
     .patch(`/api/rooms/${roomId}/close`, auction)
     .then((response) => {
