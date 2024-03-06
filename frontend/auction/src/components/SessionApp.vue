@@ -49,7 +49,8 @@
   </q-card-section>
 
   <div class="text-h6">Auctions</div>
-  <q-table dense class="auction-table" flat bordered v-model:rows="room.auctions" v-model:columns="columns">
+  <q-table :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="room.auctions"
+    v-model:columns="columns">
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="rowId" :props="props">
@@ -107,8 +108,11 @@
           <q-badge v-if:="props.row.status === Status.Bidding" color="secondary">
             Bidding
           </q-badge>
-          <q-badge v-if:="props.row.status === Status.Assigned" color="orange">
+          <q-badge v-if:="props.row.status === Status.Assigned && !(props.row.bidderName === myName)" color="orange">
             Assigned
+          </q-badge>
+          <q-badge v-if:="props.row.status === Status.Assigned && (props.row.bidderName === myName)" color="green">
+            Won
           </q-badge>
         </q-td>
       </q-tr>
@@ -180,9 +184,10 @@ function calcColor(auction: Auction): string {
 
 
   console.log(auction.expiration)
-
   const isPending = (auction.status === Status.Pending)
   const isAssigned = (auction.status === Status.Assigned)
+  const isAssignedAndWon = (auction.status === Status.Assigned && auction.bidderName === myName.value)
+  if (isAssignedAndWon) { return 'green' }
   if (isAssigned) { return 'orange' }
   if (isPending) { return 'primary' }
   if (auction.expiration === undefined) {
