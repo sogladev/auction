@@ -526,7 +526,7 @@ function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
   console.log('auction: ', auction);
   console.log('room: ', room.value);
-  const newBid: number = getNextIncrement(auction, room.value);
+  const newBid: number = getNextIncrement(auction, room.value, bids.value);
   bids.value.setBid(auction.itemId, auction.rowId, newBid);
 }
 
