@@ -26,6 +26,27 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             return NotFound();
         }
 
+        // Check if auctions have expired and change their state to assigned
+        if (room.Auctions is not null)
+        {
+            long CurrentTimeUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            bool changeState = false;
+            foreach (Auction auction in room.Auctions)
+            {
+                if (auction.Status == Status.Bidding)
+                {
+                    if (CurrentTimeUnixTimestamp >= auction.Expiration)
+                    {
+                        auction.Status = Status.Assigned;
+                        changeState = true;
+                    }
+                }
+            }
+            if (changeState)
+            {
+                await _roomsService.CreateAsync(room);
+            }
+        }
         return room;
     }
 
