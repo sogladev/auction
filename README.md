@@ -72,14 +72,11 @@ Addon export [ ]
 - [x] data model adjustments
 - [ ] cut addon to reduce unneeded features
 
-
 Roles
-
 - [ ] join room as viewer or lootmaster
 - [ ] authenticate viewer
 - [ ] authenticate lootmaster
 - [ ] show users that are listening
-
 
 Style
 - [x] add dark theme
@@ -122,12 +119,19 @@ Session
 - [x] submit auction to db
 - [x] refresh auction data from db
 - [ ] auto refreshing
-
-- [ ] session state. Start auctions
-- [ ] session state. End auctions
-- [ ] Display progression bars
-- [ ] Admin buttons, delete, countdown, close, restart, etc
+- [x] session state. Start auctions
+- [x] session state. End auctions
 - [ ] Add loot master / admin authentication
+
+Admin controls
+- [ ] Admin buttons, delete, countdown, close, restart, etc
+
+Live / real time updates
+- [ ] Display progression bars
+- [ ] Timer 1: 1 sec update to update current time which updates timers
+- [ ] Timer 2: 1 sec or slower: Server updates.
+  show timer until next update
+
 
 ## Notes
 
