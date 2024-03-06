@@ -66,7 +66,7 @@
         </q-td>
         <q-td key="itemName" :props="props">
           <a :href="getWowheadURL(props.row.itemId, room.namespace)" :class="`q${props.row.quality}`">[{{
-      props.row.itemName }}]</a><br />
+      props.row.itemName }}]</a>
 
         </q-td>
         <q-td key="bidderName" :props="props">
