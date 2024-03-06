@@ -230,8 +230,9 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             auction.Expiration = room.CountDownTimeInSeconds + CurrentTimeUnixTimestamp;
         }
 
-        bool requireDatabaseUpdate =  isValidBid || IsExpirationTimeUpdated;
-        if (requireDatabaseUpdate){
+        bool requireDatabaseUpdate = isValidBid || IsExpirationTimeUpdated;
+        if (requireDatabaseUpdate)
+        {
             await _roomsService.UpdateAsync(id, room);
         }
 
@@ -324,7 +325,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             long CurrentTimeUnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             auctionToModify.Expiration = CurrentTimeUnixTimeStamp + room.BidDurationInSeconds;
             auctionToModify.BidderName = null;
-            auctionToModify.Bid = auctionToModify.MinimumPrice?? room.MinimumBid;
+            auctionToModify.Bid = auctionToModify.MinimumPrice ?? room.MinimumBid;
         }
 
         await _roomsService.UpdateAsync(id, room);
@@ -353,7 +354,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             auctionToModify.Status = Status.Bidding;
             long CurrentTimeUnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             auctionToModify.Expiration = CurrentTimeUnixTimeStamp + room.BidDurationInSeconds;
-            auctionToModify.MinimumPrice = auctionToModify.MinimumPrice?? room.MinimumBid;
+            auctionToModify.MinimumPrice = auctionToModify.MinimumPrice ?? room.MinimumBid;
         }
 
         await _roomsService.UpdateAsync(id, room);
