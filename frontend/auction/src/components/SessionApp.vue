@@ -516,16 +516,12 @@ function onCountdown(auction: Auction): void {
 
 function onMinimum(auction: Auction): void {
   console.log('@onMinimum');
-  console.log('auction: ', auction);
-  console.log('room: ', room.value);
   const newBid: number = minimumAcceptableBid(auction, room.value);
   bids.value.setBid(auction.itemId, auction.rowId, newBid);
 }
 
 function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
-  console.log('auction: ', auction);
-  console.log('room: ', room.value);
   const newBid: number = getNextIncrement(auction, room.value, bids.value);
   bids.value.setBid(auction.itemId, auction.rowId, newBid);
 }

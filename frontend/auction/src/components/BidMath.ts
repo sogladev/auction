@@ -5,10 +5,8 @@ export function minimumAcceptableBid(auction: Auction, room: Room): number {
   // if existing bid: bid + minimumIncrement
   const noBidHasBeenPlaced = !(typeof auction.bidderName === 'string');
   if (noBidHasBeenPlaced) {
-    console.log('minimumAcceptableBid: noBidHasBeenPlaced');
     return auction.minimumPrice as number;
   } else {
-    console.log('minimumAcceptableBid: BidHasBeenPlaced');
     return (auction.bid as number) + room.minimumBidIncrement;
   }
 }
@@ -22,7 +20,6 @@ export function getNextIncrement(
   // unless we do not have a valid bid then return minimumBid
   const myBid = bids.getBid(auction.itemId, auction.rowId);
   const minimumBid = minimumAcceptableBid(auction, room);
-  console.log('GetNextIncrement: minimumBid: ', minimumBid);
   if (myBid === undefined || isNaN(myBid) || myBid < minimumBid) {
     return minimumBid;
   }
