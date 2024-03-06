@@ -178,6 +178,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             return NotFound();
         }
 
+        // Calculate minimum acceptable bid
         int BidMinimumAcceptable;
         bool NoBidHasBeenPlaced = auction.Bid is null || auction.BidderName is null;
         if (NoBidHasBeenPlaced)
@@ -189,17 +190,39 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             BidMinimumAcceptable = (int)auction.Bid! + room.MinimumBidIncrement;
         }
 
-        if (newBid.MyBid < BidMinimumAcceptable)
+        bool IsBidTooLow = newBid.MyBid < BidMinimumAcceptable;
+        bool IsAuctionInBiddingState = auction.Status == Status.Bidding;
+
+        bool isValidBid = !IsBidTooLow && IsAuctionInBiddingState;
+        if (isValidBid)
+        {
+            auction.Bid = newBid.MyBid;
+            auction.BidderName = newBid.MyName;
+        }
+
+        /// Updates the auction expiration if we are in the countdown window
+        /// Sets the new expiration to the current time plus the countdown duration.
+        long currentTimeUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        bool IsExpirationTimeUpdated = auction.Expiration - currentTimeUnixTimestamp < room.CountDownTimeInSeconds;
+        if (IsExpirationTimeUpdated)
+        {
+            auction.Expiration = room.CountDownTimeInSeconds + currentTimeUnixTimestamp;
+        }
+
+        bool requireDatabaseUpdate =  isValidBid || IsExpirationTimeUpdated;
+        if (requireDatabaseUpdate){
+            await _roomsService.UpdateAsync(id, room);
+        }
+
+        if (!IsAuctionInBiddingState)
+        {
+            return BadRequest("Auction must be in bidding state");
+        }
+
+        if (IsBidTooLow)
         {
             return BadRequest($"Bid must be at least {BidMinimumAcceptable}");
         }
-
-        // TODO: add updatedAuction.Status == 2 to verify auction is in progress
-
-        auction.Bid = newBid.MyBid;
-        auction.BidderName = newBid.MyName;
-
-        await _roomsService.UpdateAsync(id, room);
 
         return NoContent();
     }
