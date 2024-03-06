@@ -126,6 +126,11 @@ Session
 Admin controls
 - [ ] Admin buttons, delete, countdown, close, restart, etc
 
+General controls
+- [ ] Filter by item name
+- [ ] Filter by "watched"
+- [ ] Filter by usable
+
 Live / real time updates
 - [ ] Display progression bars
 - [ ] Timer 1: 1 sec update to update current time which updates timers
