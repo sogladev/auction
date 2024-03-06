@@ -124,7 +124,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
 
 
     [HttpPatch("{id:length(24)}/start")]
-    public async Task<ActionResult<Room>> Patch(string id)
+    public async Task<ActionResult<Room>> Patch(string id, List<Auction> newAuctions)
     {
         Room? room = await _roomsService.GetAsync(id);
 
@@ -135,12 +135,20 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
 
         // Set pending auctions to bid
         // Set expiration date
+        // Update minimumPrice of pending auctions
         long StartTimeUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         foreach (Auction auction in room.Auctions)
         {
             if (auction.Status == Status.Pending)
             {
                 auction.Status = Status.Bidding;
+                // Find auction from newAuctions.
+                Auction? newAuction = newAuctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
+                if (newAuction is not null)
+                {
+                    auction.MinimumPrice = newAuction.MinimumPrice;
+                }
+
                 auction.Expiration = StartTimeUnixTimestamp + room.BidDurationInSeconds;
             }
         }
@@ -195,4 +203,32 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
 
         return NoContent();
     }
+
+// Admin commands
+    [HttpPatch("{id:length(24)}/close")]
+    public async Task<ActionResult<Room>> Patch(string id, Auction auction)
+    {
+        Room? room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Auctions is null)
+        {
+            return NotFound();
+        }
+
+        // Set auction to completed
+        Auction? auctionToClose = room.Auctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
+        if (auctionToClose is not null)
+        {
+            if (auctionToClose.Status == Status.Assigned)
+            {
+                return BadRequest("Auction has already been closed");
+            }
+            auctionToClose.Status = Status.Assigned;
+        }
+
+        await _roomsService.UpdateAsync(id, room);
+
+        return NoContent();
+    }
+
 }

@@ -80,7 +80,7 @@
           <q-badge color="purple">
             {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
           </q-badge>
-          <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save v-slot="scope">
+          <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save autofocus v-slot="scope">
             <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, room)"
               :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
               :rules="[
@@ -90,40 +90,52 @@
     ]" />
           </q-popup-edit>
         </q-td>
-        <q-td key="expiration" :props="props">
-          <q-badge color="orange">
-            {{ props.row.expiration }}
-          </q-badge>
+        <q-td key="minimum" :props="props">
+          <q-btn icon="remove" @click="onMinimum(props.row)"></q-btn>
         </q-td>
         <q-td key="increment" :props="props">
           <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
         </q-td>
         <q-td key="submit" :props="props">
-          <q-btn icon="shopping_cart" @click="onSubmitBid(props.row)"></q-btn>
+          <q-btn icon="shopping_cart" @click="onSubmitBid(props.row)"
+            :disable="props.row.status != Status.Bidding"></q-btn>
         </q-td>
-        <!--
-          <q-td key="Delete" :props="props">
-              <q-btn icon="delete" @click="onDelete(props.row)"></q-btn>
-            </q-td>
--->
+        <q-td key="expiration" :props="props">
+          <q-badge color="orange">
+            {{ props.row.expiration }}
+          </q-badge>
+        </q-td>
       </q-tr>
 
       <q-tr :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev">
         <q-td colspan="100%">
-          <q-linear-progress :value="progress" :buffer="buffer" color="secondary"/>
+          <q-linear-progress :value="progress" :buffer="buffer" color="secondary" />
         </q-td>
       </q-tr>
 
       <q-tr :props="props" :key="`e_${props.row.index}`">
         <q-td colspan="100%">
-
+          <div class="row">
+            <div class="text-h7">Admin control</div>
+            <q-input v-if:="props.row.status == Status.Pending" label="Set Minimum Price" class="q-px-sm" type="number"
+              min="0" v-model.number="props.row.minimumPrice" dense auto-save hint="Only during Pending State"
+              :disable="props.row.status != Status.Pending" />
+            <q-btn-group>
+              <q-btn label="Award/Close" icon="close" @click="onClose(props.row)" />
+              <q-btn label="Countdown" icon="more_time" @click="onCountdown(props.row)" />
+              <q-btn label="Restart" icon="history" @click="onRestart(props.row)" />
+              <q-btn label="Reopen" icon="more_time" @click="onReopen(props.row)" />
+              <q-btn label="Delete" icon="delete" @click="onDelete(props.row)" />
+            </q-btn-group>
+          </div>
         </q-td>
       </q-tr>
 
     </template>
-      <template v-slot:bottom>
-        Bottom
-      </template>
+
+    <template v-slot:bottom>
+      Bottom
+    </template>
   </q-table>
 
 
@@ -150,6 +162,8 @@ const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
 const { fetch } = roomStore;
 
+// TODO:Add these to props
+// TODO: Consider making Auction class. isPending, isAssigned etc
 let interval
 let bufferInterval
 
@@ -227,6 +241,9 @@ const columns = ref([
     field: 'myBid',
     sortable: false,
   },
+  { name: 'minimum', label: 'Minimum' },
+  { name: 'increment', label: 'Increment' },
+  { name: 'submit', label: 'Submit' },
   {
     name: 'expiration',
     label: 'Expiration',
@@ -234,8 +251,6 @@ const columns = ref([
     sortable: true,
     sort: (a: string, b: string) => parseInt(a, 10) - parseInt(b, 10),
   },
-  { name: 'increment', label: 'Increment' },
-  { name: 'submit', label: 'Submit' }
 ]);
 
 async function onSubmitSyncRoom() {
@@ -243,6 +258,75 @@ async function onSubmitSyncRoom() {
   console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
   await fetch(roomId);
   console.log('room data: ', room.value)
+}
+
+function onClose(auction: Auction): void {
+  console.log('@onClose');
+  console.log(auction);
+  console.log('TODO: onClose')
+  api
+    .patch(`/api/rooms/${roomId}/close`, auction)
+    .then((response) => {
+      console.log('response: ', response);
+      console.log(response);
+      fetch(roomId).catch((error) => {
+        console.log('Submit fetch error: ', error)
+      }); // update table
+      $q.notify({
+        type: 'positive',
+        position: 'right',
+        message: 'Auction closed',
+        progress: true,
+        timeout: 2000,
+      });
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+        $q.notify({
+          type: 'warning',
+          position: 'right',
+          message: error.response.data,
+        });
+      } else {
+        $q.notify({
+          type: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+        });
+      }
+    });
+}
+
+function onDelete(auction: Auction): void {
+  console.log('@onDelete');
+  console.log(auction);
+  console.log('TODO: onDelete')
+}
+
+function onReopen(auction: Auction): void {
+  console.log('@onReopen');
+  console.log(auction);
+  console.log('TODO: onReopen')
+}
+
+function onRestart(auction: Auction): void {
+  console.log('@onRestart');
+  console.log(auction);
+  console.log('TODO: onRestart')
+}
+
+function onCountdown(auction: Auction): void {
+  console.log('@onCountdown');
+  console.log(auction);
+  console.log('TODO: onCountdown')
+}
+
+function onMinimum(auction: Auction): void {
+  console.log('@onMinimum');
+  console.log('auction: ', auction);
+  console.log('room: ', room.value);
+  auction.myBid = minimumAcceptableBid(auction, room.value);
+  console.log('myBid ', auction.myBid);
 }
 
 function onIncrement(auction: Auction): void {
@@ -340,8 +424,8 @@ async function onSubmitBid(auction: Auction): Promise<void> {
 
 <style>
 .auction-table {
- td {
- border-style : hidden!important;
-}
+  td {
+    border-style: hidden !important;
+  }
 }
 </style>

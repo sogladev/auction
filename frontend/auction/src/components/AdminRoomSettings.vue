@@ -5,9 +5,11 @@
       <template v-slot:prepend>
         <q-icon name="key" />
       </template>
+
       <template v-slot:append>
         <q-btn icon="content_copy" @click="copyToClipboard(adminKey)" />
       </template>
+
       <template v-slot:control>
         <div class="self-center full-width no-outline" tabindex="0">{{ adminKey }}</div>
       </template>
@@ -26,10 +28,10 @@
         ]" />
         <q-input v-model.number="room.organiserFee" type="number" label="Organiser fee (%)" prefix="%" min="0" max="100"
           :rules="[
-            (val) =>
-              (!isNaN(val) && val <= 100 && val >= 0) ||
-              'Fee must be a number between 0 and 100!',
-          ]" />
+          (val) =>
+            (!isNaN(val) && val <= 100 && val >= 0) ||
+            'Fee must be a number between 0 and 100!',
+        ]" />
       </q-card-section>
     </q-card-section>
 
@@ -53,10 +55,10 @@
 
           <q-slider v-model="room.bidDurationInSeconds" :min="0" :max="720" :step="5" label
             :label-value="formatTime(room.bidDurationInSeconds)" color="primary" :rules="[
-              (val: number) =>
-                (!isNaN(val) && val >= 0) ||
-                'Bid duration must be a number greater or equal than 0!',
-            ]" />
+          (val: number) =>
+            (!isNaN(val) && val >= 0) ||
+            'Bid duration must be a number greater or equal than 0!',
+        ]" />
         </div>
 
         <div class="q-pa-md">
@@ -67,10 +69,10 @@
           </q-badge>
           <q-slider v-model="room.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
             :label-value="formatTime(room.countDownTimeInSeconds)" color="primary" :rules="[
-              (val: number) =>
-                (!isNaN(val) && val >= 20) ||
-                'Countdown duration must be a number greater or equal than 20!',
-            ]" />
+          (val: number) =>
+            (!isNaN(val) && val >= 20) ||
+            'Countdown duration must be a number greater or equal than 20!',
+        ]" />
         </div>
       </q-card-section>
 
@@ -125,12 +127,13 @@
       <div class="text-h7">
         Import items by pasting your import string
       </div>
-      <q-input max debounce="500" label="Paste your string here" v-model="textAreaItemsCSV" filled type="textarea" :rules="[
-        (val) =>
-          (typeof val == 'string' &&
-            val.startsWith(validationHeader)) ||
-          'Invalid import string. Copy all output from /hlm e!',
-      ]" />
+      <q-input max debounce="500" label="Paste your string here" v-model="textAreaItemsCSV" filled type="textarea"
+        :rules="[
+          (val) =>
+            (typeof val == 'string' &&
+              val.startsWith(validationHeader)) ||
+            'Invalid import string. Copy all output from /hlm e!',
+        ]" />
     </q-card-section>
     <q-card-actions align="right">
       <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary" label="Append items" />
@@ -145,23 +148,25 @@
         type="textarea" />
     </q-card-section>
     <q-card-actions align="right">
-      <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary" label="Append items" />
+      <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary"
+        label="Append items" />
       <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
         label="Replace items" />
     </q-card-actions>
   </q-card-section>
 
 
-    <q-card-section class="justify-around">
+  <q-card-section class="justify-around">
     <div class="text-h6">Auction controls</div>
-      <div class="text-h7">
+    <div class="text-h7">
 
-      </div>
-      <q-btn @click="onButtonStartAuctions"  icon="timer" unelevated type="update" color="secondary" label="Start Auctions" >
+    </div>
+    <q-btn @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="secondary"
+      label="Start Auctions">
       <q-tooltip class="bg-secondary">changes items from pending to bidding</q-tooltip>
-      </q-btn>
+    </q-btn>
 
-    </q-card-section>
+  </q-card-section>
 
 </template>
 
@@ -252,7 +257,7 @@ async function onButtonStartAuctions() {
   console.log('@update.prevent');
   console.log('onButtonStartAuctions')
   return api
-    .patch(`/api/rooms/${roomId}/start`)
+    .patch(`/api/rooms/${roomId}/start`, roomStore.pendingAuctions)
     .then((response) => {
       console.log(response);
       roomStore.fetch(roomId)

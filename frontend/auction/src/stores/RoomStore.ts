@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 
-import { Auction, Room, Namespace } from 'src/components/models';
+import { Auction, Room, Namespace, Status } from 'src/components/models';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function newRoomFromResponseData(data: any): Room {
@@ -66,6 +66,12 @@ export const useRoomStore = defineStore('RoomStore', {
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
+    pendingAuctions: (state) => {
+      const pendingAuctions: Array<Auction> = state.room.auctions.filter(
+        (auction) => auction.status === Status.Pending,
+      );
+      return pendingAuctions;
+    },
   },
   actions: {
     async create(namespace: Namespace): Promise<number> {
