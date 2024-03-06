@@ -13,7 +13,6 @@ describe('minimumAcceptableBid', () => {
       minimumPrice: 100,
       bid: 100,
       bidderName: 'bidder',
-      myBid: undefined,
     };
 
     const result = minimumAcceptableBid(auction, room);
@@ -30,7 +29,6 @@ describe('minimumAcceptableBid', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: undefined,
     };
 
     const result = minimumAcceptableBid(auction, room);
@@ -47,7 +45,6 @@ describe('minimumAcceptableBid', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: 100,
     };
 
     const result = minimumAcceptableBid(auction, room);
@@ -64,7 +61,6 @@ describe('minimumAcceptableBid', () => {
       minimumPrice: 100,
       bid: undefined,
       bidderName: undefined,
-      myBid: 120,
     };
 
     const result = minimumAcceptableBid(auction, room);
@@ -81,7 +77,6 @@ describe('minimumAcceptableBid', () => {
       minimumPrice: 100,
       bid: undefined,
       bidderName: undefined,
-      myBid: 50,
     };
 
     const result = minimumAcceptableBid(auction, room);
@@ -98,7 +93,6 @@ describe('minimumAcceptableBid', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: 130,
     };
 
     const result = minimumAcceptableBid(auction, room);
@@ -115,7 +109,6 @@ describe('minimumAcceptableBid', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: 115,
     };
 
     const result = minimumAcceptableBid(auction, room);

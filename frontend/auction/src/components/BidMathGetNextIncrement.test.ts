@@ -1,5 +1,5 @@
 import { getNextIncrement } from 'src/components/BidMath';
-import { Auction, Room } from 'src/components/models';
+import { Auction, Bids, Room } from 'src/components/models';
 
 import { describe, expect, it } from 'vitest';
 
@@ -13,10 +13,11 @@ describe('getNextIncrement', () => {
       minimumPrice: 100,
       bid: 100,
       bidderName: 'bidder',
-      myBid: undefined,
     };
 
-    const result = getNextIncrement(auction, room);
+    const bids = new Bids();
+
+    const result = getNextIncrement(auction, room, bids);
 
     expect(result).toEqual(110);
   });
@@ -30,10 +31,11 @@ describe('getNextIncrement', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: undefined,
     };
 
-    const result = getNextIncrement(auction, room);
+    const bids = new Bids();
+
+    const result = getNextIncrement(auction, room, bids);
 
     expect(result).toEqual(120);
   });
@@ -47,10 +49,12 @@ describe('getNextIncrement', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: 100,
     };
 
-    const result = getNextIncrement(auction, room);
+    const bids = new Bids();
+    bids.setBid(auction.itemId, auction.rowId, 100);
+
+    const result = getNextIncrement(auction, room, bids);
 
     expect(result).toEqual(120);
   });
@@ -67,7 +71,10 @@ describe('getNextIncrement', () => {
       myBid: 120,
     };
 
-    const result = getNextIncrement(auction, room);
+    const bids = new Bids();
+    bids.setBid(auction.itemId, auction.rowId, 120);
+
+    const result = getNextIncrement(auction, room, bids);
 
     expect(result).toEqual(130);
   });
@@ -84,7 +91,10 @@ describe('getNextIncrement', () => {
       myBid: 50,
     };
 
-    const result = getNextIncrement(auction, room);
+    const bids = new Bids();
+    bids.setBid(auction.itemId, auction.rowId, 50);
+
+    const result = getNextIncrement(auction, room, bids);
 
     expect(result).toEqual(100);
   });
@@ -101,7 +111,10 @@ describe('getNextIncrement', () => {
       myBid: 130,
     };
 
-    const result = getNextIncrement(auction, room);
+    const bids = new Bids();
+    bids.setBid(auction.itemId, auction.rowId, 130);
+
+    const result = getNextIncrement(auction, room, bids);
 
     expect(result).toEqual(140);
   });
@@ -118,7 +131,10 @@ describe('getNextIncrement', () => {
       myBid: 115,
     };
 
-    const result = getNextIncrement(auction, room);
+    const bids = new Bids();
+    bids.setBid(auction.itemId, auction.rowId, 115);
+
+    const result = getNextIncrement(auction, room, bids);
 
     expect(result).toEqual(120);
   });
