@@ -202,11 +202,11 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
 
         /// Updates the auction expiration if we are in the countdown window
         /// Sets the new expiration to the current time plus the countdown duration.
-        long currentTimeUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        bool IsExpirationTimeUpdated = auction.Expiration - currentTimeUnixTimestamp < room.CountDownTimeInSeconds;
+        long CurrentTimeUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        bool IsExpirationTimeUpdated = auction.Expiration - CurrentTimeUnixTimestamp < room.CountDownTimeInSeconds;
         if (IsExpirationTimeUpdated)
         {
-            auction.Expiration = room.CountDownTimeInSeconds + currentTimeUnixTimestamp;
+            auction.Expiration = room.CountDownTimeInSeconds + CurrentTimeUnixTimestamp;
         }
 
         bool requireDatabaseUpdate =  isValidBid || IsExpirationTimeUpdated;
@@ -227,7 +227,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
         return NoContent();
     }
 
-// Admin commands
+    // Admin commands
     [HttpPatch("{id:length(24)}/close")]
     public async Task<ActionResult<Room>> Patch(string id, Auction auction)
     {
@@ -239,14 +239,14 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
         }
 
         // Set auction to completed
-        Auction? auctionToClose = room.Auctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
-        if (auctionToClose is not null)
+        Auction? auctionToModify = room.Auctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
+        if (auctionToModify is not null)
         {
-            if (auctionToClose.Status == Status.Assigned)
+            if (auctionToModify.Status == Status.Assigned)
             {
                 return BadRequest("Auction has already been closed");
             }
-            auctionToClose.Status = Status.Assigned;
+            auctionToModify.Status = Status.Assigned;
         }
 
         await _roomsService.UpdateAsync(id, room);
@@ -254,4 +254,110 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
         return NoContent();
     }
 
+    [HttpPatch("{id:length(24)}/countdown")]
+    public async Task<ActionResult<Room>> PatchCountdown(string id, Auction auction)
+    {
+        Room? room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Auctions is null)
+        {
+            return NotFound();
+        }
+
+        // Set auction to completed
+        Auction? auctionToModify = room.Auctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
+        if (auctionToModify is not null)
+        {
+            if (auctionToModify.Status == Status.Assigned)
+            {
+                return BadRequest("Auction has been closed");
+            }
+            long CurrentTimeUnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            auctionToModify.Expiration = CurrentTimeUnixTimeStamp + room.CountDownTimeInSeconds;
+        }
+
+        await _roomsService.UpdateAsync(id, room);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:length(24)}/restart")]
+    public async Task<ActionResult<Room>> PatchRestart(string id, Auction auction)
+    {
+        Room? room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Auctions is null)
+        {
+            return NotFound();
+        }
+
+        // Set auction to completed
+        Auction? auctionToModify = room.Auctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
+        if (auctionToModify is not null)
+        {
+            if (auction.Status == Status.Pending)
+            {
+                return BadRequest("Auction cannot be restarted, but be bidding or closed");
+            }
+            auctionToModify.Status = Status.Bidding;
+            long CurrentTimeUnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            auctionToModify.Expiration = CurrentTimeUnixTimeStamp + room.BidDurationInSeconds;
+            auctionToModify.BidderName = null;
+            auctionToModify.Bid = auctionToModify.MinimumPrice?? room.MinimumBid;
+        }
+
+        await _roomsService.UpdateAsync(id, room);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:length(24)}/reopen")]
+    public async Task<ActionResult<Room>> PatchReopen(string id, Auction auction)
+    {
+        Room? room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Auctions is null)
+        {
+            return NotFound();
+        }
+
+        // Set auction to completed
+        Auction? auctionToModify = room.Auctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
+        if (auctionToModify is not null)
+        {
+            if (auction.Status != Status.Assigned)
+            {
+                return BadRequest("Auction is not closed, cannot re open");
+            }
+            auctionToModify.Status = Status.Bidding;
+            long CurrentTimeUnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            auctionToModify.Expiration = CurrentTimeUnixTimeStamp + room.BidDurationInSeconds;
+            auctionToModify.MinimumPrice = auctionToModify.MinimumPrice?? room.MinimumBid;
+        }
+
+        await _roomsService.UpdateAsync(id, room);
+
+        return NoContent();
+    }
+
+    [HttpPatch("{id:length(24)}/delete")]
+    public async Task<ActionResult<Room>> PatchDelete(string id, Auction auction)
+    {
+        Room? room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Auctions is null)
+        {
+            return NotFound();
+        }
+        // Set auction to completed
+        Auction? auctionToSetCountdown = room.Auctions.FirstOrDefault(a => (a.ItemId == auction.ItemId) && (a.RowId == auction.RowId));
+        if (auctionToSetCountdown is not null)
+        {
+            room.Auctions.Remove(auctionToSetCountdown);
+        }
+
+        await _roomsService.UpdateAsync(id, room);
+
+        return NoContent();
+    }
 }

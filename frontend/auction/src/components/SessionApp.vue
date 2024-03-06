@@ -127,14 +127,24 @@
         <q-td colspan="100%">
           <div class="row">
             <div class="text-h7">Admin control</div>
-            <q-input v-if:="props.row.status == Status.Pending" label="Set Minimum Price" class="q-px-sm" type="number"
-              min="0" v-model.number="props.row.minimumPrice" dense auto-save hint="Only during Pending State"
-              :disable="props.row.status != Status.Pending" />
+            <q-input class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
+              v-model.number="props.row.minimumPrice" dense auto-save hint="For start auction, restart, reopen">
+              <template v-slot:before>
+                <q-icon name="clear" @click="() => { props.row.minimumPrice = room.minimumBid }"
+                  class="cursor-pointer"></q-icon>
+              </template>
+
+            </q-input>
+
             <q-btn-group>
-              <q-btn label="Award/Close" icon="close" @click="onClose(props.row)" />
-              <q-btn label="Countdown" icon="more_time" @click="onCountdown(props.row)" />
-              <q-btn label="Restart" icon="history" @click="onRestart(props.row)" />
-              <q-btn label="Reopen" icon="more_time" @click="onReopen(props.row)" />
+              <q-btn :disable="props.row.status != Status.Bidding" label="Award/Close" icon="check"
+                @click="onClose(props.row)" />
+              <q-btn :disable="props.row.status != Status.Bidding" label="Countdown" icon="more_time"
+                @click="onCountdown(props.row)" />
+              <q-btn :disable="props.row.status == Status.Pending" label="Restart" icon="history"
+                @click="onRestart(props.row)" />
+              <q-btn :disable="props.row.status != Status.Assigned" label="Reopen" icon="more_time"
+                @click="onReopen(props.row)" />
               <q-btn label="Delete" icon="delete" @click="onDelete(props.row)" />
             </q-btn-group>
           </div>
@@ -350,24 +360,147 @@ function onDelete(auction: Auction): void {
   console.log('@onDelete');
   console.log(auction);
   console.log('TODO: onDelete')
+  api
+    .patch(`/api/rooms/${roomId}/delete`, auction)
+    .then((response) => {
+      console.log('response: ', response);
+      console.log(response);
+      fetch(roomId).catch((error) => {
+        console.log('Submit fetch error: ', error)
+      }); // update table
+      $q.notify({
+        type: 'positive',
+        position: 'right',
+        message: 'Auction deleted',
+        progress: true,
+        timeout: 2000,
+      });
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+        $q.notify({
+          type: 'warning',
+          position: 'right',
+          message: error.response.data,
+        });
+      } else {
+        $q.notify({
+          type: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+        });
+      }
+    });
 }
 
 function onReopen(auction: Auction): void {
   console.log('@onReopen');
   console.log(auction);
-  console.log('TODO: onReopen')
+  api
+    .patch(`/api/rooms/${roomId}/reopen`, auction)
+    .then((response) => {
+      console.log('response: ', response);
+      console.log(response);
+      fetch(roomId).catch((error) => {
+        console.log('Submit fetch error: ', error)
+      }); // update table
+      $q.notify({
+        type: 'positive',
+        position: 'right',
+        message: 'Auction re opened',
+        progress: true,
+        timeout: 2000,
+      });
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+        $q.notify({
+          type: 'warning',
+          position: 'right',
+          message: error.response.data,
+        });
+      } else {
+        $q.notify({
+          type: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+        });
+      }
+    });
 }
 
 function onRestart(auction: Auction): void {
   console.log('@onRestart');
   console.log(auction);
-  console.log('TODO: onRestart')
+  api
+    .patch(`/api/rooms/${roomId}/restart`, auction)
+    .then((response) => {
+      console.log('response: ', response);
+      console.log(response);
+      fetch(roomId).catch((error) => {
+        console.log('Submit fetch error: ', error)
+      }); // update table
+      $q.notify({
+        type: 'positive',
+        position: 'right',
+        message: 'Auction restart',
+        progress: true,
+        timeout: 2000,
+      });
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+        $q.notify({
+          type: 'warning',
+          position: 'right',
+          message: error.response.data,
+        });
+      } else {
+        $q.notify({
+          type: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+        });
+      }
+    });
 }
 
 function onCountdown(auction: Auction): void {
   console.log('@onCountdown');
   console.log(auction);
   console.log('TODO: onCountdown')
+
+  api
+    .patch(`/api/rooms/${roomId}/countdown`, auction)
+    .then((response) => {
+      console.log('response: ', response);
+      console.log(response);
+      fetch(roomId).catch((error) => {
+        console.log('Submit fetch: ', error)
+      }); // update table
+      $q.notify({
+        type: 'positive',
+        position: 'right',
+        message: 'Auction countdown',
+        progress: true,
+        timeout: 2000,
+      });
+    })
+    .catch((error) => {
+      if (error.response.status === 400) {
+        $q.notify({
+          type: 'warning',
+          position: 'right',
+          message: error.response.data,
+        });
+      } else {
+        $q.notify({
+          type: 'negative',
+          position: 'bottom',
+          message: 'Something went wrong while handling response',
+        });
+      }
+    });
 }
 
 function onMinimum(auction: Auction): void {
