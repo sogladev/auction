@@ -68,7 +68,6 @@ describe('getNextIncrement', () => {
       minimumPrice: 100,
       bid: undefined,
       bidderName: undefined,
-      myBid: 120,
     };
 
     const bids = new Bids();
@@ -88,7 +87,6 @@ describe('getNextIncrement', () => {
       minimumPrice: 100,
       bid: undefined,
       bidderName: undefined,
-      myBid: 50,
     };
 
     const bids = new Bids();
@@ -108,7 +106,6 @@ describe('getNextIncrement', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: 130,
     };
 
     const bids = new Bids();
@@ -128,7 +125,6 @@ describe('getNextIncrement', () => {
       minimumPrice: 100,
       bid: 110,
       bidderName: 'bidder',
-      myBid: 115,
     };
 
     const bids = new Bids();
