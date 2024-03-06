@@ -186,6 +186,8 @@ const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
 const { fetch } = roomStore;
 
+fetch(roomId);
+
 
 const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 
@@ -251,11 +253,11 @@ function calcProgress(auction: Auction): number {
 onMounted(() => {
   interval = setInterval(() => {
     currentTimeInUnixTimeStamp.value = Math.floor(Date.now() / 1000)
-  }, 400) // 400ms update
+  }, 1000)
 
   fetchInterval = setInterval(() => {
     fetch(roomId)
-  }, 1000) // 1000ms update
+  }, 2500)
 
 })
 
@@ -327,7 +329,7 @@ const columns = ref([
 async function onSubmitSyncRoom() {
   console.log('@submet.prevent');
   console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
-  await fetch(roomId);
+  //await fetch(roomId);
   console.log('room data: ', room.value)
 }
 
@@ -339,9 +341,9 @@ function onClose(auction: Auction): void {
     .then((response) => {
       console.log('response: ', response);
       console.log(response);
-      fetch(roomId).catch((error) => {
-        console.log('Submit fetch error: ', error)
-      }); // update table
+      //fetch(roomId).catch((error) => {
+      //  console.log('Submit fetch error: ', error)
+      //}); // update table
       $q.notify({
         type: 'positive',
         position: 'right',
@@ -376,9 +378,9 @@ function onDelete(auction: Auction): void {
     .then((response) => {
       console.log('response: ', response);
       console.log(response);
-      fetch(roomId).catch((error) => {
-        console.log('Submit fetch error: ', error)
-      }); // update table
+      //fetch(roomId).catch((error) => {
+      //  console.log('Submit fetch error: ', error)
+      //}); // update table
       $q.notify({
         type: 'positive',
         position: 'right',
@@ -412,9 +414,9 @@ function onReopen(auction: Auction): void {
     .then((response) => {
       console.log('response: ', response);
       console.log(response);
-      fetch(roomId).catch((error) => {
-        console.log('Submit fetch error: ', error)
-      }); // update table
+      //fetch(roomId).catch((error) => {
+      //  console.log('Submit fetch error: ', error)
+      //}); // update table
       $q.notify({
         type: 'positive',
         position: 'right',
@@ -448,9 +450,9 @@ function onRestart(auction: Auction): void {
     .then((response) => {
       console.log('response: ', response);
       console.log(response);
-      fetch(roomId).catch((error) => {
-        console.log('Submit fetch error: ', error)
-      }); // update table
+      //fetch(roomId).catch((error) => {
+      //  console.log('Submit fetch error: ', error)
+      //}); // update table
       $q.notify({
         type: 'positive',
         position: 'right',
@@ -486,9 +488,9 @@ function onCountdown(auction: Auction): void {
     .then((response) => {
       console.log('response: ', response);
       console.log(response);
-      fetch(roomId).catch((error) => {
-        console.log('Submit fetch: ', error)
-      }); // update table
+      //fetch(roomId).catch((error) => {
+      //  console.log('Submit fetch: ', error)
+      //}); // update table
       $q.notify({
         type: 'positive',
         position: 'right',
@@ -582,9 +584,9 @@ async function onSubmitBid(auction: Auction): Promise<void> {
     .then((response) => {
       console.log('response: ', response);
       console.log(response);
-      fetch(roomId).catch((error) => {
-        console.log('Submit fetch error: ', error)
-      }); // update table
+      //fetch(roomId).catch((error) => {
+      //  console.log('Submit fetch error: ', error)
+      //}); // update table
       $q.notify({
         type: 'positive',
         position: 'right',

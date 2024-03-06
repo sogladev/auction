@@ -85,16 +85,17 @@ export const useRoomStore = defineStore('RoomStore', {
         });
     },
     async fetch(roomId: string): Promise<boolean> {
-      try {
-        const response = await api.get(`/api/rooms/${roomId}`);
-        console.log(response);
-        const newRoomState: Room = newRoomFromResponseData(response.data);
-        this.room = newRoomState;
-        return true;
-      } catch (error) {
-        console.log(error);
-        return false;
-      }
+      return api
+        .get(`/api/rooms/${roomId}`)
+        .then((response) => {
+          const newRoomState: Room = newRoomFromResponseData(response.data);
+          this.room = newRoomState;
+          return true;
+        })
+        .catch((error) => {
+          console.log(error);
+          return false;
+        });
     },
   },
 });
