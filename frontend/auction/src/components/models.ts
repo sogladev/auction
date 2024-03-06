@@ -19,7 +19,7 @@ export type Auction = {
 export type Room = {
   name: string;
   id: string;
-  namespace: string;
+  namespace: Namespace;
   enableDiscordProtection: boolean;
   bidDurationInSeconds: number;
   countDownTimeInSeconds: number;
@@ -39,16 +39,14 @@ export type BidRequest = {
   myName: string;
 };
 
-export enum Status
-{
+export enum Status {
   Pending = 1,
   Bidding = 2,
   Assigned = 3,
 }
 
-export enum Namespace
-{
+export enum Namespace {
   Progression = 'static-classic-eu',
-  Era  = 'static-classic1x-eu',
+  Era = 'static-classic1x-eu',
   Retail = 'static-eu',
 }
