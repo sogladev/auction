@@ -90,8 +90,6 @@ export const useRoomStore = defineStore('RoomStore', {
         console.log(response);
         const newRoomState: Room = newRoomFromResponseData(response.data);
         this.room = newRoomState;
-        console.log('newRoomState: ');
-        console.log(this.room);
         return true;
       } catch (error) {
         console.log(error);
