@@ -79,9 +79,11 @@
         </q-td>
         <q-td key="myBid" :props="props">
           <q-badge color="purple">
-            {{ props.row.myBid ? props.row.myBid : 'Click to bid' }}
+            {{ bids.getBid(props.row.itemId, props.row.rowId)
+      ? bids.getBid(props.row.itemId, props.row.rowId) : 'Click to bid' }}
           </q-badge>
-          <q-popup-edit :props="props" v-model.number="props.row.myBid" auto-save autofocus v-slot="scope">
+          <q-popup-edit :props="props" v-model.number="bids.bids[`${props.row.itemId}-${props.row.rowId}`]" auto-save
+            autofocus v-slot="scope">
             <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, room)"
               :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
               :rules="[
@@ -169,10 +171,12 @@ import { useRoute } from 'vue-router';
 import { api } from 'boot/axios';
 import { storeToRefs } from 'pinia';
 
-import { Auction, BidRequest, Status } from 'src/components/models';
+import { Auction, BidRequest, Status, Bids } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
 import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
 import { getWowheadURL } from 'src/components/WowheadURLBuilder';
+
+const bids = ref(new Bids());
 
 const $q = useQuasar();
 const route = useRoute();
@@ -188,6 +192,7 @@ const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 // TODO:Add these to props
 // TODO: Consider making Auction class. isPending, isAssigned etc
 let interval
+let fetchInterval
 
 function calcColor(auction: Auction): string {
   const isPending = (auction.status === Status.Pending)
@@ -247,10 +252,16 @@ onMounted(() => {
   interval = setInterval(() => {
     currentTimeInUnixTimeStamp.value = Math.floor(Date.now() / 1000)
   }, 400) // 400ms update
+
+  fetchInterval = setInterval(() => {
+    fetch(roomId)
+  }, 1000) // 1000ms update
+
 })
 
 onBeforeUnmount(() => {
   clearInterval(interval)
+  clearInterval(fetchInterval)
 })
 
 // Export to CSV button
@@ -507,16 +518,16 @@ function onMinimum(auction: Auction): void {
   console.log('@onMinimum');
   console.log('auction: ', auction);
   console.log('room: ', room.value);
-  auction.myBid = minimumAcceptableBid(auction, room.value);
-  console.log('myBid ', auction.myBid);
+  const newBid: number = minimumAcceptableBid(auction, room.value);
+  bids.value.setBid(auction.itemId, auction.rowId, newBid);
 }
 
 function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
   console.log('auction: ', auction);
   console.log('room: ', room.value);
-  auction.myBid = getNextIncrement(auction, room.value);
-  console.log('myBid ', auction.myBid);
+  const newBid: number = getNextIncrement(auction, room.value);
+  bids.value.setBid(auction.itemId, auction.rowId, newBid);
 }
 
 const qinputMyNameRef = ref({ validate: () => false });
@@ -547,7 +558,7 @@ async function onSubmitBid(auction: Auction): Promise<void> {
   }
 
   // Validate myBid
-  const val = auction.myBid
+  const val = bids.value.getBid(auction.itemId, auction.rowId);
   const isValidMyBid: boolean = (val !== undefined) && (!isNaN(val)) && (val >= minimumAcceptableBid(auction, room.value))
   if (!isValidMyBid) {
     $q.notify({
@@ -565,7 +576,7 @@ async function onSubmitBid(auction: Auction): Promise<void> {
     itemId: auction.itemId,
     rowId: auction.rowId,
     myName: myName.value,
-    myBid: auction.myBid,
+    myBid: bids.value.getBid(auction.itemId, auction.rowId),
   }
   console.log('@onSubmit Bid Submitted');
   // 400 BadRequest if bid is too low

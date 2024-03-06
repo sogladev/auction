@@ -13,7 +13,6 @@ export type Auction = {
   status?: Status;
   bid?: number;
   bidderName?: string;
-  myBid?: number;
 };
 
 export type Room = {
@@ -49,4 +48,15 @@ export enum Namespace {
   Progression = 'static-classic-eu',
   Era = 'static-classic1x-eu',
   Retail = 'static-eu',
+}
+export class Bids {
+  public bids: { [key: string]: number } = {};
+
+  setBid(itemId: number, rowId: number, bidAmount: number) {
+    this.bids[`${itemId}-${rowId}`] = bidAmount;
+  }
+
+  getBid(itemId: number, rowId: number) {
+    return this.bids[`${itemId}-${rowId}`];
+  }
 }
