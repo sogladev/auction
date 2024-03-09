@@ -2,6 +2,9 @@
   <div class="flex flex-center column">
     <div v-if="isValidRoom" class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
     <q-card-section>
+      <div v-if="isValidRoom === undefined">
+        <q-spinner color="primary" size="10em" />
+      </div>
       <div v-if="isValidRoom">
         <q-field bg-color="green" filled>
           <template v-slot:prepend>
@@ -11,8 +14,9 @@
             <div class="self-center full-width no-outline text-h6" tabindex="0"> Valid Room </div>
           </template>
         </q-field>
+
       </div>
-      <div v-else>
+      <div v-if="isValidRoom === false">
         <q-field bg-color="red" filled>
           <template v-slot:prepend>
             <q-icon name="error" />
@@ -21,7 +25,6 @@
             <div class="self-center full-width no-outline text-h6" tabindex="0">Invalid Room!</div>
           </template>
         </q-field>
-
       </div>
     </q-card-section>
 
@@ -69,23 +72,26 @@ import AdminRoomSettings from 'components/AdminRoomSettings.vue';
 import SessionApp from 'components/SessionApp.vue';
 import { useRoomStore } from 'src/stores/RoomStore';
 
-
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-const route = useRoute();
 
+const route = useRoute();
 const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 const roomStore = useRoomStore();
 const { fetch } = roomStore;
-const isValidRoom = ref(false);
-const adminKey = ref('this is some key'); // ajax bar
+const isValidRoom = ref();
 
+const adminKey = ref('this is some key'); // ajax bar
 const { isAdmin } = storeToRefs(roomStore);
 
-fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
-
-// max-width: 66%;
+if (isAdmin.value) {
+  // isAdmin and store is set from creation page, so we don't have to fetch
+  isValidRoom.value = true;
+}
+else {
+  fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
+}
 </script>
 
 <style>
