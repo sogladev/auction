@@ -328,9 +328,6 @@ const columns = ref([
   },
 ]);
 
-// Export to CSV button
-// https://quasar.dev/vue-components/table#introduction
-
 async function onSubmitSyncRoom() {
   console.log('@submet.prevent');
   console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
