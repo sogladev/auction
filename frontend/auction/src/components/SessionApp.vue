@@ -159,8 +159,18 @@
         </q-td>
       </q-tr>
     </template>
+    <!--total items: 28  pending: 5 filtered: 28    bid total: 13 my total: 5 -->
     <template v-slot:bottom>
-      Bottom
+      <div class="flex justify-around">
+        <div class="text-h8 q-px-md">total items: {{ Object.keys(room.auctions).length }}</div>
+        <div class="text-h8 q-px-md">pending items: {{ room.auctions.filter(auction => auction.status ==
+      Status.Pending).length }}</div>
+        <div class="text-h8 q-px-md">filtered items: ?TODO </div>
+        <div class="text-h8 q-px-md">bid total: {{ room.auctions.reduce((acc, auction) => acc + (auction.bid ?
+      auction.bid : 0), 0) }}</div>
+        <div class="text-h8 q-px-md">my total: {{ room.auctions.filter(auction => auction.bidderName == myName).reduce(
+      (acc, auction) => acc + (auction.bid ? auction.bid : 0) , 0)}}</div>
+      </div>
     </template>
   </q-table>
 
