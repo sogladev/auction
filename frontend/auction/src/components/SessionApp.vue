@@ -261,7 +261,7 @@ onMounted(() => {
     if (isAutoFetch.value) {
       fetch(roomId)
     }
-  }, 2500)
+  }, 4000)
 
 })
 
