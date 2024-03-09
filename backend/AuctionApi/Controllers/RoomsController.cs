@@ -44,7 +44,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             }
             if (changeState)
             {
-                await _roomsService.CreateAsync(room);
+                await _roomsService.UpdateAsync(id, room);
             }
         }
         return room;
