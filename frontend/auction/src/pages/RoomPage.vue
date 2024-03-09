@@ -25,9 +25,27 @@
       </div>
     </q-card-section>
 
+    <q-card-section v-if="isValidRoom" class="justify-left">
+      <q-field bg-color="warning" filled label="Admin secret key" stack-label>
+        <template v-slot:prepend>
+          <q-icon name="key" />
+        </template>
+
+        <template v-slot:append>
+          <q-btn icon="content_copy" @click="copyToClipboard(adminKey)" />
+        </template>
+
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{ adminKey }}</div>
+        </template>
+      </q-field>
+
+      <q-toggle v-model="isAdmin" color="warning" label="Test admin" size="lg" :value="false" />
+    </q-card-section>
+
     <div v-if="isValidRoom">
       <q-card class="room-card">
-        <div class="admin-room-settings">
+        <div v-if="isAdmin" class="admin-room-settings">
           <div class="text-h6">Admin Settings</div>
           <div class="text-h7">configure settings, click save to update to db</div>
           <AdminRoomSettings />
@@ -44,12 +62,16 @@
 </template>
 
 <script lang="ts" setup>
+import { copyToClipboard } from 'quasar';
+import { ref } from 'vue';
+
 import AdminRoomSettings from 'components/AdminRoomSettings.vue';
 import SessionApp from 'components/SessionApp.vue';
 import { useRoomStore } from 'src/stores/RoomStore';
-import { ref } from 'vue';
+
 
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 const route = useRoute();
 
@@ -57,6 +79,10 @@ const roomId = typeof route.params.id === 'string' ? route.params.id : route.par
 const roomStore = useRoomStore();
 const { fetch } = roomStore;
 const isValidRoom = ref(false);
+const adminKey = ref('this is some key'); // ajax bar
+
+const { isAdmin } = storeToRefs(roomStore);
+
 fetch(roomId).then((isSuccess) => isValidRoom.value = isSuccess);
 
 // max-width: 66%;

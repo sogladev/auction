@@ -44,6 +44,8 @@
       <div class="text-h6">Synchronize Session</div>
       <q-card-actions class="justify-around">
         <q-btn unelevated icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
+        <q-toggle v-model="isAutoFetch" icon="sync" label="Auto synchronize" color="secondary" size="lg"
+          :value="true"></q-toggle>
       </q-card-actions>
     </q-card>
   </q-card-section>
@@ -122,13 +124,14 @@
       <q-tr :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev">
         <q-td colspan="100%">
           <q-linear-progress :value="calcProgress(props.row)" :color="calcColor(props.row)" />
+          <br>
         </q-td>
       </q-tr>
 
-      <q-tr :props="props" :key="`e_${props.row.index}`">
+      <q-tr v-if="isAdmin" :props="props" :key="`e_${props.row.index}`">
         <q-td colspan="100%">
           <div class="row">
-            <div class="text-h7">Admin control</div>
+            <q-badge color="warning"> Admin </q-badge>
             <q-input class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
               v-model.number="props.row.minimumPrice" dense auto-save hint="For start auction, restart, reopen">
               <template v-slot:before>
@@ -137,17 +140,16 @@
               </template>
 
             </q-input>
-
             <q-btn-group>
-              <q-btn :disable="props.row.status != Status.Bidding" label="Award/Close" icon="check"
+              <q-btn color="warning" :disable="props.row.status != Status.Bidding" label="Award/Close" icon="check"
                 @click="onClose(props.row)" />
-              <q-btn :disable="props.row.status != Status.Bidding" label="Countdown" icon="more_time"
+              <q-btn color="warning" :disable="props.row.status != Status.Bidding" label="Countdown" icon="more_time"
                 @click="onCountdown(props.row)" />
-              <q-btn :disable="props.row.status == Status.Pending" label="Restart" icon="history"
+              <q-btn color="warning" :disable="props.row.status == Status.Pending" label="Restart" icon="history"
                 @click="onRestart(props.row)" />
-              <q-btn :disable="props.row.status != Status.Assigned" label="Reopen" icon="more_time"
+              <q-btn color="warning" :disable="props.row.status != Status.Assigned" label="Reopen" icon="more_time"
                 @click="onReopen(props.row)" />
-              <q-btn label="Delete" icon="delete" @click="onDelete(props.row)" />
+              <q-btn color="warning" label="Delete" icon="delete" @click="onDelete(props.row)" />
             </q-btn-group>
           </div>
         </q-td>
@@ -177,17 +179,17 @@ import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
 import { getWowheadURL } from 'src/components/WowheadURLBuilder';
 
 const bids = ref(new Bids());
+const isAutoFetch = ref(false);
 
 const $q = useQuasar();
 const route = useRoute();
 const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 
 const roomStore = useRoomStore();
-const { room } = storeToRefs(roomStore);
+const { room, isAdmin } = storeToRefs(roomStore);
 const { fetch } = roomStore;
 
 fetch(roomId);
-
 
 const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 
@@ -256,7 +258,9 @@ onMounted(() => {
   }, 1000)
 
   fetchInterval = setInterval(() => {
-    fetch(roomId)
+    if (isAutoFetch.value) {
+      fetch(roomId)
+    }
   }, 2500)
 
 })
