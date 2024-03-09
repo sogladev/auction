@@ -330,8 +330,7 @@ const columns = ref([
 async function onSubmitSyncRoom() {
   console.log('@submet.prevent');
   console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
-  //await fetch(roomId);
-  console.log('room data: ', room.value)
+  fetch(roomId);
 }
 
 function onClose(auction: Auction): void {
