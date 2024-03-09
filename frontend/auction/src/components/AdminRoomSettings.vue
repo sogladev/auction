@@ -141,8 +141,7 @@
   </q-card-section>
   <q-card-section class="justify-around">
     <div class="text-h6">Auction controls</div>
-    <div class="text-h7"> Starts auctions
-    </div>
+    <div class="text-h7"> Starts auctions</div>
     <q-btn @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="warning" label="Start Auctions">
       <q-tooltip class="bg-warning">changes items from pending to bidding</q-tooltip>
     </q-btn>
@@ -154,8 +153,6 @@
     <q-btn @click="toCSV" icon="archive" unelevated color="warning" label="Export to csv">
       <q-tooltip class="bg-warning">Save auctions to file</q-tooltip>
     </q-btn>
-
-
   </q-card-section>
 </template>
 

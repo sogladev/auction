@@ -9,7 +9,6 @@ export const useRoomStore = defineStore('RoomStore', {
     isAdmin: false as boolean,
   }),
   getters: {
-    //doubleCount: (state) => state.counter * 2,
     pendingAuctions: (state) => {
       const pendingAuctions: Array<Auction> = state.room.auctions.filter(
         (auction) => auction.status === Status.Pending,
