@@ -215,7 +215,7 @@ function calcColor(auction: Auction): string {
   if (isAssignedAndWon) { return 'green' }
   if (isAssigned) { return 'orange' }
   if (isPending) { return 'primary' }
-  if (auction.expiration === undefined) {
+  if (auction.expiration == null) {
     return 'primary';
   }
   const isExpired = (auction.expiration - currentTimeInUnixTimeStamp.value) <= 0
@@ -225,7 +225,7 @@ function calcColor(auction: Auction): string {
   }
   const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= room.value.countDownTimeInSeconds + 2.0 // magic number 2
   if (isCountdown) {
-    if (auction.bidderName !== undefined && auction.bidderName === myName.value) {
+    if (auction.bidderName !== null && auction.bidderName === myName.value) {
       return 'green'
     }
     else {
@@ -241,7 +241,7 @@ function calcProgress(auction: Auction): number {
   const isAssigned = (auction.status === Status.Assigned)
   if (isAssigned) { return 1.0 }
 
-  if (auction.expiration === undefined) {
+  if (auction.expiration == null) {
     auction.status = Status.Assigned
     return 0;
   }
@@ -568,7 +568,7 @@ async function onSubmitBid(auction: Auction): Promise<void> {
 
   // Validate myBid
   const val = bids.value.getBid(auction.itemId, auction.rowId);
-  const isValidMyBid: boolean = (val !== undefined) && (!isNaN(val)) && (val >= minimumAcceptableBid(auction, room.value))
+  const isValidMyBid: boolean = (val !== null) && (!isNaN(val)) && (val >= minimumAcceptableBid(auction, room.value))
   if (!isValidMyBid) {
     $q.notify({
       progress: true,

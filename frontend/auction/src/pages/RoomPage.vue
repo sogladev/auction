@@ -2,7 +2,7 @@
   <div class="flex flex-center column">
     <div v-if="isValidRoom" class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
     <q-card-section>
-      <div v-if="isValidRoom === undefined">
+      <div v-if="isValidRoom == null">
         <q-spinner color="primary" size="10em" />
       </div>
       <div v-if="isValidRoom">

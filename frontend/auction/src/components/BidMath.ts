@@ -20,7 +20,7 @@ export function getNextIncrement(
   // unless we do not have a valid bid then return minimumBid
   const myBid = bids.getBid(auction.itemId, auction.rowId);
   const minimumBid = minimumAcceptableBid(auction, room);
-  if (myBid === undefined || isNaN(myBid) || myBid < minimumBid) {
+  if (myBid == null || isNaN(myBid) || myBid < minimumBid) {
     return minimumBid;
   }
   return myBid + room.minimumBidIncrement;

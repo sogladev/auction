@@ -17,7 +17,7 @@ export function getWowheadItemURL(
 export function getWowheadImageURL(icon: string): string {
   // "inv_belt_29.jpg"
   // `https://wow.zamimg.com/images/wow/icons/tiny/inv_belt_29.gif`;
-  if (icon === undefined || typeof icon !== 'string' || icon.length === 0) {
+  if (icon == null || typeof icon !== 'string' || icon.length === 0) {
     return 'https://wow.zamimg.com/images/wow/icons/medium/inv_misc_questionmark.jpg';
   }
   return `https://wow.zamimg.com/images/wow/icons/medium/${icon}`;
