@@ -15,6 +15,10 @@ export type Auction = {
   bidderName?: string;
 };
 
+export type User = {
+  name: string;
+};
+
 export type Room = {
   name: string;
   id: string;
@@ -29,6 +33,7 @@ export type Room = {
   minimumBid: number;
   minimumBidIncrement: number;
   auctions: Auction[];
+  users: User[];
 };
 
 export type BidRequest = {

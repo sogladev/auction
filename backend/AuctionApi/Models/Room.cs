@@ -43,9 +43,9 @@ public class Room
     public bool HidePayoutDetails { get; set; } = false;
 
     [BsonElement("users")]
-    public List<User>? Users { get; set; }
+    public List<User> Users { get; set; } = [];
 
     [BsonElement("auctions")]
-    public List<Auction>? Auctions { get; set; }
+    public List<Auction> Auctions { get; set; } = [];
 
 }

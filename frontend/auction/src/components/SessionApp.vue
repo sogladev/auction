@@ -193,8 +193,8 @@ const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 
 // TODO:Add these to props
 // TODO: Consider making Auction class. isPending, isAssigned etc
-let interval
-let fetchInterval
+let interval;
+let fetchInterval;
 
 function calcColor(auction: Auction): string {
   const isPending = (auction.status === Status.Pending)
