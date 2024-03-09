@@ -40,5 +40,9 @@ export const useRoomStore = defineStore('RoomStore', {
           return false;
         });
     },
+    async toCSV(): Promise<string> {
+      console.log('NotImplementedYet');
+      return 'NotImplementedYet';
+    },
   },
 });

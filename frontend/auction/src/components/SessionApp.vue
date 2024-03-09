@@ -154,9 +154,7 @@
           </div>
         </q-td>
       </q-tr>
-
     </template>
-
     <template v-slot:bottom>
       Bottom
     </template>
@@ -188,8 +186,6 @@ const roomId = typeof route.params.id === 'string' ? route.params.id : route.par
 const roomStore = useRoomStore();
 const { room, isAdmin } = storeToRefs(roomStore);
 const { fetch } = roomStore;
-
-fetch(roomId);
 
 const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 
@@ -270,10 +266,8 @@ onBeforeUnmount(() => {
   clearInterval(fetchInterval)
 })
 
-// Export to CSV button
-// https://quasar.dev/vue-components/table#introduction
+
 // Not reactive
-//const rows = room.value.auctions;
 const myName = ref('DefaultAndy');
 const columns = ref([
   {
@@ -329,6 +323,9 @@ const columns = ref([
     sortable: true,
   },
 ]);
+
+// Export to CSV button
+// https://quasar.dev/vue-components/table#introduction
 
 async function onSubmitSyncRoom() {
   console.log('@submet.prevent');

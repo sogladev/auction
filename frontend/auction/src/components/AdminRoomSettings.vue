@@ -147,6 +147,15 @@
       <q-tooltip class="bg-warning">changes items from pending to bidding</q-tooltip>
     </q-btn>
 
+    <q-btn @click="toCSV" icon="content_copy" unelevated color="warning" label="Export to clipboard">
+      <q-tooltip class="bg-warning">Save auctions to clipboard</q-tooltip>
+    </q-btn>
+
+    <q-btn @click="toCSV" icon="archive" unelevated color="warning" label="Export to csv">
+      <q-tooltip class="bg-warning">Save auctions to file</q-tooltip>
+    </q-btn>
+
+
   </q-card-section>
 </template>
 
@@ -162,11 +171,13 @@ import { useRoomStore } from 'src/stores/RoomStore';
 import { Auction } from './models';
 import { newAuctionsFromCsv, newAuctionsFromItemIds } from 'src/components/ParseTextImportNewAuctions';
 
+
 const $q = useQuasar();
 const route = useRoute();
 const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 const roomStore = useRoomStore();
 const { room } = storeToRefs(roomStore);
+const { fetch, toCSV } = roomStore;
 
 const validationHeader =
   'rowId,itemId,itemName,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid';
@@ -239,7 +250,7 @@ async function onButtonStartAuctions() {
     .patch(`/api/rooms/${roomId}/start`, roomStore.pendingAuctions)
     .then((response) => {
       console.log(response);
-      roomStore.fetch(roomId)
+      fetch(roomId)
     });
 }
 
