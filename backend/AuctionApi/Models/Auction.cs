@@ -45,6 +45,9 @@ public class Auction
     [BsonElement("itemSubType")]
     public string? ItemSubType { get; set; }
 
+    [BsonElement("icon")]
+    public string Icon { get; set; } = "";
+
     [BsonElement("guid")]
     public string Guid { get; set; } = "noguid"; // always noguid if not set
 

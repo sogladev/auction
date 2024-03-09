@@ -16,4 +16,7 @@ public class LocalItemInfo
 
     [BsonElement("level")]
     public int Level { get; set; }
+
+    [BsonElement("icon")]
+    public string Icon { get; set; } = "";
 }

@@ -13,6 +13,7 @@ export type Auction = {
   status?: Status;
   bid?: number;
   bidderName?: string;
+  icon?: string;
 };
 
 export type User = {

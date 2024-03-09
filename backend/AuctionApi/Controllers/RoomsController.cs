@@ -118,6 +118,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             auction.Quality = item.Quality;
             auction.ItemLevel = item.Level;
             auction.ItemName = item.Name;
+            auction.Icon = item.Icon;
         }
 
         room.Auctions = newAuctions;

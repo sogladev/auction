@@ -67,9 +67,13 @@
           </q-badge>
         </q-td>
         <q-td key="itemName" :props="props">
-          <a :href="getWowheadURL(props.row.itemId, room.namespace)" :class="`q${props.row.quality}`">[{{
-      props.row.itemName }}]</a>
+          <a :href="getWowheadItemURL(props.row.itemId, room.namespace)" target="_blank"
+            :class="`q${props.row.quality}`">
+            <img class="q-mx-sm" v-if="props.row.icon" style="vertical-align: middle; box-shadow: 0 0 10px black"
+              :src="getWowheadImageURL(props.row.icon)" />
 
+            <span style="vertical-align: baseline;"> {{ props.row.itemName }} </span>
+          </a>
         </q-td>
         <q-td key="bidderName" :props="props">
           {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName }}
@@ -174,7 +178,7 @@ import { storeToRefs } from 'pinia';
 import { Auction, BidRequest, Status, Bids } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
 import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
-import { getWowheadURL } from 'src/components/WowheadURLBuilder';
+import { getWowheadImageURL, getWowheadItemURL } from 'src/components/WowheadURLBuilder';
 
 const bids = ref(new Bids());
 const isAutoFetch = ref(false);
