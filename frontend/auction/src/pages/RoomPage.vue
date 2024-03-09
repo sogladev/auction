@@ -29,7 +29,7 @@
     </q-card-section>
 
     <q-card-section v-if="isValidRoom" class="justify-left">
-      <q-field bg-color="warning" filled label="Admin secret key" stack-label>
+      <q-field bg-color="warning" color="warning" filled label="Admin secret key" stack-label>
         <template v-slot:prepend>
           <q-icon name="key" />
         </template>
