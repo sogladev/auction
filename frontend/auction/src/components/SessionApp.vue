@@ -636,7 +636,7 @@ async function onSubmitBid(auction: Auction): Promise<void> {
   // 400 BadRequest if bid is too low
   // 404 is something else went wrong
   api
-    .patch(`/api/rooms/${roomId}`, myBid)
+    .patch(`/api/rooms/${roomId}/auctions`, myBid)
     .then((response) => {
       console.log('response: ', response);
       console.log(response);

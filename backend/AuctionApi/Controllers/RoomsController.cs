@@ -247,7 +247,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
     /// Updates the bid for the auction with the given row ID and item ID.
     /// Validates that the auction exists and is in progress.
     /// Ensures the bid meets the minimum bid amount based on current bid or starting price.
-    [HttpPatch("{id:length(24)}")]
+    [HttpPatch("{id:length(24)}/auctions")]
     public async Task<ActionResult<Room>> Patch(string id, BidRequest newBid)
     {
         Room? room = await _roomsService.GetAsync(id);
