@@ -3,7 +3,7 @@
     <div class="text-h6">Settings</div>
 
     <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
-    <p v-if:="Object.keys(settings).length === 0">Session is not loaded!</p>
+    <p v-if:="settings !== null">Session is not loaded!</p>
     <q-list align="center" dense v-if:="Object.keys(settings).length > 0">
       <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ settings.name }}</q-item-section>
       </q-item>
@@ -46,8 +46,6 @@
         <q-btn icon="sync" @click="onSubmitSyncRoomSettings" type="submit" color="secondary" label="Synchronize Settings" />
         <q-btn icon="sync" @click="onSubmitSyncRoomAuctions" type="submit" color="secondary" label="Synchronize Auctions" />
         <q-btn icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize All" />
-        <q-toggle v-model="isAutoFetch" icon="sync" label="Auto synchronize" color="secondary" size="lg"
-          :value="true"></q-toggle>
       </q-card-actions>
     </q-card>
   </q-card-section>
@@ -187,11 +185,14 @@
     </template>
 
     <template v-slot:top-right>
-      <q-toggle v-model="isShowOnlyWatched" icon="visibility" label="Show only watched" color="secondary" size="lg"
+      <q-toggle v-model="isShowOnlyWatched" icon="visibility" label="Show only watched" color="purple" size="lg"
         :value="isShowOnlyWatched"></q-toggle>
     </template>
 
     <template v-slot:top-left>
+
+        <q-toggle v-model="isAutoFetch" icon="sync" label="Auto update table" color="secondary" size="lg"
+          :value="true"></q-toggle>
       <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="warning" icon="visibility"
         label="Show admin controls" size="lg" :value="isShowAdminControls"></q-toggle>
     </template>

@@ -128,6 +128,23 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
         return CreatedAtAction(nameof(Get), new { id = newRoom.Id }, newRoom);
     }
 
+    [HttpPut("{id:length(24)}/settings")]
+    public async Task<IActionResult> UpdateSettings(string id, RoomSettings updatedSettings)
+    {
+        var room = await _roomsService.GetAsync(id);
+
+        if (room is null)
+        {
+            return NotFound();
+        }
+
+        room.Settings = updatedSettings;
+
+        await _roomsService.UpdateAsync(id, room);
+
+        return NoContent();
+    }
+
     [HttpPut("{id:length(24)}")]
     public async Task<IActionResult> Update(string id, Room updatedRoom)
     {

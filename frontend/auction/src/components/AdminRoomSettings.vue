@@ -262,7 +262,7 @@ async function onSubmit() {
   console.log('Put form and create room with given settings');
   console.log(settings.value);
   api
-    .put(`/api/rooms/${roomId}`, settings.value)
+    .put(`/api/rooms/${roomId}/settings`, settings.value)
     .then((response) => {
       console.log('response submit put room settings');
       console.log(response);
