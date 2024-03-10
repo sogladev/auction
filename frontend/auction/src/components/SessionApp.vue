@@ -132,7 +132,7 @@
         </q-td>
       </q-tr>
 
-      <q-tr :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev"
+      <q-tr :props="props" :key="`e_${props.row.index}_progressBar`" class="q-virtual-scroll--with-prev"
         v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
         <q-td colspan="100%">
           <q-linear-progress :value="calcProgress(props.row)" :color="calcColor(props.row)" />
@@ -140,7 +140,7 @@
         </q-td>
       </q-tr>
 
-      <q-tr :props="props" :key="`e_${props.row.index}`"
+      <q-tr :props="props" :key="`e_${props.row.index}_adminControls`"
         v-if:="roomStore.isAdmin && isShowAdminControls && !(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
         <q-td colspan="100%">
           <div class="row">
