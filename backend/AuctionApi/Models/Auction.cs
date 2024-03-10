@@ -12,53 +12,36 @@ public enum Status
 
 public class Auction
 {
-    [BsonElement("itemId")]
-    public int ItemId { get; set; }
+  [BsonElement("itemId")]
+  public int ItemId { get; set; }
 
-    [BsonElement("rowId")]
-    public int RowId { get; set; }
+  [BsonElement("rowId")]
+  public int RowId { get; set; }
 
-    [BsonElement("status")]
-    public Status? Status { get; set; } = Models.Status.Pending;
+  [BsonElement("status")]
+  public Status? Status { get; set; } = Models.Status.Pending;
 
-    [BsonElement("minimumPrice")]
-    public int? MinimumPrice { get; set; }
+  [BsonElement("minimumPrice")]
+  public int? MinimumPrice { get; set; }
 
-    [BsonElement("expiration")]
-    public long? Expiration { get; set; }
+  [BsonElement("expiration")]
+  public long? Expiration { get; set; }
 
-    [BsonElement("itemName")]
-    public string? ItemName { get; set; }
+  [BsonElement("itemInfo")]
+  public LocalItemInfo? ItemInfo { get; set; }
 
-    [BsonElement("quality")]
-    public int? Quality { get; set; }
+  [BsonElement("guid")]
+  public string Guid { get; set; } = "noguid"; // always noguid if not set
 
-    [BsonElement("itemLevel")]
-    public int? ItemLevel { get; set; }
+  // bidder. Set once auction starts
+  [BsonElement("bidderName")]
+  public string? BidderName { get; set; }
 
-    [BsonElement("minLevel")]
-    public int? MinLevel { get; set; }
+  // bid. Set once auction starts
+  [BsonElement("bid")]
+  public int? Bid { get; set; }
 
-    [BsonElement("itemType")]
-    public string? ItemType { get; set; }
-
-    [BsonElement("itemSubType")]
-    public string? ItemSubType { get; set; }
-
-    [BsonElement("icon")]
-    public string Icon { get; set; } = "";
-
-    [BsonElement("guid")]
-    public string Guid { get; set; } = "noguid"; // always noguid if not set
-
-   // bidder. Set once auction starts
-    [BsonElement("bidderName")]
-    public string? BidderName { get; set; }
-
-   // bid. Set once auction starts
-    [BsonElement("bid")]
-    public int? Bid { get; set; }
-
-    [BsonElement("myBid")]
-    public int? MyBid { get; set; }
+  // TODO: remove this. Not used serverside
+  [BsonElement("myBid")]
+  public int? MyBid { get; set; }
 }

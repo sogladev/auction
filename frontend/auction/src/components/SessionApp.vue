@@ -74,11 +74,11 @@
         </q-td>
         <q-td key="itemName" :props="props">
           <a :href="getWowheadItemURL(props.row.itemId, settings.namespace)" target="_blank"
-            :class="`q${props.row.quality}`">
-            <img class="q-mx-sm" v-if:="props.row.icon" style="vertical-align: middle; box-shadow: 0 0 10px black"
-              :src="getWowheadImageURL(props.row.icon)" />
+            :class="`q${props.row.itemInfo.quality}`">
+            <img class="q-mx-sm" v-if:="props.row.itemInfo.icon" style="vertical-align: middle; box-shadow: 0 0 10px black"
+              :src="getWowheadImageURL(props.row.itemInfo.icon)" />
 
-            <span style="vertical-align: baseline;"> {{ props.row.itemName }} </span>
+            <span style="vertical-align: baseline;"> {{ props.row.itemInfo.name }} </span>
           </a>
         </q-td>
         <q-td key="bidderName" :props="props">

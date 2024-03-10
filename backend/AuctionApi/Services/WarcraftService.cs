@@ -55,6 +55,7 @@ public class WarcraftService
             //  LocalPath/classic1x-eu/icons/56/inv_belt_29.jpg
             // Segments[4] "inv_belt_29.jpg"
             //{ Item { Links = Links { Self = Self { Href = "https://eu.api.blizzard.com/data/wow/item/19137?namespace=static-10.2.5_52554-eu" } }, Id = 19137, Name = "Onslaught Girdle", Quality = EnumType { Type = "EPIC", Name = "Epic" }, Level = 29, RequiredLevel = 25, Media = Media { Key = Self { Href = https://eu.api.blizzard.com/data/wow/media/item/19137?namespace=static-10.2.5_52554-eu }, Id = 19137 }, ItemClass = ItemClassReference { Key = Self { Href = https://eu.api.blizzard.com/data/wow/item-class/4?namespace=static-10.2.5_52554-eu }, Name = Armor, Id = 4 }, ItemSubclass = ItemSubclassReference { Key = Self { Href = https://eu.api.blizzard.com/data/wow/item-class/4/item-subclass/4?namespace=static-10.2.5_52554-eu }, Name = Plate, Id = 4 }, InventoryType = EnumType { Type = WAIST, Name = Waist }, PurchasePrice = 135370, SellPrice = 27074, MaxCount = 0, IsEquippable = True, IsStackable = False, PreviewItem = PreviewItem { Item = Media { Key = Self { Href = https://eu.api.blizzard.com/data/wow/item/19137?namespace=static-10.2.5_52554-eu }, Id = 19137 }, Context = 0, BonusList = , Quality = EnumType { Type = EPIC, Name = Epic }, Name = Onslaught Girdle, Media = Media { Key = Self { Href = https://eu.api.blizzard.com/data/wow/media/item/19137?namespace=static-10.2.5_52554-eu }, Id = 19137 }, ItemClass = ItemClassReference { Key = Self { Href = https://eu.api.blizzard.com/data/wow/item-class/4?namespace=static-10.2.5_52554-eu }, Name = Armor, Id = 4 }, ItemSubclass = ItemSubclassReference { Key = Self { Href = https://eu.api.blizzard.com/data/wow/item-class/4/item-subclass/4?namespace=static-10.2.5_52554-eu }, Name = Plate, Id = 4 }, InventoryType = EnumType { Type = WAIST, Name = Waist }, Binding = EnumType { Type = ON_ACQUIRE, Name = Binds when picked up }, UniqueEquipped = , Weapon = , Stats = ArgentPonyWarcraftClient.Stat[], Spells = , SellPrice = SellPrice { Value = 149, DisplayStrings = CurrencyDisplay { Header = Sell Price:, Gold = 0, Silver = 1, Copper = 49 } }, Requirements = Requirements { Level = DescribedValue { Value = 25, DisplayString = Requires Level 25 }, Faction =  }, Level = DescribedValue { Value = 29, DisplayString = Item Level 29 }, Durability = DescribedValue { Value = 55, DisplayString = Durability 55 / 55 } }, PurchaseQuantity = 1 }}
+
             newItemInfo = new()
             {
                 Id = result.Value.Id,
@@ -62,7 +63,12 @@ public class WarcraftService
                 // "EPIC", "RARE", "COMMON", "LEGENDARY", "HEIRLOOM", "ARTIFACT"
                 Quality = TypeToLocalQuality[result.Value.Quality.Type],
                 Level = result.Value.Level,
+                MinLevel = result.Value.RequiredLevel,
                 Icon = media.Value.Assets[0].Value.Segments[4],
+                ItemClassName = result.Value.ItemClass.Name,
+                ItemClassId = result.Value.ItemClass.Id,
+                ItemSubclassName = result.Value.ItemSubclass.Name,
+                ItemSubclassId = result.Value.ItemSubclass.Id,
             };
 
             switch (requestedAPINamespace)
@@ -98,7 +104,12 @@ public class WarcraftService
                     Name = result.Value.Name,
                     Quality = TypeToLocalQuality[result.Value.Quality.Type],
                     Level = result.Value.Level,
+                    MinLevel = result.Value.RequiredLevel,
                     Icon = media.Value.Assets[0].Value.Segments[4],
+                    ItemClassName = result.Value.ItemClass.Name,
+                    ItemClassId = result.Value.ItemClass.Id,
+                    ItemSubclassName = result.Value.ItemSubclass.Name,
+                    ItemSubclassId = result.Value.ItemSubclass.Id,
                 };
                 // Create new item
                 item.Retail = newItemInfo;
@@ -108,7 +119,7 @@ public class WarcraftService
                     Retail = newItemInfo,
                     Progression = item.Progression,
                     Era = item.Era,
-                // Update db
+                    // Update db
                 };
                 await UpdateAsync(id, newItem);
                 return newItemInfo;
@@ -125,7 +136,12 @@ public class WarcraftService
                     Name = result.Value.Name,
                     Quality = TypeToLocalQuality[result.Value.Quality.Type],
                     Level = result.Value.Level,
+                    MinLevel = result.Value.RequiredLevel,
                     Icon = media.Value.Assets[0].Value.Segments[4],
+                    ItemClassName = result.Value.ItemClass.Name,
+                    ItemClassId = result.Value.ItemClass.Id,
+                    ItemSubclassName = result.Value.ItemSubclass.Name,
+                    ItemSubclassId = result.Value.ItemSubclass.Id,
                 };
                 // Create new item
                 item.Era = newItemInfo;
@@ -135,7 +151,7 @@ public class WarcraftService
                     Era = newItemInfo,
                     Progression = item.Progression,
                     Retail = item.Era,
-                // Update db
+                    // Update db
                 };
                 await UpdateAsync(id, newItem);
                 return newItemInfo;
@@ -153,7 +169,12 @@ public class WarcraftService
                     Name = result.Value.Name,
                     Quality = TypeToLocalQuality[result.Value.Quality.Type],
                     Level = result.Value.Level,
+                    MinLevel = result.Value.RequiredLevel,
                     Icon = media.Value.Assets[0].Value.Segments[4],
+                    ItemClassName = result.Value.ItemClass.Name,
+                    ItemClassId = result.Value.ItemClass.Id,
+                    ItemSubclassName = result.Value.ItemSubclass.Name,
+                    ItemSubclassId = result.Value.ItemSubclass.Id,
                 };
                 // Create new item
                 item.Progression = newItemInfo;
@@ -163,7 +184,7 @@ public class WarcraftService
                     Progression = newItemInfo,
                     Era = item.Era,
                     Retail = item.Era,
-                // Update db
+                    // Update db
                 };
                 await UpdateAsync(id, newItem);
                 return newItemInfo;

@@ -6,23 +6,29 @@
 //    this.itemId = itemId;
 //  }
 //}
+export type ItemInfo = {
+  id: number;
+  name: string;
+  quality: number;
+  minLevel: number;
+  level: number;
+  icon: string;
+  itemSubType: string;
+  itemSubTypeId: number;
+  itemType: string;
+  itemTypeId: number;
+}
 
 export type Auction = {
   rowId: number;
   itemId: number;
   expiration?: number;
   guid?: string;
-  itemLevel?: number;
-  itemName?: string;
-  itemSubType?: string;
-  itemType?: string;
-  minLevel?: number;
   minimumPrice?: number;
-  quality?: number;
   status?: Status;
   bid?: number;
   bidderName?: string;
-  icon?: string;
+  itemInfo?: ItemInfo;
 };
 
 export type User = {

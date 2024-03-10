@@ -119,10 +119,7 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
             auction.RowId = i++;
             // Update item info from warcraft API
             LocalItemInfo item = await _itemsService.GetFromWarcraftAPI(auction.ItemId, room.Settings.Namespace);
-            auction.Quality = item.Quality;
-            auction.ItemLevel = item.Level;
-            auction.ItemName = item.Name;
-            auction.Icon = item.Icon;
+            auction.ItemInfo = item;
         }
 
         room.Auctions = newAuctions;
