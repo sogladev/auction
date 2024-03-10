@@ -3,27 +3,27 @@
     <div class="text-h6">Settings</div>
 
     <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
-    <p v-if:="Object.keys(room).length === 0">Session is not loaded!</p>
-    <q-list align="center" dense v-if:="Object.keys(room).length > 0">
-      <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ room.name }}</q-item-section>
+    <p v-if:="Object.keys(settings).length === 0">Session is not loaded!</p>
+    <q-list align="center" dense v-if:="Object.keys(settings).length > 0">
+      <q-item> <q-item-section>name</q-item-section> <q-item-section>{{ settings.name }}</q-item-section>
       </q-item>
-      <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ room.bidDurationInSeconds
+      <q-item> <q-item-section>bidDurationInSeconds</q-item-section> <q-item-section>{{ settings.bidDurationInSeconds
           }}</q-item-section> </q-item>
       <q-item> <q-item-section>countDownTimeInSeconds</q-item-section> <q-item-section>{{
-      room.countDownTimeInSeconds }}</q-item-section> </q-item>
-      <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ room.organiserFee
+      settings.countDownTimeInSeconds }}</q-item-section> </q-item>
+      <q-item> <q-item-section>organiserFee</q-item-section> <q-item-section>{{ settings.organiserFee
           }}</q-item-section> </q-item>
-      <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ room.minimumBid }}</q-item-section>
+      <q-item> <q-item-section>minimumBid</q-item-section> <q-item-section>{{ settings.minimumBid }}</q-item-section>
       </q-item>
-      <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ room.minimumBidIncrement
+      <q-item> <q-item-section>minimumBidIncrement</q-item-section> <q-item-section>{{ settings.minimumBidIncrement
           }}</q-item-section> </q-item>
       <q-item> <q-item-section>enableDiscordProtection</q-item-section> <q-item-section>{{
-      room.enableDiscordProtection }}</q-item-section> </q-item>
+      settings.enableDiscordProtection }}</q-item-section> </q-item>
       <q-item> <q-item-section>restrictBidsToEquipable</q-item-section> <q-item-section>{{
-      room.restrictBidsToEquipable }}</q-item-section> </q-item>
+      settings.restrictBidsToEquipable }}</q-item-section> </q-item>
       <q-item> <q-item-section>hideNameOfHighestBidder</q-item-section> <q-item-section>{{
-      room.hideNameOfHighestBidder }}</q-item-section> </q-item>
-      <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ room.hidePayoutDetails
+      settings.hideNameOfHighestBidder }}</q-item-section> </q-item>
+      <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ settings.hidePayoutDetails
           }}</q-item-section> </q-item>
     </q-list>
   </q-card-section>
@@ -73,7 +73,7 @@
           </q-badge>
         </q-td>
         <q-td key="itemName" :props="props">
-          <a :href="getWowheadItemURL(props.row.itemId, room.namespace)" target="_blank"
+          <a :href="getWowheadItemURL(props.row.itemId, settings.namespace)" target="_blank"
             :class="`q${props.row.quality}`">
             <img class="q-mx-sm" v-if:="props.row.icon" style="vertical-align: middle; box-shadow: 0 0 10px black"
               :src="getWowheadImageURL(props.row.icon)" />
@@ -96,12 +96,12 @@
           </q-badge>
           <q-popup-edit :props="props" v-model.number="bids.bids[`${props.row.itemId}-${props.row.rowId}`]" auto-save
             autofocus v-slot="scope">
-            <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, room)"
+            <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, settings)"
               :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
               :rules="[
       (val) =>
-        (!isNaN(val) && val >= minimumAcceptableBid(props.row, room)) ||
-        `Minimum bid is ${minimumAcceptableBid(props.row, room)}!`,
+        (!isNaN(val) && val >= minimumAcceptableBid(props.row, settings)) ||
+        `Minimum bid is ${minimumAcceptableBid(props.row, settings)}!`,
     ]
       " />
           </q-popup-edit>
@@ -148,7 +148,7 @@
             <q-input class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
               v-model.number="props.row.minimumPrice" dense auto-save hint="For start auction, restart, reopen">
               <template v-slot:before>
-                <q-icon name="clear" @click="() => { props.row.minimumPrice = room.minimumBid }"
+                <q-icon name="clear" @click="() => { props.row.minimumPrice = settings.minimumBid }"
                   class="cursor-pointer"></q-icon>
               </template>
             </q-input>
@@ -225,7 +225,7 @@ const route = useRoute();
 const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 
 const roomStore = useRoomStore();
-const { room } = storeToRefs(roomStore);
+const { room, settings } = storeToRefs(roomStore);
 const { fetch } = roomStore;
 
 const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
@@ -250,7 +250,7 @@ function calcColor(auction: Auction): string {
     auction.status = Status.Assigned
     return 'orange'
   }
-  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= room.value.countDownTimeInSeconds + 2.0 // magic number 2
+  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= settings.value.countDownTimeInSeconds + 2.0 // magic number 2
   if (isCountdown) {
     if (auction.bidderName !== null && auction.bidderName === myName.value) {
       return 'green'
@@ -275,14 +275,14 @@ function calcProgress(auction: Auction): number {
   const isExpired = (auction.expiration - currentTimeInUnixTimeStamp.value) <= 0
   if (isExpired) { return 1.0 }
 
-  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= room.value.countDownTimeInSeconds + 2.0 // magic number 2
+  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= settings.value.countDownTimeInSeconds + 2.0 // magic number 2
   let progress
   if (isCountdown) {
 
-    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / room.value.countDownTimeInSeconds
+    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / settings.value.countDownTimeInSeconds
   }
   else {
-    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / room.value.bidDurationInSeconds
+    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / settings.value.bidDurationInSeconds
   }
   progress = Math.max(0, progress)
   progress = Math.min(1, progress)
@@ -564,13 +564,13 @@ function onCountdown(auction: Auction): void {
 
 function onMinimum(auction: Auction): void {
   console.log('@onMinimum');
-  const newBid: number = minimumAcceptableBid(auction, room.value);
+  const newBid: number = minimumAcceptableBid(auction, settings.value);
   bids.value.setBid(auction.itemId, auction.rowId, newBid);
 }
 
 function onIncrement(auction: Auction): void {
   console.log('@onIncrement');
-  const newBid: number = getNextIncrement(auction, room.value, bids.value);
+  const newBid: number = getNextIncrement(auction, settings.value, bids.value);
   bids.value.setBid(auction.itemId, auction.rowId, newBid);
 }
 
@@ -603,12 +603,12 @@ async function onSubmitBid(auction: Auction): Promise<void> {
 
   // Validate myBid
   const val = bids.value.getBid(auction.itemId, auction.rowId);
-  const isValidMyBid: boolean = (val !== null) && (!isNaN(val)) && (val >= minimumAcceptableBid(auction, room.value))
+  const isValidMyBid: boolean = (val !== null) && (!isNaN(val)) && (val >= minimumAcceptableBid(auction, settings.value))
   if (!isValidMyBid) {
     $q.notify({
       progress: true,
       timeout: 1500,
-      message: `Minimum bid is ${minimumAcceptableBid(auction, room.value)}!`,
+      message: `Minimum bid is ${minimumAcceptableBid(auction, settings.value)}!`,
       type: 'warning',
       position: 'bottom',
     })

@@ -1,3 +1,12 @@
+//export class Auction {
+//  rowId: number;
+//  itemId: number;
+//  constructor(rowId: number, itemId: number) {
+//    this.rowId = rowId;
+//    this.itemId = itemId;
+//  }
+//}
+
 export type Auction = {
   rowId: number;
   itemId: number;
@@ -20,9 +29,8 @@ export type User = {
   name: string;
 };
 
-export type Room = {
+export type RoomSettings = {
   name: string;
-  id: string;
   namespace: Namespace;
   enableDiscordProtection: boolean;
   bidDurationInSeconds: number;
@@ -33,6 +41,11 @@ export type Room = {
   organiserFee: number;
   minimumBid: number;
   minimumBidIncrement: number;
+};
+
+export type Room = {
+  id: string;
+  settings: RoomSettings;
   auctions: Auction[];
   users: User[];
 };

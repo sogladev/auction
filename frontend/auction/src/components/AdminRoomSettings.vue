@@ -4,13 +4,13 @@
     <q-card-section>
       <div class="text-h6">General</div>
       <q-card-section class="justify-around" horizontal>
-        <q-input v-model="room.name" color="warning" label="Name" :rules="[
+        <q-input v-model="settings.name" color="warning" label="Name" :rules="[
     (val) => typeof val == 'string' || 'Name must be a string',
     (val) =>
       /^[a-zA-Z0-9]{0,12}$/.test(val) ||
       'Name can only contain alphanumeric characters and be max 12 chars',
   ]" />
-        <q-input v-model.number="room.organiserFee" color="warning" type="number" label="Organiser fee (%)" prefix="%"
+        <q-input v-model.number="settings.organiserFee" color="warning" type="number" label="Organiser fee (%)" prefix="%"
           min="0" max="100" :rules="[
     (val) =>
       (!isNaN(val) && val <= 100 && val >= 0) ||
@@ -22,7 +22,7 @@
     <q-card-section>
       <div class="text-h6">Security</div>
       <q-card-section class="justify-around" horizontal>
-        <q-toggle v-model="room.enableDiscordProtection" checked-icon="check" color="warning"
+        <q-toggle v-model="settings.enableDiscordProtection" checked-icon="check" color="warning"
           label="Enable Discord verification" unchecked-icon="clear" />
       </q-card-section>
     </q-card-section>
@@ -33,12 +33,12 @@
         <div class="q-pa-md">
           <q-icon name="timer" />
           <q-badge color="warning">
-            Bid Duration {{ room.bidDurationInSeconds }}s
-            {{ formatTime(room.bidDurationInSeconds) }}(MM:SS)
+            Bid Duration {{ settings.bidDurationInSeconds }}s
+            {{ formatTime(settings.bidDurationInSeconds) }}(MM:SS)
           </q-badge>
 
-          <q-slider v-model="room.bidDurationInSeconds" :min="0" :max="720" :step="5" label
-            :label-value="formatTime(room.bidDurationInSeconds)" color="warning" :rules="[
+          <q-slider v-model="settings.bidDurationInSeconds" :min="0" :max="720" :step="5" label
+            :label-value="formatTime(settings.bidDurationInSeconds)" color="warning" :rules="[
     (val: number) =>
       (!isNaN(val) && val >= 0) ||
       'Bid duration must be a number greater or equal than 0!',
@@ -48,11 +48,11 @@
         <div class="q-pa-md">
           <q-icon name="timer" />
           <q-badge color="warning">
-            Countdown Duration {{ room.countDownTimeInSeconds }}s
-            {{ formatTime(room.countDownTimeInSeconds) }}(MM:SS)
+            Countdown Duration {{ settings.countDownTimeInSeconds }}s
+            {{ formatTime(settings.countDownTimeInSeconds) }}(MM:SS)
           </q-badge>
-          <q-slider v-model="room.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
-            :label-value="formatTime(room.countDownTimeInSeconds)" color="warning" :rules="[
+          <q-slider v-model="settings.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
+            :label-value="formatTime(settings.countDownTimeInSeconds)" color="warning" :rules="[
     (val: number) =>
       (!isNaN(val) && val >= 20) ||
       'Countdown duration must be a number greater or equal than 20!',
@@ -61,12 +61,12 @@
       </q-card-section>
 
       <q-card-section class="justify-around" horizontal>
-        <q-input v-model.number="room.minimumBid" color="warning" type="number" label="Minimum bid" min="0" :rules="[
+        <q-input v-model.number="settings.minimumBid" color="warning" type="number" label="Minimum bid" min="0" :rules="[
     (val) =>
       (!isNaN(val) && val >= 0) ||
       'Min bid must be a positive numberl!',
   ]" />
-        <q-input v-model.number="room.minimumBidIncrement" color="warning" type="number" label="Minimum increment"
+        <q-input v-model.number="settings.minimumBidIncrement" color="warning" type="number" label="Minimum increment"
           min="1" :rules="[
     (val) =>
       (!isNaN(val) && val >= 0) ||
@@ -79,11 +79,11 @@
       <q-card>
         <q-card-section>
           <q-card-section class="justify-around">
-            <q-toggle v-model="room.restrictBidsToEquipable" color="warning" label="Restrict bids to equipable items" />
-            <q-toggle v-model="room.hidePayoutDetails" color="warning" label="Hide payout details" />
+            <q-toggle v-model="settings.restrictBidsToEquipable" color="warning" label="Restrict bids to equipable items" />
+            <q-toggle v-model="settings.hidePayoutDetails" color="warning" label="Hide payout details" />
           </q-card-section>
           <q-card-section class="justify-around">
-            <q-toggle v-model="room.hideNameOfHighestBidder" color="warning" label="Hide name of highest bidder" />
+            <q-toggle v-model="settings.hideNameOfHighestBidder" color="warning" label="Hide name of highest bidder" />
           </q-card-section>
         </q-card-section>
       </q-card>
@@ -173,7 +173,7 @@ const $q = useQuasar();
 const route = useRoute();
 const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 const roomStore = useRoomStore();
-const { room } = storeToRefs(roomStore);
+const { settings } = storeToRefs(roomStore);
 const { fetch, toCSV } = roomStore;
 
 const validationHeader =
@@ -260,9 +260,9 @@ function formatTime(seconds: number) {
 async function onSubmit() {
   console.log('@submet.prevent');
   console.log('Put form and create room with given settings');
-  console.log(room.value);
+  console.log(settings.value);
   api
-    .put(`/api/rooms/${roomId}`, room.value)
+    .put(`/api/rooms/${roomId}`, settings.value)
     .then((response) => {
       console.log('response submit put room settings');
       console.log(response);

@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 
-import { Auction, Room, Namespace, Status } from 'src/components/models';
+import { Auction, Room, Namespace, Status, RoomSettings } from 'src/components/models';
 
 export const useRoomStore = defineStore('RoomStore', {
   state: () => ({
     room: {} as Room,
+    settings: {} as RoomSettings,
     isAdmin: false as boolean,
   }),
   getters: {
@@ -23,6 +24,7 @@ export const useRoomStore = defineStore('RoomStore', {
         .then((response) => {
           console.log(response);
           this.room = response.data;
+          this.settings = response.data.settings;
           this.isAdmin = true;
           return response.data.id;
         });
@@ -32,6 +34,7 @@ export const useRoomStore = defineStore('RoomStore', {
         .get(`/api/rooms/${roomId}`)
         .then((response) => {
           this.room = response.data;
+          this.settings = response.data.settings;
           return true;
         })
         .catch((error) => {

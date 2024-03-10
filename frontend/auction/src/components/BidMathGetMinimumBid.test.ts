@@ -1,11 +1,11 @@
 import { minimumAcceptableBid } from 'src/components/BidMath';
-import { Auction, Room } from 'src/components/models';
+import { Auction, RoomSettings } from 'src/components/models';
 
 import { describe, expect, it } from 'vitest';
 
 describe('minimumAcceptableBid', () => {
   it('should return minPrice if no bid placed and no my bid placed', () => {
-    const room = <Room>{
+    const settings = <RoomSettings>{
       minimumBidIncrement: 10,
     };
 
@@ -15,13 +15,13 @@ describe('minimumAcceptableBid', () => {
       bidderName: 'bidder',
     };
 
-    const result = minimumAcceptableBid(auction, room);
+    const result = minimumAcceptableBid(auction, settings);
 
     expect(result).toEqual(110);
   });
 
   it('should return minPrice if no bid placed and no my bid placed', () => {
-    const room = <Room>{
+    const settings = <RoomSettings>{
       minimumBidIncrement: 10,
     };
 
@@ -31,13 +31,13 @@ describe('minimumAcceptableBid', () => {
       bidderName: 'bidder',
     };
 
-    const result = minimumAcceptableBid(auction, room);
+    const result = minimumAcceptableBid(auction, settings);
 
     expect(result).toEqual(120);
   });
 
   it('should return minPrice if no bid placed and no my bid placed', () => {
-    const room = <Room>{
+    const settings = <RoomSettings>{
       minimumBidIncrement: 10,
     };
 
@@ -47,13 +47,13 @@ describe('minimumAcceptableBid', () => {
       bidderName: 'bidder',
     };
 
-    const result = minimumAcceptableBid(auction, room);
+    const result = minimumAcceptableBid(auction, settings);
 
     expect(result).toEqual(120);
   });
 
   it('should return minPrice if no bid placed and no my bid placed', () => {
-    const room = <Room>{
+    const settings = <RoomSettings>{
       minimumBidIncrement: 10,
     };
 
@@ -63,13 +63,13 @@ describe('minimumAcceptableBid', () => {
       bidderName: undefined,
     };
 
-    const result = minimumAcceptableBid(auction, room);
+    const result = minimumAcceptableBid(auction, settings);
 
     expect(result).toEqual(100);
   });
 
   it('should return minPrice if no bid placed and no my bid placed', () => {
-    const room = <Room>{
+    const settings = <RoomSettings>{
       minimumBidIncrement: 10,
     };
 
@@ -79,13 +79,13 @@ describe('minimumAcceptableBid', () => {
       bidderName: undefined,
     };
 
-    const result = minimumAcceptableBid(auction, room);
+    const result = minimumAcceptableBid(auction, settings);
 
     expect(result).toEqual(100);
   });
 
   it('should return minPrice if no bid placed and no my bid placed', () => {
-    const room = <Room>{
+    const settings = <RoomSettings>{
       minimumBidIncrement: 10,
     };
 
@@ -95,13 +95,13 @@ describe('minimumAcceptableBid', () => {
       bidderName: 'bidder',
     };
 
-    const result = minimumAcceptableBid(auction, room);
+    const result = minimumAcceptableBid(auction, settings);
 
     expect(result).toEqual(120);
   });
 
   it('should return minPrice if no bid placed and no my bid placed', () => {
-    const room = <Room>{
+    const settings = <RoomSettings>{
       minimumBidIncrement: 10,
     };
 
@@ -111,7 +111,7 @@ describe('minimumAcceptableBid', () => {
       bidderName: 'bidder',
     };
 
-    const result = minimumAcceptableBid(auction, room);
+    const result = minimumAcceptableBid(auction, settings);
 
     expect(result).toEqual(120);
   });
