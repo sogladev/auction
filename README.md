@@ -90,6 +90,7 @@ Data
 - [x] design room mongoDB document structure
 - [x] validate form input backend
 - [x] validate form input frontend
+- [ ] Make generic datastore based on PonyStore, ItemInfo loads from datastore
 
 Pages/navigation
 - [x] join room with a code
