@@ -43,7 +43,9 @@
     <q-card class="sync-session-card">
       <div class="text-h6">Synchronize Session</div>
       <q-card-actions class="justify-around">
-        <q-btn icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
+        <q-btn icon="sync" @click="onSubmitSyncRoomSettings" type="submit" color="secondary" label="Synchronize Settings" />
+        <q-btn icon="sync" @click="onSubmitSyncRoomAuctions" type="submit" color="secondary" label="Synchronize Auctions" />
+        <q-btn icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize All" />
         <q-toggle v-model="isAutoFetch" icon="sync" label="Auto synchronize" color="secondary" size="lg"
           :value="true"></q-toggle>
       </q-card-actions>
@@ -51,7 +53,7 @@
   </q-card-section>
 
   <div class="text-h6">Auctions</div>
-  <q-table :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="room.auctions"
+  <q-table :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="auctions"
     v-model:columns="columns">
     <template v-slot:body="props">
       <q-tr :props="props" v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
@@ -173,13 +175,13 @@
     <!--total items: 28  pending: 5 filtered: 28    bid total: 13 my total: 5 -->
     <template v-slot:bottom>
       <div class="flex justify-around">
-        <div class="text-h8 q-px-md">total items: {{ Object.keys(room.auctions).length }}</div>
-        <div class="text-h8 q-px-md">pending items: {{ room.auctions.filter(auction => auction.status ==
+        <div class="text-h8 q-px-md">total items: {{ Object.keys(auctions).length }}</div>
+        <div class="text-h8 q-px-md">pending items: {{ auctions.filter(auction => auction.status ==
       Status.Pending).length }}</div>
         <div class="text-h8 q-px-md">filtered items: ?TODO </div>
-        <div class="text-h8 q-px-md">bid total: {{ room.auctions.reduce((acc, auction) => acc + (auction.bid ?
+        <div class="text-h8 q-px-md">bid total: {{ auctions.reduce((acc, auction) => acc + (auction.bid ?
       auction.bid : 0), 0) }}</div>
-        <div class="text-h8 q-px-md">my total: {{ room.auctions.filter(auction => auction.bidderName == myName).reduce(
+        <div class="text-h8 q-px-md">my total: {{ auctions.filter(auction => auction.bidderName == myName).reduce(
       (acc, auction) => acc + (auction.bid ? auction.bid : 0), 0) }}</div>
       </div>
     </template>
@@ -187,19 +189,13 @@
     <template v-slot:top-right>
       <q-toggle v-model="isShowOnlyWatched" icon="visibility" label="Show only watched" color="secondary" size="lg"
         :value="isShowOnlyWatched"></q-toggle>
-
     </template>
 
     <template v-slot:top-left>
       <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="warning" icon="visibility"
         label="Show admin controls" size="lg" :value="isShowAdminControls"></q-toggle>
     </template>
-
-
-
   </q-table>
-
-
 </template>
 
 <script lang="ts" setup>
@@ -225,8 +221,8 @@ const route = useRoute();
 const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 
 const roomStore = useRoomStore();
-const { room, settings } = storeToRefs(roomStore);
-const { fetch } = roomStore;
+const { auctions, settings } = storeToRefs(roomStore);
+const { fetch, fetchSettings, fetchAuctions } = roomStore;
 
 const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 
@@ -296,7 +292,7 @@ onMounted(() => {
 
   fetchInterval = setInterval(() => {
     if (isAutoFetch.value) {
-      fetch(roomId)
+      fetchAuctions(roomId)
     }
   }, 4000)
 
@@ -378,6 +374,19 @@ async function onSubmitSyncRoom() {
   console.log(`onSubmitSyncRoom for roomId: ${roomId}`);
   fetch(roomId);
 }
+
+async function onSubmitSyncRoomSettings() {
+  console.log('@submet.prevent');
+  console.log(`onSubmitSyncRoomSettings for roomId: ${roomId}`);
+  fetchSettings(roomId);
+}
+
+async function onSubmitSyncRoomAuctions() {
+  console.log('@submet.prevent');
+  console.log(`onSubmitSyncRoomAuctions for roomId: ${roomId}`);
+  fetchAuctions(roomId);
+}
+
 
 function onClose(auction: Auction): void {
   console.log('@onClose');

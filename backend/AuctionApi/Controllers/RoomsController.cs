@@ -50,6 +50,52 @@ public class RoomsController(RoomsService roomsService, WarcraftService warcraft
         return room;
     }
 
+    [HttpGet("{id:length(24)}/settings")]
+    public async Task<ActionResult<RoomSettings>> GetSettings(string id)
+    {
+        var room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Settings is null)
+        {
+            return NotFound();
+        }
+        return room.Settings;
+    }
+
+    [HttpGet("{id:length(24)}/auctions")]
+    public async Task<ActionResult<List<Auction>>> GetAuctions(string id)
+    {
+        var room = await _roomsService.GetAsync(id);
+
+        if (room is null || room.Auctions is null)
+        {
+            return NotFound();
+        }
+
+        // Check if auctions have expired and change their state to assigned
+        if (room.Auctions is not null)
+        {
+            long CurrentTimeUnixTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            bool changeState = false;
+            foreach (Auction auction in room.Auctions)
+            {
+                if (auction.Status == Status.Bidding)
+                {
+                    if (CurrentTimeUnixTimestamp >= auction.Expiration)
+                    {
+                        auction.Status = Status.Assigned;
+                        changeState = true;
+                    }
+                }
+            }
+            if (changeState)
+            {
+                await _roomsService.UpdateAsync(id, room);
+            }
+        }
+        return room.Auctions;
+    }
+
     [HttpPost("create")]
     public async Task<IActionResult> Post(string Namespace)
     {
