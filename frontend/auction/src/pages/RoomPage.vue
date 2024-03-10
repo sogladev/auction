@@ -43,7 +43,7 @@
         </template>
       </q-field>
 
-      <q-toggle v-model="isAdmin" color="warning" label="Test admin" size="lg" :value="false" />
+      <q-toggle v-model="isAdmin" color="warning" label="Test admin" size="lg" />
     </q-card-section>
 
     <div v-if="isValidRoom">

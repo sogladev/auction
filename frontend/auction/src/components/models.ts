@@ -57,6 +57,7 @@ export enum Namespace {
 }
 export class Bids {
   public bids: { [key: string]: number } = {};
+  public watch: { [key: string]: boolean } = {};
 
   setBid(itemId: number, rowId: number, bidAmount: number) {
     this.bids[`${itemId}-${rowId}`] = bidAmount;
@@ -64,5 +65,32 @@ export class Bids {
 
   getBid(itemId: number, rowId: number) {
     return this.bids[`${itemId}-${rowId}`];
+  }
+
+  setWatchValue(itemId: number, rowId: number, isWatched: boolean) {
+    this.watch[`${itemId}-${rowId}`] = isWatched;
+  }
+
+  getWatchValue(itemId: number, rowId: number) {
+    console.log('get');
+    return this.watch[`${itemId}-${rowId}`] == null
+      ? false
+      : this.watch[`${itemId}-${rowId}`];
+  }
+
+  toggleWatch(itemId: number, rowId: number) {
+    this.watch[`${itemId}-${rowId}`] =
+      this.watch[`${itemId}-${rowId}`] == null
+        ? true
+        : !this.watch[`${itemId}-${rowId}`];
+    console.log('toggle: ', this.getWatchValue(itemId, rowId));
+  }
+
+  setWatch(itemId: number, rowId: number) {
+    this.watch[`${itemId}-${rowId}`] = true;
+  }
+
+  unsetWatch(itemId: number, rowId: number) {
+    this.watch[`${itemId}-${rowId}`] = false;
   }
 }
