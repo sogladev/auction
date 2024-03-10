@@ -29,6 +29,7 @@
     </q-card-section>
 
     <q-card-section v-if="isValidRoom" class="justify-left">
+      <q-toggle v-model="isShowAdminControls" color="warning" label="Show admin controls" size="lg" />
       <q-field bg-color="warning" color="warning" filled label="Admin secret key" stack-label>
         <template v-slot:prepend>
           <q-icon name="key" />
@@ -48,12 +49,12 @@
 
     <div v-if="isValidRoom">
       <q-card class="room-card">
-        <div v-if="isAdmin" class="admin-room-settings">
+        <div v-if="isAdmin && isShowAdminControls" class="admin-room-settings">
           <div class="text-h6">Admin Settings</div>
           <div class="text-h7">configure settings, click save to update to db</div>
           <AdminRoomSettings />
+          <q-separator spaced inset />
         </div>
-        <q-separator spaced inset />
         <div class="session-app">
           <div class="text-h6">Session</div>
           <div class="text-h7">Shows settings, button to synchronize with database, auction displays auctions</div>
@@ -83,7 +84,7 @@ const { fetch } = roomStore;
 const isValidRoom = ref();
 
 const adminKey = ref('this is some key'); // ajax bar
-const { isAdmin } = storeToRefs(roomStore);
+const { isAdmin, isShowAdminControls } = storeToRefs(roomStore);
 
 if (isAdmin.value) {
   // isAdmin and store is set from creation page, so we don't have to fetch

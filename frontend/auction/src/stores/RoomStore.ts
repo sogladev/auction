@@ -9,6 +9,7 @@ export const useRoomStore = defineStore('RoomStore', {
     auctions: {} as Auction[],
     settings: {} as RoomSettings,
     isAdmin: false as boolean,
+    isShowAdminControls: true as boolean,
   }),
   getters: {
     pendingAuctions: (state) => {
