@@ -43,8 +43,10 @@
     <q-card class="sync-session-card">
       <div class="text-h6">Synchronize Session</div>
       <q-card-actions class="justify-around">
-        <q-btn icon="sync" @click="onSubmitSyncRoomSettings" type="submit" color="secondary" label="Synchronize Settings" />
-        <q-btn icon="sync" @click="onSubmitSyncRoomAuctions" type="submit" color="secondary" label="Synchronize Auctions" />
+        <q-btn icon="sync" @click="onSubmitSyncRoomSettings" type="submit" color="secondary"
+          label="Synchronize Settings" />
+        <q-btn icon="sync" @click="onSubmitSyncRoomAuctions" type="submit" color="secondary"
+          label="Synchronize Auctions" />
         <q-btn icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize All" />
       </q-card-actions>
     </q-card>
@@ -73,14 +75,19 @@
           </q-badge>
         </q-td>
         <q-td key="itemName" :props="props">
-          <a :href="getWowheadItemURL(props.row.itemId, settings.namespace)" target="_blank"
-            :class="`q${props.row.itemInfo.quality}`">
-            <img class="q-mx-sm" v-if:="props.row.itemInfo.icon" style="vertical-align: middle; box-shadow: 0 0 10px black"
-              :src="getWowheadImageURL(props.row.itemInfo.icon)" />
-
-            <span style="vertical-align: baseline;"> {{ props.row.itemInfo.name }} </span>
-          </a>
+          <div style="text-align: left">
+            <a :href="getWowheadItemURL(props.row.itemId, settings.namespace)" target="_blank"
+              :class="`q${props.row.itemInfo.quality}`">
+              <img class="q-mx-sm" v-if:="props.row.itemInfo.icon"
+                style="vertical-align: middle; box-shadow: 0 0 10px black"
+                :src="getWowheadImageURL(props.row.itemInfo.icon)" />
+              <span style="vertical-align: baseline">
+                {{ props.row.itemInfo.name }}
+              </span>
+            </a>
+          </div>
         </q-td>
+
         <q-td key="bidderName" :props="props">
           {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName }}
         </q-td>
