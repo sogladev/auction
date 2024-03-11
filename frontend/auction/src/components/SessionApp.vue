@@ -152,9 +152,8 @@
         v-if:="roomStore.isAdmin && isShowAdminControls && !(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
         <q-td colspan="100%">
           <div class="row">
-            <q-badge color="warning"> Admin </q-badge>
-            <q-input class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
-              v-model.number="props.row.minimumPrice" dense auto-save hint="For start auction, restart, reopen">
+            <q-input color="warning" size="md" class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
+              v-model.number="props.row.minimumPrice" dense auto-save>
               <template v-slot:before>
                 <q-icon name="clear" @click="() => { props.row.minimumPrice = settings.minimumBid }"
                   class="cursor-pointer"></q-icon>
