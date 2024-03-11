@@ -17,7 +17,7 @@ export type ItemInfo = {
   itemSubTypeId: number;
   itemType: string;
   itemTypeId: number;
-}
+};
 
 export type Auction = {
   rowId: number;
@@ -91,7 +91,6 @@ export class Bids {
   }
 
   getWatchValue(itemId: number, rowId: number) {
-    console.log('get');
     return this.watch[`${itemId}-${rowId}`] == null
       ? false
       : this.watch[`${itemId}-${rowId}`];
