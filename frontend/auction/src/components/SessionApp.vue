@@ -82,7 +82,8 @@
                 style="vertical-align: middle; box-shadow: 0 0 10px black"
                 :src="getWowheadImageURL(props.row.itemInfo.icon)" />
               <span style="vertical-align: baseline">
-                {{ props.row.itemInfo.name }}
+                {{ props.row.itemInfo.name.length > 23 ? props.row.itemInfo.name.substring(0, 20) + '...' :
+      props.row.itemInfo.name }}
               </span>
             </a>
           </div>
