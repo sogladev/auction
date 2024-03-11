@@ -143,7 +143,8 @@
       <q-tr :props="props" :key="`e_${props.row.index}_progressBar`" class="q-virtual-scroll--with-prev"
         v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
         <q-td colspan="100%">
-          <q-linear-progress :value="calcProgress(props.row)" :color="calcColor(props.row)" />
+          <q-linear-progress :value="calcProgress(currentTimeInUnixTimeStamp, props.row)"
+            :color="calcColor(currentTimeInUnixTimeStamp, props.row)" />
           <br v-if:="!roomStore.isAdmin">
         </q-td>
       </q-tr>
@@ -239,7 +240,7 @@ const currentTimeInUnixTimeStamp = ref(Math.floor(Date.now() / 1000))
 let interval;
 let fetchInterval;
 
-function calcColor(auction: Auction): string {
+function calcColor(currentTimeStamp: number, auction: Auction): string {
   const isPending = (auction.status === Status.Pending)
   const isAssigned = (auction.status === Status.Assigned)
   const isAssignedAndWon = (auction.status === Status.Assigned && auction.bidderName === myName.value)
@@ -249,12 +250,12 @@ function calcColor(auction: Auction): string {
   if (auction.expiration == null) {
     return 'primary';
   }
-  const isExpired = (auction.expiration - currentTimeInUnixTimeStamp.value) <= 0
+  const isExpired = (auction.expiration - currentTimeStamp) <= 0
   if (isExpired) {
     auction.status = Status.Assigned
     return 'orange'
   }
-  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= settings.value.countDownTimeInSeconds + 2.0 // magic number 2
+  const isCountdown = (auction.expiration - currentTimeStamp) <= settings.value.countDownTimeInSeconds + 2.0 // magic number 2
   if (isCountdown) {
     if (auction.bidderName !== null && auction.bidderName === myName.value) {
       return 'green'
@@ -266,7 +267,7 @@ function calcColor(auction: Auction): string {
   return 'secondary'
 }
 
-function calcProgress(auction: Auction): number {
+function calcProgress(currentTimeStamp: number, auction: Auction): number {
   const isPending = (auction.status === Status.Pending)
   if (isPending) { return 1.0 }
   const isAssigned = (auction.status === Status.Assigned)
@@ -276,17 +277,17 @@ function calcProgress(auction: Auction): number {
     auction.status = Status.Assigned
     return 0;
   }
-  const isExpired = (auction.expiration - currentTimeInUnixTimeStamp.value) <= 0
+  const isExpired = (auction.expiration - currentTimeStamp) <= 0
   if (isExpired) { return 1.0 }
 
-  const isCountdown = (auction.expiration - currentTimeInUnixTimeStamp.value) <= settings.value.countDownTimeInSeconds + 2.0 // magic number 2
+  const isCountdown = (auction.expiration - currentTimeStamp) <= settings.value.countDownTimeInSeconds + 2.0 // magic number 2
   let progress
   if (isCountdown) {
 
-    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / settings.value.countDownTimeInSeconds
+    progress = (auction.expiration - currentTimeStamp) / settings.value.countDownTimeInSeconds
   }
   else {
-    progress = (auction.expiration - currentTimeInUnixTimeStamp.value) / settings.value.bidDurationInSeconds
+    progress = (auction.expiration - currentTimeStamp) / settings.value.bidDurationInSeconds
   }
   progress = Math.max(0, progress)
   progress = Math.min(1, progress)
