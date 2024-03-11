@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia';
 import { api } from 'boot/axios';
 
-import { Auction, Room, Namespace, Status, RoomSettings } from 'src/components/models';
+import {
+  Auction,
+  Room,
+  Namespace,
+  Status,
+  RoomSettings,
+} from 'src/components/models';
 
 export const useRoomStore = defineStore('RoomStore', {
   state: () => ({
@@ -50,7 +56,33 @@ export const useRoomStore = defineStore('RoomStore', {
       return api
         .get(`/api/rooms/${roomId}/auctions`)
         .then((response) => {
-          this.auctions = response.data;
+          // this.auctions = response.data;
+          response.data.forEach((newAuction: Auction) => {
+            const existingAuction = this.auctions.find(
+              (auction) =>
+                auction.rowId === newAuction.rowId &&
+                auction.itemId === newAuction.itemId,
+            );
+            if (existingAuction) {
+              if (
+                existingAuction.expiration !== newAuction.expiration ||
+                existingAuction.guid !== newAuction.guid ||
+                existingAuction.minimumPrice !== newAuction.minimumPrice ||
+                existingAuction.status !== newAuction.status ||
+                existingAuction.bid !== newAuction.bid ||
+                existingAuction.bidderName !== newAuction.bidderName
+              ) {
+                Object.assign(existingAuction, newAuction);
+                console.log('update : ', newAuction.rowId);
+              } else {
+                console.log('no change: ', newAuction.rowId);
+              }
+            } else {
+              console.log('new auction');
+              console.log('push new: ', newAuction.rowId);
+              this.auctions.push(newAuction);
+            }
+          });
           return true;
         })
         .catch((error) => {
