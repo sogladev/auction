@@ -64,18 +64,23 @@ export const useRoomStore = defineStore('RoomStore', {
                 auction.itemId === newAuction.itemId,
             );
             if (existingAuction) {
-              if (
-                existingAuction.expiration !== newAuction.expiration ||
-                existingAuction.guid !== newAuction.guid ||
-                existingAuction.minimumPrice !== newAuction.minimumPrice ||
-                existingAuction.status !== newAuction.status ||
-                existingAuction.bid !== newAuction.bid ||
-                existingAuction.bidderName !== newAuction.bidderName
-              ) {
-                Object.assign(existingAuction, newAuction);
-                console.log('update : ', newAuction.rowId);
-              } else {
-                console.log('no change: ', newAuction.rowId);
+              if (existingAuction.expiration !== newAuction.expiration) {
+                existingAuction.expiration = newAuction.expiration;
+              }
+              if (existingAuction.guid !== newAuction.guid) {
+                existingAuction.guid = newAuction.guid;
+              }
+              if (existingAuction.minimumPrice !== newAuction.minimumPrice) {
+                existingAuction.minimumPrice = newAuction.minimumPrice;
+              }
+              if (existingAuction.status !== newAuction.status) {
+                existingAuction.status = newAuction.status;
+              }
+              if (existingAuction.bid !== newAuction.bid) {
+                existingAuction.bid = newAuction.bid;
+              }
+              if (existingAuction.bidderName !== newAuction.bidderName) {
+                existingAuction.bidderName = newAuction.bidderName;
               }
             } else {
               console.log('new auction');
