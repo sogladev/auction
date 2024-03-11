@@ -1,7 +1,9 @@
 resources/
 .vscode
-backend/README.md # symlinked from root
-frontend/README.md # symlinked from root
+backend/README.md
+frontend/README.md
+
+readme-github-drag-and-drop-video/
 
 AuctionApi/bin/
 AuctionApi/obj/
