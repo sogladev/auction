@@ -56,7 +56,14 @@ export const useRoomStore = defineStore('RoomStore', {
       return api
         .get(`/api/rooms/${roomId}/auctions`)
         .then((response) => {
-          // this.auctions = response.data;
+          // Remove local Auctions based on rowIds that are not in the response
+          const newRowIds = response.data.map(
+            (auction: Auction) => auction.rowId,
+          );
+          this.auctions = this.auctions.filter((auction: Auction) =>
+            newRowIds.includes(auction.rowId),
+          );
+          // Update fields of auction
           response.data.forEach((newAuction: Auction) => {
             const existingAuction = this.auctions.find(
               (auction) =>
@@ -64,27 +71,13 @@ export const useRoomStore = defineStore('RoomStore', {
                 auction.itemId === newAuction.itemId,
             );
             if (existingAuction) {
-              if (existingAuction.expiration !== newAuction.expiration) {
-                existingAuction.expiration = newAuction.expiration;
-              }
-              if (existingAuction.guid !== newAuction.guid) {
-                existingAuction.guid = newAuction.guid;
-              }
-              if (existingAuction.minimumPrice !== newAuction.minimumPrice) {
-                existingAuction.minimumPrice = newAuction.minimumPrice;
-              }
-              if (existingAuction.status !== newAuction.status) {
-                existingAuction.status = newAuction.status;
-              }
-              if (existingAuction.bid !== newAuction.bid) {
-                existingAuction.bid = newAuction.bid;
-              }
-              if (existingAuction.bidderName !== newAuction.bidderName) {
-                existingAuction.bidderName = newAuction.bidderName;
-              }
+              existingAuction.expiration = newAuction.expiration;
+              existingAuction.guid = newAuction.guid;
+              existingAuction.minimumPrice = newAuction.minimumPrice;
+              existingAuction.status = newAuction.status;
+              existingAuction.bid = newAuction.bid;
+              existingAuction.bidderName = newAuction.bidderName;
             } else {
-              console.log('new auction');
-              console.log('push new: ', newAuction.rowId);
               this.auctions.push(newAuction);
             }
           });
