@@ -33,6 +33,7 @@
 # Auction
 
 ## Built With
+
 frontend:
 node v20.11.0
 vue js 3
@@ -50,15 +51,18 @@ postman
 Thunder Client extension
 
 ## Requirements
+
 TODO
 
 ## Resources
+
 https://vuejs.org/
 https://quasar.dev/docs
 
 https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-studio
 
 ## Usage
+
 see addon `./addon`
 `/hlm p` export Pending items
 `/hlm i` import auctioned items
@@ -66,22 +70,34 @@ see addon `./addon`
 TODO
 
 ## Roadmap
+
+v0:
+- [x] Create a room with adjustable auction settings
+- [x] Participate in an auction as user / admin
+- [x] Export / Import auctions from ingame <--> web
+
+v1:
+- [ ] Role management (Admin, User)
+- [ ] User management, balance, name, icon
+- [ ] Web socket instead of polling
+
 Addon export [ ]
+
 - [x] export game data
 - [x] import game data
 - [x] data model adjustments
-- [ ] cut addon to reduce unneeded features
+- [ ] adjust addon to remove unneeded features
+- [ ] add amount of items
 
-Roles
+Roles / Auth
 - [ ] join room as viewer or lootmaster
 - [ ] authenticate viewer
 - [ ] authenticate lootmaster
-- [ ] show users that are listening
+- [ ] show users that are participating
 
 Style
 - [x] add dark theme
 - [x] status bar with some content
-- [x] navigate to index, a room
 - [x] room settings form design
 - [x] form slider for fee %, bid duration, countdown
 
@@ -91,9 +107,11 @@ Data
 - [x] validate form input backend
 - [x] validate form input frontend
 - [ ] Make generic datastore based on PonyStore, ItemInfo loads from datastore
+- [ ] Add BoE tag when pulling from API
 
 Pages/navigation
 - [x] join room with a code
+- [x] navigate to index, a room
 - [x] index page
 - [x] go to a new room
 - [x] form page and navigate to a room
@@ -102,9 +120,8 @@ Pages/navigation
 - [x] increment auction
 - [x] load room settings from db
 - [x] make scrollable list for many auctions
-- [ ] Keep footer or a header on top for data / filtering
-- [x] Display valid room
-- [x] Conditional load of valid room
+- [x] display valid room
+- [x] conditional load of valid room
 - [x] global room data
 - [x] load room data when creating
 - [x] load room data when loading
@@ -114,30 +131,33 @@ Items
 - [x] create new auction from ID list
 - [x] load itemInfo data from Blizzard API
 - [x] fix increment
-- [ ] Add caching before API
+- [x] add caching before API
+- [x] add item data for each namespace
+- [ ] add amount of items
 
 Session
+
 - [x] submit auction to db
 - [x] refresh auction data from db
-- [ ] auto refreshing
+- [x] auto refreshing
+- [x] optimize refreshing
 - [x] session state. Start auctions
 - [x] session state. End auctions
 - [ ] Add loot master / admin authentication
 
 Admin controls
-- [ ] Admin buttons, delete, countdown, close, restart, etc
+- [x] Admin buttons, delete, countdown, close, restart, etc
 
-General controls
+Session / General controls
 - [ ] Filter by item name
-- [ ] Filter by "watched"
+- [x] Filter by "watched"
 - [ ] Filter by usable
+- [ ] Add BoE bid as a group
 
 Live / real time updates
-- [ ] Display progression bars
-- [ ] Timer 1: 1 sec update to update current time which updates timers
-- [ ] Timer 2: 1 sec or slower: Server updates.
-  show timer until next update
-
+- [x] Display progression bars
+- [x] Timer 1: fast update to update current time which updates progression timers
+- [x] Timer 2: 1 sec or slower: Server updates
 
 ## Notes
 
@@ -148,6 +168,7 @@ https://dbdiagram.io/d/auction-65c9ab1aac844320aeec5e81
 ![Db Diagram](./images/db_diagram.png.png)
 
 1. meta data
+
 ```mermaid
 flowchart LR;
     game-->in-->website-->out-->game
@@ -157,9 +178,9 @@ flowchart LR;
 ```
 
 1. Loot master interaction
-addon handles exporting of items
-website handles auctions + cuts
-addon handles trading player items
+   addon handles exporting of items
+   website handles auctions + cuts
+   addon handles trading player items
 
 ```mermaid
 flowchart LR;
@@ -169,19 +190,20 @@ flowchart LR;
     out([addon import auctions])
     trade([trade items])
     website([auctions website])
-  ```
+```
 
 1. Player interaction
-no addon required for player
+   no addon required for player
 
 ```mermaid
 flowchart LR;
     website-->game
     game([trade loot master for item])
     website([bid with website gui])
-  ```
+```
 
 1. Addon export items
+
 ```mermaid
 flowchart LR;
     export-->data
@@ -203,12 +225,12 @@ note: items created with /hlma do not have a guid and when importing are not aut
 shift+click items to add. will export/import the guid and allow auto-trading
 
 Test string for /hlma
-```/hlma 19137 18814 17076 18563 17069 17071 17105 17204 16795 16808 16813 16821 16834 16842 16846 16854 16866 18264 18260 17011```
+`/hlma 19137 18814 17076 18563 17069 17071 17105 17204 16795 16808 16813 16821 16834 16842 16846 16854 16866 18264 18260 17011`
 smaller
-```/hlma 19137 18814 17076```
-
+`/hlma 19137 18814 17076`
 
 `/hlm e`
+
 ```
 rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice,guid
 1,19137,Onslaught Girdle,4,78,60,Armor,Plate,1,3000,noguid
@@ -223,22 +245,23 @@ rowId,id,name,quality,ilvl,minLevel,itemType,itemSubType,infoStatus,infoMinPrice
 `/hlm i`
 
 itemIdreateForId(tonumber(elements[1]))
-  item.info = {
-    status = tonumber(elements[2]),
-    minPrice = tonumber(elements[3]),
-    exp = tonumber(elements[4]),
-    winner = elements[5],
-    salePrice = tonumber(elements[6])
-  }
-  item.guid = elements[7] -- Encode != Decode. Field is only needed to be decoded from GUI
+item.info = {
+status = tonumber(elements[2]),
+minPrice = tonumber(elements[3]),
+exp = tonumber(elements[4]),
+winner = elements[5],
+salePrice = tonumber(elements[6])
+}
+item.guid = elements[7] -- Encode != Decode. Field is only needed to be decoded from GUI
+
 ```
 rowID,itemId,status,minPrice,exp,winner,salePrice,guid
 1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
 ```
 
-
 1. Website
-TODO: itemName, icon, rarity from wowhead API
+   TODO: itemName, icon, rarity from wowhead API
+
 ```mermaid
 flowchart LR;
     input-->magic-->output
@@ -247,30 +270,21 @@ flowchart LR;
 ## Frontend
 
 output
+
 ```
 rowID,itemId,status,minPrice,exp,winner,salePrice,guid
 1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
 ```
 
-3 pages
-/index page
-  form
-  join room
-  create room
-/raid/unique
-  session
-  participate form
-  admin start/stop
-  list of items
-  buttons to control
-  interact with db
-  
-![frontend_index_light](./images/frontend_index_light.png) 
-![frontend_index_dark](./images/frontend_index_dark.png) 
-![frontend_room_light](./images/frontend_room_light.png) 
-![frontend_room_dark_loaded](./images/frontend_room_light_loaded.png) 
-  
+ItemIds from molten core
+
+```
+19137,18814,17076,12282,16901, 18815, 18816, 17204, 17082,7078, 18646, 18803, 19140, 17073, 17069, 18821, 18879, 18264, 18260
+```
+
+
 Toggle options group
+
 ```
 Options for toggles
 group: ref(['op1'])
@@ -285,8 +299,8 @@ options: [ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2
   </div>
 ```
 
-
 ### Tools installed
+
 Typescript
 JSX
 Vue Router
@@ -308,6 +322,7 @@ npm create vite@latestnpm install primevue✔ Project name: … auction
 ```
 
 ## Backend
+
 TODO: Use pony client to gather data. Does it cache? Store item data in mongo
 
 dotnet add package ArgentPonyWarcraftClient --version 8.1.8
@@ -326,6 +341,7 @@ compass
 mongodb://localhost:27017
 
 response of GET request to /api/auctions
+
 ```
 [
   {
@@ -348,6 +364,7 @@ response of GET request to /api/auctions
 ```
 
 Document data format
+
 ```
 // JSON Room
 {
@@ -427,6 +444,19 @@ Document data format
 }
 ```
 
+# Video
+
+
+# Images
+
+![](./images/frontend_index_dark_selected.png)
+![](./images/frontend_room_dark_admin1.png)
+![](./images/frontend_room_dark_admin2.png)
+![](./images/frontend_room_dark_admin3.png)
+![](./images/frontend_room_dark_user1.png)
+![](./images/frontend_room_dark_user2.png)
+![](./images/frontend_room_dark_user3.png)
+
 [Python.org]: https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
@@ -435,10 +465,8 @@ Document data format
 [Bootstrap-url]: https://getbootstrap.com
 [Electron.js]: https://img.shields.io/badge/Electron-191970?style=for-the-badge&logo=Electron&logoColor=white
 [Electron-url]: https://www.electronjs.org/
-
-
-[Twitch.com]: 	https://img.shields.io/badge/Twitch-9146FF?style=for-the-badge&logo=twitch&logoColor=white
-[Twitch-url]:    https://twitch.com
-[Youtube-url]:    https://youtube.com
+[Twitch.com]: https://img.shields.io/badge/Twitch-9146FF?style=for-the-badge&logo=twitch&logoColor=white
+[Twitch-url]: https://twitch.com
+[Youtube-url]: https://youtube.com
 [Youtube.com]: https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white
 [gui-screenshot]: https://github.com/jellemeeus/gui-compilation-from-cluster/raw/main/screenshot.png
