@@ -16,7 +16,7 @@
       <div class="text-h6">User</div>
       <div class="row">
         <div class="q-px-sm col-md-6 col-sm-12">
-          <q-input ref="qinputMyNameRef" v-model="myName" label="UserName" :rules="[
+          <q-input ref="qinputMyNameRef" color="white" v-model="myName" label="UserName" :rules="[
         (val) => typeof val == 'string' || 'Name must be a string',
         (val) =>
           /^[a-zA-Z0-9]{1,12}$/.test(val) ||

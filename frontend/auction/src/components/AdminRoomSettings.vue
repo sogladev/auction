@@ -1,5 +1,6 @@
 <template>
-  <q-field label-color="white" bg-color="primary" filled label="Admin secret key" stack-label>
+  <q-field bg-color="primary" filled label="Admin secret key" stack-label>
+
     <template v-slot:prepend>
       <q-icon name="key" />
     </template>
@@ -17,7 +18,7 @@
         <div class="text-h6">General</div>
         <div class="row">
           <div class="q-px-sm col-md-6 col-sm-12">
-            <q-input spellcheck="false" v-model="settings.name" color="primary" label="Name" :rules="[
+            <q-input spellcheck="false" v-model="settings.name" color="white" label="Name" :rules="[
         (val) => typeof val == 'string' || 'Name must be a string',
         (val) =>
           /^[a-zA-Z0-9]{0,12}$/.test(val) ||
@@ -26,7 +27,7 @@
           </div>
 
           <div class="q-px-sm col-md-6 col-sm-12">
-            <q-input v-model.number="settings.organiserFee" color="primary" type="number" label="Organiser fee (%)"
+            <q-input v-model.number="settings.organiserFee" color="white" type="number" label="Organiser fee (%)"
               prefix="%" min="0" max="100" :rules="[
         (val) =>
           (!isNaN(val) && val <= 100 && val >= 0) ||
@@ -63,7 +64,7 @@
           </div>
 
           <div class="q-px-sm col-md-6 col-sm-12">
-            <q-input v-model.number="settings.minimumBid" color="primary" type="number" label="Minimum bid" min="0"
+            <q-input v-model.number="settings.minimumBid" color="white" type="number" label="Minimum bid" min="0"
               :rules="[
         (val) =>
           (!isNaN(val) && val >= 0) ||
@@ -72,7 +73,7 @@
           </div>
 
           <div class="q-px-sm col-md-6 col-sm-12">
-            <q-input v-model.number="settings.minimumBidIncrement" color="primary" type="number"
+            <q-input v-model.number="settings.minimumBidIncrement" color="white" type="number"
               label="Minimum increment" min="1" :rules="[
         (val) =>
           (!isNaN(val) && val >= 0) ||
@@ -115,7 +116,7 @@
 
     <div class="row">
       <div class="col-12 q-pa-sm">
-        <q-input clearable debounce="500" color="primary" label="Paste your string here" v-model="textAreaItemsCSV"
+        <q-input clearable debounce="500" color="white" label="Paste your string here" v-model="textAreaItemsCSV"
           filled type="textarea" :rules="[
         (val) =>
           (typeof val == 'string' &&
@@ -135,7 +136,7 @@
 
     <div class="row">
       <div class="col-12 q-pa-sm">
-        <q-input autogrow debounce="500" color="primary" label="Write itemIds here e.g. 19137,18814"
+        <q-input autogrow debounce="500" color="white" label="Write itemIds here e.g. 19137,18814"
           v-model="textAreaItemIds" filled type="textarea" :rules="[
         (val) => {
           const values = val.split(',').map(v => v.trim());
