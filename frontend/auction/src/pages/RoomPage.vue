@@ -18,25 +18,12 @@
 
       <div v-if="isValidRoom" class="room">
         <div class="row">
-          <div class="col-sm-6 col-xs-12">
+          <div class="col-6">
             <div class="text-h4">Room</div>
             <q-input v-model="roomId" color="primary"  label="RoomId" readonly />
           </div>
-          <div class="col-sm-6 col-xs-12">
+          <div class="col-6">
             <q-img ratio="1" style="max-height: 120px" fit="contain" :src="getNamespaceImageSrc(settings.namespace)" spinner-color="white" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6 col-xs-12">
-            <q-field bg-color="green" filled>
-              <template v-slot:prepend>
-                <q-icon name="check" />
-              </template>
-              <template v-slot:control>
-                <div class="text-h6"> Valid Room </div>
-              </template>
-            </q-field>
           </div>
         </div>
 
