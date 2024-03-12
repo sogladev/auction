@@ -41,8 +41,6 @@
               <q-separator spaced inset />
             </div>
             <div>
-              <div class="text-h6">Session</div>
-              <div class="text-h7">Shows settings, button to synchronize with database, auction displays auctions</div>
               <SessionApp />
             </div>
           </div>
