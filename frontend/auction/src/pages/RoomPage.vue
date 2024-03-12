@@ -89,7 +89,7 @@ else {
   padding: 20px 10px;
   background-color: $solarizedbase03;
   border-radius: 5px;
-  border: 1px solid $solarizedbase00;
+  border: 1px solid $solarizedbase01;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
 }
 </style>
