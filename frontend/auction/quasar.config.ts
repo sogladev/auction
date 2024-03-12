@@ -105,16 +105,6 @@ export default configure((/* ctx */) => {
           negative: '#C10015',
           info: '#31CCEC',
           warning: '#F2C037',
-          //custom
-          tertiary: '#06485A',
-          solarizedbase03: '#002b36',
-          solarizedbase02: '#073642',
-          solarizedbase01: '#586e75',
-          solarizedbase00: '#657b83',
-          solarizedbase0: '#839496',
-          solarizedbase1: '#93a1a1',
-          solarizedbase2: '#eee8d5',
-          solarizedbase3: '#fdf6e3',
         },
         config: {
           notify: 'red' /* look at QuasarConfOptions from the API card  */,

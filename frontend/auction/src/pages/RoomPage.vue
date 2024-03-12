@@ -99,13 +99,14 @@ else {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '/src/css/app.scss';
 .room {
   margin: 0 auto;
   padding: 20px 10px;
-  background-color: #073642;
+  background-color: $solarizedbase03;
   border-radius: 5px;
-  border: 1px solid #586e75;
-  box-shadow: 0 0 10px 2px rgba(0, 0, 0, .3);
+  border: 1px solid $solarizedbase00;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
 }
 </style>

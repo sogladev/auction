@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="toolbar">
         <q-toolbar-title> Auction App </q-toolbar-title>
         <q-tabs inline-label>
           <q-route-tab icon="house" label="Home" to="/" exact />
@@ -21,3 +21,10 @@
 <script lang="ts" setup>
 import DarkModeToggle from 'src/components/DarkModeToggle.vue';
 </script>
+
+<style lang="scss">
+@import '/src/css/app.scss';
+.toolbar {
+  background-color: $solarizedbase02;
+}
+</style>
