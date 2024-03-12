@@ -8,6 +8,7 @@ import {
   Status,
   RoomSettings,
 } from 'src/components/models';
+import { AuctionsToCSV } from 'src/components/AuctionsToCSV';
 
 export const useRoomStore = defineStore('RoomStore', {
   state: () => ({
@@ -101,8 +102,7 @@ export const useRoomStore = defineStore('RoomStore', {
         });
     },
     async toCSV(): Promise<string> {
-      console.log('NotImplementedYet');
-      return 'NotImplementedYet';
+      return AuctionsToCSV(this.auctions)
     },
   },
 });
