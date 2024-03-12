@@ -1,27 +1,13 @@
 <template>
-  <q-page padding>
-  <div class="flex col-2"></div>
-  <div class="flex col-8">
-    <div class="text-h6">Auction App</div>
+  <q-page class="row">
+  <div class="col-2 px-0"></div>
+  <div class="col-8 q-mt-md">
+    <div class="text-h4 text-center">Auction App</div>
     <div>
-      <div class="text-h6">Room</div>
       <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
-        <div>
-          <div class="text-h7">
-            This button allows you to create a room where you can configure and start a session. In this session, you
-            can
-            import items from your inventory or other sources and bid on them with other players. The settings for the
-            room
-            include options such as setting a name (like 'myname'), enabling Discord protection, specifying how long
-            each
-            bid lasts in seconds (240), determining the countdown time before bidding starts in seconds (40), and
-            restricting bids to only items that are equipable.
-          </div>
-        </div>
-
-        <div class="namespace-selection">
-          <div class="text-h6">Select namespace</div>
-          <div class="row">
+        <div class="namespace-selection q-my-md">
+          <div class="text-h5 text-left">Select namespace</div>
+          <div class="row q-my-md">
             <div @click="onNamespaceSelection(Namespace.Era)" class="col-sm-4 col-xs-12">
               <div class="namespace-select q-mx-sm" :class="isEraSelected">
                 <q-img ratio="1" fit="contain" src="/src/assets/wow-logo/wow-classic_1_1_240.png" spinner-color="white"
@@ -53,7 +39,7 @@
       </q-form>
     </div>
   </div>
-  <div class="col-lg-2"></div>
+  <div class="col-2 px-0"></div>
 </q-page>
 </template>
 
