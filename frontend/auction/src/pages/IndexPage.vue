@@ -1,10 +1,10 @@
 <template>
   <div class="flex-center column">
     <div class="text-h6">Auction App</div>
-    <q-card-section class="index-card-section">
+    <div class="index-card-section">
       <div class="text-h6">Room</div>
       <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
-        <q-card-section>
+        <div>
           <div class="text-h7">
             This button allows you to create a room where you can configure and start a session. In this session, you
             can
@@ -15,9 +15,9 @@
             bid lasts in seconds (240), determining the countdown time before bidding starts in seconds (40), and
             restricting bids to only items that are equipable.
           </div>
-        </q-card-section>
+        </div>
 
-        <q-card-section class="namespace-selection">
+        <div class="namespace-selection">
           <div class="text-h6">Select namespace</div>
           <div class="row">
             <div @click="onNamespaceSelection(Namespace.Era)" class="col-sm-4 col-xs-12">
@@ -43,13 +43,13 @@
               </div>
             </div>
           </div>
-        </q-card-section>
+        </div>
 
-        <q-card-actions align="right">
+        <div class="q-my-md" align="center">
           <q-btn unelevated type="submit" :disable="isButtonDisable" color="primary" label="Create Room" />
-        </q-card-actions>
+        </div>
       </q-form>
-    </q-card-section>
+    </div>
   </div>
 </template>
 
