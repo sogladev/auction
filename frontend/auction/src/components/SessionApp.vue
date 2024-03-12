@@ -1,5 +1,5 @@
 <template>
-  <q-card-section class="settings-card">
+  <div class="settings-card">
     <div class="text-h6">Settings</div>
 
     <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
@@ -26,31 +26,31 @@
       <q-item> <q-item-section>hidePayoutDetails</q-item-section> <q-item-section>{{ settings.hidePayoutDetails
           }}</q-item-section> </q-item>
     </q-list>
-  </q-card-section>
+  </div>
 
-  <q-card-section class="justify-around" horizontal>
-    <q-card class="user-card">
+  <div class="justify-around" horizontal>
+    <div class="user-card">
       <div class="text-h6">User</div>
-      <q-card-actions class="justify-around">
+      <div-actions class="justify-around">
         <q-input ref="qinputMyNameRef" v-model="myName" label="UserName" :rules="[
       (val) => typeof val == 'string' || 'Name must be a string',
       (val) =>
         /^[a-zA-Z0-9]{1,12}$/.test(val) ||
         'Name can only contain alphanumeric characters and be max 12 chars',
     ]" />
-      </q-card-actions>
-    </q-card>
-    <q-card class="sync-session-card">
+      </div-actions>
+    </div>
+    <div class="sync-session-card">
       <div class="text-h6">Synchronize Session</div>
-      <q-card-actions class="justify-around">
+      <div-actions class="justify-around">
         <q-btn icon="sync" @click="onSubmitSyncRoomSettings" type="submit" color="secondary"
           label="Synchronize Settings" />
         <q-btn icon="sync" @click="onSubmitSyncRoomAuctions" type="submit" color="secondary"
           label="Synchronize Auctions" />
         <q-btn icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize All" />
-      </q-card-actions>
-    </q-card>
-  </q-card-section>
+      </div-actions>
+    </div>
+  </div>
 
   <div class="text-h6">Auctions</div>
   <q-table :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="auctions"

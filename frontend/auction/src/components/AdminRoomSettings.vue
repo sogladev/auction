@@ -1,35 +1,35 @@
 <template>
   <!-- justify-around or justiy-between -->
   <q-form ref="for" @submit.prevent="onSubmit">
-    <q-card-section>
+    <div>
       <div class="text-h6">General</div>
-      <q-card-section class="justify-around" horizontal>
-        <q-input v-model="settings.name" color="warning" label="Name" :rules="[
+      <div class="row">
+        <q-input spellcheck="false" v-model="settings.name" color="warning" label="Name" :rules="[
     (val) => typeof val == 'string' || 'Name must be a string',
     (val) =>
       /^[a-zA-Z0-9]{0,12}$/.test(val) ||
       'Name can only contain alphanumeric characters and be max 12 chars',
   ]" />
-        <q-input v-model.number="settings.organiserFee" color="warning" type="number" label="Organiser fee (%)" prefix="%"
+        <q-input v-model.number="settings.organiserFee" color="warning" type="number" label="Org fee (%)" prefix="%"
           min="0" max="100" :rules="[
     (val) =>
       (!isNaN(val) && val <= 100 && val >= 0) ||
       'Fee must be a number between 0 and 100!',
   ]" />
-      </q-card-section>
-    </q-card-section>
+      </div>
+    </div>
 
-    <q-card-section>
+    <div>
       <div class="text-h6">Security</div>
-      <q-card-section class="justify-around" horizontal>
+      <div class="justify-around" horizontal>
         <q-toggle v-model="settings.enableDiscordProtection" checked-icon="check" color="warning"
           label="Enable Discord verification" unchecked-icon="clear" />
-      </q-card-section>
-    </q-card-section>
+      </div>
+    </div>
 
-    <q-card-section>
+    <div>
       <div class="text-h6">Bid</div>
-      <q-card-section class="justify-around" horizontal>
+      <div class="justify-around" horizontal>
         <div class="q-pa-md">
           <q-icon name="timer" />
           <q-badge color="warning">
@@ -58,9 +58,9 @@
       'Countdown duration must be a number greater or equal than 20!',
   ]" />
         </div>
-      </q-card-section>
+      </div>
 
-      <q-card-section class="justify-around" horizontal>
+      <div class="justify-around" horizontal>
         <q-input v-model.number="settings.minimumBid" color="warning" type="number" label="Minimum bid" min="0" :rules="[
     (val) =>
       (!isNaN(val) && val >= 0) ||
@@ -72,28 +72,28 @@
       (!isNaN(val) && val >= 0) ||
       'Field must be a number greater than 0!',
   ]" />
-      </q-card-section>
-    </q-card-section>
+      </div>
+    </div>
 
     <q-expansion-item group="advancedSettings" label="Advanced" switch-toggle-side header-class="text-warning">
-      <q-card>
-        <q-card-section>
-          <q-card-section class="justify-around">
+      <div>
+        <div>
+          <div class="justify-around">
             <q-toggle v-model="settings.restrictBidsToEquipable" color="warning" label="Restrict bids to equipable items" />
             <q-toggle v-model="settings.hidePayoutDetails" color="warning" label="Hide payout details" />
-          </q-card-section>
-          <q-card-section class="justify-around">
+          </div>
+          <div class="justify-around">
             <q-toggle v-model="settings.hideNameOfHighestBidder" color="warning" label="Hide name of highest bidder" />
-          </q-card-section>
-        </q-card-section>
-      </q-card>
+          </div>
+        </div>
+      </div>
     </q-expansion-item>
-    <q-card-actions align="right">
+    <div-actions align="right">
       <q-btn icon="save" elevated type="submit" color="warning" label="Save settings to Database" />
-    </q-card-actions>
+    </div-actions>
   </q-form>
 
-  <q-card-section>
+  <div>
     <div class="text-h6">Items</div>
     <div class="text-h7">
       <p>
@@ -108,7 +108,7 @@
       </p>
     </div>
 
-    <q-card-section class="justify-around">
+    <div class="justify-around">
       <div class="text-h7">
         Import items by pasting your import string
       </div>
@@ -119,34 +119,34 @@
         val.startsWith(validationHeader)) ||
       'Invalid import string. Copy all output from /hlm e!',
   ]" />
-    </q-card-section>
-    <q-card-actions align="right">
+    </div>
+    <div-actions align="right">
       <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="warning" label="Append items" />
       <q-btn @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace" color="red"
         label="Replace items" />
-    </q-card-actions>
-    <q-card-section class="justify-around">
+    </div-actions>
+    <div class="justify-around">
       <div class="text-h7">
         Import items by writing itemIds seperated by commas
       </div>
       <q-input max debounce="500" color="warning" label="Write itemIds here e.g. 19137,18814" v-model="textAreaItemIds"
         filled type="textarea" />
-    </q-card-section>
-    <q-card-actions align="right">
+    </div>
+    <div-actions align="right">
       <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="warning"
         label="Append items" />
       <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
         label="Replace items" />
-    </q-card-actions>
-  </q-card-section>
-  <q-card-section class="justify-around">
+    </div-actions>
+  </div>
+  <div class="justify-around">
     <div class="text-h6">Auction controls</div>
     <div class="text-h7"> Starts auctions</div>
     <q-btn @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="warning" label="Start Auctions">
       <q-tooltip class="bg-warning">changes items from pending to bidding</q-tooltip>
     </q-btn>
     <ExportToCSVButtonGroup />
-  </q-card-section>
+  </div>
 </template>
 
 <script lang="ts" setup>
