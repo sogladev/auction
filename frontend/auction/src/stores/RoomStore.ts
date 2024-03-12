@@ -8,7 +8,7 @@ import {
   Status,
   RoomSettings,
 } from 'src/components/models';
-import { AuctionsToCSV } from 'src/components/AuctionsToCSV';
+import { AuctionsToCSV } from 'src/utils/AuctionsToCSV';
 
 export const useRoomStore = defineStore('RoomStore', {
   state: () => ({

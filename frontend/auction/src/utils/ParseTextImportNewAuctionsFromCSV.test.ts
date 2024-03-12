@@ -1,5 +1,5 @@
 import { Auction } from 'src/components/models';
-import { newAuctionsFromCsv } from 'src/components/ParseTextImportNewAuctions';
+import { newAuctionsFromCsv } from 'src/utils/ParseTextImportNewAuctions';
 
 import { describe, expect, it } from 'vitest';
 

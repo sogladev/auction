@@ -88,7 +88,6 @@
             </a>
           </div>
         </q-td>
-
         <q-td key="bidderName" :props="props">
           {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName }}
         </q-td>
@@ -217,8 +216,8 @@ import { storeToRefs } from 'pinia';
 
 import { Auction, BidRequest, Status, Bids } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
-import { minimumAcceptableBid, getNextIncrement } from 'src/components/BidMath';
-import { getWowheadImageURL, getWowheadItemURL } from 'src/components/WowheadURLBuilder';
+import { minimumAcceptableBid, getNextIncrement } from 'src/utils/BidMath';
+import { getWowheadImageURL, getWowheadItemURL } from 'src/utils/WowheadURLBuilder';
 
 const bids = ref(new Bids());
 const isAutoFetch = ref(false);

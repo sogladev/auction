@@ -1,6 +1,6 @@
 import { Auction } from 'src/components/models';
 //import { newAuctionsFromCsv, newAuctionsFromItemIds } from 'src/components/ParseTextImportNewAuctions';
-import { newAuctionsFromItemIds } from 'src/components/ParseTextImportNewAuctions';
+import { newAuctionsFromItemIds } from 'src/utils/ParseTextImportNewAuctions';
 
 import { describe, expect, it } from 'vitest';
 

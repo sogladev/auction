@@ -159,7 +159,7 @@ import { storeToRefs } from 'pinia';
 
 import { useRoomStore } from 'src/stores/RoomStore';
 import { Auction } from './models';
-import { newAuctionsFromCsv, newAuctionsFromItemIds } from 'src/components/ParseTextImportNewAuctions';
+import { newAuctionsFromCsv, newAuctionsFromItemIds } from 'src/utils/ParseTextImportNewAuctions';
 import ExportToCSVButtonGroup from './ExportToCSVButtonGroup.vue';
 
 

@@ -1,4 +1,4 @@
-import { getNextIncrement } from 'src/components/BidMath';
+import { getNextIncrement } from 'src/utils/BidMath';
 import { Auction, Bids, RoomSettings } from 'src/components/models';
 
 import { describe, expect, it } from 'vitest';

@@ -2,7 +2,7 @@ import { Namespace } from 'src/components/models';
 import {
   getWowheadItemURL,
   getWowheadImageURL,
-} from 'src/components/WowheadURLBuilder';
+} from 'src/utils/WowheadURLBuilder';
 
 import { describe, expect, it } from 'vitest';
 

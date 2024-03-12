@@ -1,4 +1,4 @@
-import { minimumAcceptableBid } from 'src/components/BidMath';
+import { minimumAcceptableBid } from 'src/utils/BidMath';
 import { Auction, RoomSettings } from 'src/components/models';
 
 import { describe, expect, it } from 'vitest';

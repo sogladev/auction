@@ -1,4 +1,4 @@
-import { AuctionsToCSV } from 'src/components/AuctionsToCSV';
+import { AuctionsToCSV } from 'src/utils/AuctionsToCSV';
 import { Auction, Status } from 'src/components/models';
 
 import { describe, expect, it } from 'vitest';
