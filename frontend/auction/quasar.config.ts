@@ -93,25 +93,32 @@ export default configure((/* ctx */) => {
       ],
       config: {
         brand: {
-          // Theme generator
+          // https://quasar.dev/style/theme-builder
           primary: '#1976d2',
           secondary: '#26A69A',
           accent: '#9C27B0',
-          tertiary: '#06485A',
-          //dark: '#1d1d1d',
-          //'dark-page': '#121212',
-          dark: '#053542',
-          'dark-page': '#002A35',
-          //dark: '#283056', // Solarized dark 7
-          //'dark-page': '#284258', // Solarized dark 9
+
+          dark: '#1d1d1d',
+          'dark-page': '#002b36',
+
           positive: '#21BA45',
           negative: '#C10015',
           info: '#31CCEC',
           warning: '#F2C037',
+          //custom
+          tertiary: '#06485A',
+          solarizedbase03: '#002b36',
+          solarizedbase02: '#073642',
+          solarizedbase01: '#586e75',
+          solarizedbase00: '#657b83',
+          solarizedbase0: '#839496',
+          solarizedbase1: '#93a1a1',
+          solarizedbase2: '#eee8d5',
+          solarizedbase3: '#fdf6e3',
         },
         config: {
-          notify: 'red' /* look at QuasarConfOptions from the API card  */
-        }
+          notify: 'red' /* look at QuasarConfOptions from the API card  */,
+        },
       },
     },
     animations: [],
