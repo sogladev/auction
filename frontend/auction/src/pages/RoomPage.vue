@@ -41,8 +41,8 @@
         </div>
 
         <div class="justify-left">
-          <q-toggle v-model="isShowAdminControls" color="warning" label="Show admin controls" size="lg" />
-          <q-field bg-color="warning" color="warning" filled label="Admin secret key" stack-label>
+          <q-toggle  v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" label="Show admin controls" size="lg" />
+          <q-field bg-color="primary" color="primary" filled label="Admin secret key" stack-label>
             <template v-slot:prepend>
               <q-icon name="key" />
             </template>
@@ -56,7 +56,7 @@
             </template>
           </q-field>
 
-          <q-toggle v-model="isAdmin" color="warning" label="Test admin" size="lg" />
+          <q-toggle v-model="isAdmin" color="primary" label="Test admin" size="lg" />
         </div>
 
         <div>

@@ -152,7 +152,7 @@
         v-if:="roomStore.isAdmin && isShowAdminControls && !(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
         <q-td colspan="100%">
           <div class="row">
-            <q-input color="warning" size="md" class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
+            <q-input color="primary" size="md" class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
               v-model.number="props.row.minimumPrice" dense auto-save>
               <template v-slot:before>
                 <q-icon name="clear" @click="() => { props.row.minimumPrice = settings.minimumBid }"
@@ -160,15 +160,15 @@
               </template>
             </q-input>
             <q-btn-group>
-              <q-btn color="warning" :disable="props.row.status != Status.Bidding" label="Award/Close" icon="check"
+              <q-btn color="primary" :disable="props.row.status != Status.Bidding" label="Award/Close" icon="check"
                 @click="onClose(props.row)" />
-              <q-btn color="warning" :disable="props.row.status != Status.Bidding" label="Countdown" icon="more_time"
+              <q-btn color="primary" :disable="props.row.status != Status.Bidding" label="Countdown" icon="more_time"
                 @click="onCountdown(props.row)" />
-              <q-btn color="warning" :disable="props.row.status == Status.Pending" label="Restart" icon="history"
+              <q-btn color="primary" :disable="props.row.status == Status.Pending" label="Restart" icon="history"
                 @click="onRestart(props.row)" />
-              <q-btn color="warning" :disable="props.row.status != Status.Assigned" label="Reopen" icon="more_time"
+              <q-btn color="primary" :disable="props.row.status != Status.Assigned" label="Reopen" icon="more_time"
                 @click="onReopen(props.row)" />
-              <q-btn color="warning" label="Delete" icon="delete" @click="onDelete(props.row)" />
+              <q-btn color="primary" label="Delete" icon="delete" @click="onDelete(props.row)" />
             </q-btn-group>
           </div>
           <br>
@@ -200,7 +200,7 @@
 
         <q-toggle v-model="isAutoFetch" icon="sync" label="Auto update table" color="secondary" size="lg"
           :value="true"></q-toggle>
-      <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="warning" icon="visibility"
+      <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" icon="visibility"
         label="Show admin controls" size="lg" :value="isShowAdminControls"></q-toggle>
     </template>
   </q-table>

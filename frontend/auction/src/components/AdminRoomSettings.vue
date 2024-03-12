@@ -4,13 +4,13 @@
     <div>
       <div class="text-h6">General</div>
       <div class="row">
-        <q-input spellcheck="false" v-model="settings.name" color="warning" label="Name" :rules="[
+        <q-input spellcheck="false" v-model="settings.name" color="primary" label="Name" :rules="[
     (val) => typeof val == 'string' || 'Name must be a string',
     (val) =>
       /^[a-zA-Z0-9]{0,12}$/.test(val) ||
       'Name can only contain alphanumeric characters and be max 12 chars',
   ]" />
-        <q-input v-model.number="settings.organiserFee" color="warning" type="number" label="Org fee (%)" prefix="%"
+        <q-input v-model.number="settings.organiserFee" color="primary" type="number" label="Org fee (%)" prefix="%"
           min="0" max="100" :rules="[
     (val) =>
       (!isNaN(val) && val <= 100 && val >= 0) ||
@@ -22,7 +22,7 @@
     <div>
       <div class="text-h6">Security</div>
       <div class="justify-around" horizontal>
-        <q-toggle v-model="settings.enableDiscordProtection" checked-icon="check" color="warning"
+        <q-toggle v-model="settings.enableDiscordProtection" checked-icon="check" color="primary"
           label="Enable Discord verification" unchecked-icon="clear" />
       </div>
     </div>
@@ -32,13 +32,13 @@
       <div class="justify-around" horizontal>
         <div class="q-pa-md">
           <q-icon name="timer" />
-          <q-badge color="warning">
+          <q-badge color="primary">
             Bid Duration {{ settings.bidDurationInSeconds }}s
             {{ formatTime(settings.bidDurationInSeconds) }}(MM:SS)
           </q-badge>
 
           <q-slider v-model="settings.bidDurationInSeconds" :min="0" :max="720" :step="5" label
-            :label-value="formatTime(settings.bidDurationInSeconds)" color="warning" :rules="[
+            :label-value="formatTime(settings.bidDurationInSeconds)" color="primary" :rules="[
     (val: number) =>
       (!isNaN(val) && val >= 0) ||
       'Bid duration must be a number greater or equal than 0!',
@@ -47,12 +47,12 @@
 
         <div class="q-pa-md">
           <q-icon name="timer" />
-          <q-badge color="warning">
+          <q-badge color="primary">
             Countdown Duration {{ settings.countDownTimeInSeconds }}s
             {{ formatTime(settings.countDownTimeInSeconds) }}(MM:SS)
           </q-badge>
           <q-slider v-model="settings.countDownTimeInSeconds" :min="20" :max="120" :step="5" label
-            :label-value="formatTime(settings.countDownTimeInSeconds)" color="warning" :rules="[
+            :label-value="formatTime(settings.countDownTimeInSeconds)" color="primary" :rules="[
     (val: number) =>
       (!isNaN(val) && val >= 20) ||
       'Countdown duration must be a number greater or equal than 20!',
@@ -61,12 +61,12 @@
       </div>
 
       <div class="justify-around" horizontal>
-        <q-input v-model.number="settings.minimumBid" color="warning" type="number" label="Minimum bid" min="0" :rules="[
+        <q-input v-model.number="settings.minimumBid" color="primary" type="number" label="Minimum bid" min="0" :rules="[
     (val) =>
       (!isNaN(val) && val >= 0) ||
       'Min bid must be a positive numberl!',
   ]" />
-        <q-input v-model.number="settings.minimumBidIncrement" color="warning" type="number" label="Minimum increment"
+        <q-input v-model.number="settings.minimumBidIncrement" color="primary" type="number" label="Minimum increment"
           min="1" :rules="[
     (val) =>
       (!isNaN(val) && val >= 0) ||
@@ -75,21 +75,21 @@
       </div>
     </div>
 
-    <q-expansion-item group="advancedSettings" label="Advanced" switch-toggle-side header-class="text-warning">
+    <q-expansion-item group="advancedSettings" label="Advanced" switch-toggle-side>
       <div>
         <div>
           <div class="justify-around">
-            <q-toggle v-model="settings.restrictBidsToEquipable" color="warning" label="Restrict bids to equipable items" />
-            <q-toggle v-model="settings.hidePayoutDetails" color="warning" label="Hide payout details" />
+            <q-toggle v-model="settings.restrictBidsToEquipable" color="primary" label="Restrict bids to equipable items" />
+            <q-toggle v-model="settings.hidePayoutDetails" color="primary" label="Hide payout details" />
           </div>
           <div class="justify-around">
-            <q-toggle v-model="settings.hideNameOfHighestBidder" color="warning" label="Hide name of highest bidder" />
+            <q-toggle v-model="settings.hideNameOfHighestBidder" color="primary" label="Hide name of highest bidder" />
           </div>
         </div>
       </div>
     </q-expansion-item>
     <div-actions align="right">
-      <q-btn icon="save" elevated type="submit" color="warning" label="Save settings to Database" />
+      <q-btn icon="save" elevated type="submit" color="primary" label="Save settings to Database" />
     </div-actions>
   </q-form>
 
@@ -112,7 +112,7 @@
       <div class="text-h7">
         Import items by pasting your import string
       </div>
-      <q-input max debounce="500" color="warning" label="Paste your string here" v-model="textAreaItemsCSV" filled
+      <q-input max debounce="500" color="primary" label="Paste your string here" v-model="textAreaItemsCSV" filled
         type="textarea" :rules="[
     (val) =>
       (typeof val == 'string' &&
@@ -121,7 +121,7 @@
   ]" />
     </div>
     <div-actions align="right">
-      <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="warning" label="Append items" />
+      <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary" label="Append items" />
       <q-btn @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace" color="red"
         label="Replace items" />
     </div-actions>
@@ -129,11 +129,11 @@
       <div class="text-h7">
         Import items by writing itemIds seperated by commas
       </div>
-      <q-input max debounce="500" color="warning" label="Write itemIds here e.g. 19137,18814" v-model="textAreaItemIds"
+      <q-input max debounce="500" color="primary" label="Write itemIds here e.g. 19137,18814" v-model="textAreaItemIds"
         filled type="textarea" />
     </div>
     <div-actions align="right">
-      <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="warning"
+      <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary"
         label="Append items" />
       <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
         label="Replace items" />
@@ -142,8 +142,8 @@
   <div class="justify-around">
     <div class="text-h6">Auction controls</div>
     <div class="text-h7"> Starts auctions</div>
-    <q-btn @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="warning" label="Start Auctions">
-      <q-tooltip class="bg-warning">changes items from pending to bidding</q-tooltip>
+    <q-btn @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="primary" label="Start Auctions">
+      <q-tooltip class="bg-primary">changes items from pending to bidding</q-tooltip>
     </q-btn>
     <ExportToCSVButtonGroup />
   </div>
