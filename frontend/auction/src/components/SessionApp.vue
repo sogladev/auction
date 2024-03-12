@@ -31,24 +31,24 @@
   <div class="justify-around" horizontal>
     <div class="user-card">
       <div class="text-h6">User</div>
-      <div-actions class="justify-around">
+      <div class="justify-around">
         <q-input ref="qinputMyNameRef" v-model="myName" label="UserName" :rules="[
       (val) => typeof val == 'string' || 'Name must be a string',
       (val) =>
         /^[a-zA-Z0-9]{1,12}$/.test(val) ||
         'Name can only contain alphanumeric characters and be max 12 chars',
     ]" />
-      </div-actions>
+      </div>
     </div>
     <div class="sync-session-card">
       <div class="text-h6">Synchronize Session</div>
-      <div-actions class="justify-around">
+      <div class="justify-around">
         <q-btn icon="sync" @click="onSubmitSyncRoomSettings" type="submit" color="secondary"
           label="Synchronize Settings" />
         <q-btn icon="sync" @click="onSubmitSyncRoomAuctions" type="submit" color="secondary"
           label="Synchronize Auctions" />
         <q-btn icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize All" />
-      </div-actions>
+      </div>
     </div>
   </div>
 
@@ -200,6 +200,7 @@
 
         <q-toggle v-model="isAutoFetch" icon="sync" label="Auto update table" color="secondary" size="lg"
           :value="true"></q-toggle>
+
       <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" icon="visibility"
         label="Show admin controls" size="lg" :value="isShowAdminControls"></q-toggle>
     </template>

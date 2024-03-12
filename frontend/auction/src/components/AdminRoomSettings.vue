@@ -88,9 +88,9 @@
         </div>
       </div>
     </q-expansion-item>
-    <div-actions align="right">
+    <div align="right">
       <q-btn icon="save" elevated type="submit" color="primary" label="Save settings to Database" />
-    </div-actions>
+    </div>
   </q-form>
 
   <div>
@@ -120,11 +120,11 @@
       'Invalid import string. Copy all output from /hlm e!',
   ]" />
     </div>
-    <div-actions align="right">
+    <div align="right">
       <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary" label="Append items" />
       <q-btn @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace" color="red"
         label="Replace items" />
-    </div-actions>
+    </div>
     <div class="justify-around">
       <div class="text-h7">
         Import items by writing itemIds seperated by commas
@@ -132,12 +132,12 @@
       <q-input max debounce="500" color="primary" label="Write itemIds here e.g. 19137,18814" v-model="textAreaItemIds"
         filled type="textarea" />
     </div>
-    <div-actions align="right">
+    <div align="right">
       <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary"
         label="Append items" />
       <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
         label="Replace items" />
-    </div-actions>
+    </div>
   </div>
   <div class="justify-around">
     <div class="text-h6">Auction controls</div>
