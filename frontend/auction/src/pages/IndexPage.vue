@@ -1,46 +1,48 @@
 <template>
-  <q-page class="row">
-  <div class="col-2 px-0"></div>
-  <div class="col-8 q-mt-md">
-    <div class="text-h4 text-center">Auction App</div>
-    <div>
-      <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
-        <div class="namespace-selection q-my-md">
-          <div class="text-h5 text-left">Select namespace</div>
-          <div class="row q-my-md">
-            <div @click="onNamespaceSelection(Namespace.Era)" class="col-sm-4 col-xs-12">
-              <div class="namespace-select q-mx-sm" :class="isEraSelected">
-                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Era)" spinner-color="white"
-                  img-class="img-namespace">
-                </q-img>
+  <q-page padding class="row">
+    <div class="col-2 px-0"></div>
+    <div class="col-8 q-mt-md">
+      <div class="text-h4 text-center">Auction App</div>
+      <div>
+        <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
+          <div class="namespace-selection q-my-md">
+            <div class="text-h5 text-left">Select namespace</div>
+            <div class="row q-my-md">
+              <div @click="onNamespaceSelection(Namespace.Era)" class="col-sm-4 col-xs-12">
+                <div class="namespace-select q-mx-sm" :class="isEraSelected">
+                  <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Era)" spinner-color="white"
+                    img-class="img-namespace">
+                  </q-img>
+                </div>
               </div>
-            </div>
 
-            <div @click="onNamespaceSelection(Namespace.Progression)" class="col-sm-4 col-xs-12">
-              <div class="namespace-select q-mx-sm" :class="isProgressionSelected">
-                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Progression)" spinner-color="white"
-                  img-class="img-namespace">
-                </q-img>
+              <div @click="onNamespaceSelection(Namespace.Progression)" class="col-sm-4 col-xs-12">
+                <div class="namespace-select q-mx-sm" :class="isProgressionSelected">
+                  <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Progression)"
+                    spinner-color="white" img-class="img-namespace">
+                  </q-img>
+                </div>
               </div>
-            </div>
-            <div @click="onNamespaceSelection(Namespace.Retail)" class="col-sm-4 col-xs-12">
-              <div class="namespace-select q-mx-sm" :class="isRetailSelected">
-                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Retail)" spinner-color="white"
-                  img-class="img-namespace">
-                </q-img>
+              <div @click="onNamespaceSelection(Namespace.Retail)" class="col-sm-4 col-xs-12">
+                <div class="namespace-select q-mx-sm" :class="isRetailSelected">
+                  <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Retail)" spinner-color="white"
+                    img-class="img-namespace">
+                  </q-img>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="q-my-md" align="center">
-          <q-btn unelevated type="submit" :disable="isButtonDisable" color="primary" label="Create Room" />
-        </div>
-      </q-form>
+          <div class="row justify-center">
+            <div class="col-sm-6 col-xs-10 q-my-md">
+              <q-btn class="full-width" unelevated type="submit" :disable="isButtonDisable" color="primary"
+                label="Create Room" />
+            </div>
+          </div>
+        </q-form>
+      </div>
     </div>
-  </div>
-  <div class="col-2 px-0"></div>
-</q-page>
+    <div class="col-2 px-0"></div>
+  </q-page>
 </template>
 
 <script lang="ts" setup>
@@ -129,5 +131,4 @@ async function onSubmitCreateRoom() {
 .img-namespace {
   max-height: 180px;
 }
-
 </style>

@@ -1,9 +1,7 @@
 <template>
-  <q-btn-group>
-    <q-btn @click="exportToClipboard" icon="content_copy" unelevated color="primary" label="Export to clipboard">
+    <q-btn class="full-width" @click="exportToClipboard" icon="content_copy" unelevated color="primary" label="Export to clipboard">
       <q-tooltip class="bg-primary">Save auctions to clipboard</q-tooltip>
     </q-btn>
-  </q-btn-group>
 </template>
 
 <script lang="ts" setup>

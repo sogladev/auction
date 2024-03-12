@@ -101,8 +101,11 @@
           <q-toggle v-model="settings.hideNameOfHighestBidder" color="primary" label="Hide name of highest bidder" />
         </div>
       </div>
-      <div align="right" class="q-my-sm col-sm-6 col-xs-12">
-        <q-btn icon="save" elevated type="submit" color="primary" label="Save settings to Database" />
+      <div class="row justify-end">
+        <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+          <q-btn class="full-width" icon="save" elevated type="submit" color="primary"
+            label="Save settings to Database" />
+        </div>
       </div>
     </q-form>
   </div>
@@ -111,7 +114,7 @@
     <div class="text-h6">Items</div>
 
     <div class="row">
-      <div class="col-12 q-pt-sm q-px-sm">
+      <div class="col-12 q-pa-sm">
         <q-input clearable debounce="500" color="primary" label="Paste your string here" v-model="textAreaItemsCSV"
           filled type="textarea" :rules="[
         (val) =>
@@ -120,44 +123,54 @@
           'Invalid import string. Copy all output from /hlm e!',
       ]" />
       </div>
-      <div align="right" class="col-12 q-px-sm q-pb-sm">
-        <q-btn @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary" label="Append items" />
-        <q-btn @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace" color="red"
-          label="Replace items" />
+      <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+        <q-btn class="full-width" @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary"
+          label="Append items" />
+      </div>
+      <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+        <q-btn class="full-width" @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace"
+          color="red" label="Replace items" />
       </div>
     </div>
 
     <div class="row">
-      <div class="col-12 q-pt-sm q-px-sm">
+      <div class="col-12 q-pa-sm">
         <q-input autogrow debounce="500" color="primary" label="Write itemIds here e.g. 19137,18814"
           v-model="textAreaItemIds" filled type="textarea" :rules="[
         (val) => {
           const values = val.split(',').map(v => v.trim());
-          return values.every(v => /^\d+$/.test(v)) ||
+          return values.every((v: string) => /^\d+$/.test(v)) ||
             'Invalid import string. Values must be integers seperated by commas.';
         }
       ]" />
 
       </div>
-      <div align="right" class="col-12 q-px-sm">
-        <q-btn @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary"
+      <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+        <q-btn class="full-width" @click="onSubmitUpdateItemsById" icon="add" unelevated type="update" color="primary"
           label="Append items" />
-        <q-btn @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace" color="red"
-          label="Replace items" />
+      </div>
+      <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+        <q-btn class="full-width" @click="onSubmitReplaceItemsById" icon="change_circle" unelevated type="replace"
+          color="red" label="Replace items" />
       </div>
     </div>
 
   </div>
 
   <div class="q-my-md q-pa-md admin-border">
-    <div class="q-px-sm col-md-12 col-sm-12">
-      <div class="text-h6">Auction controls</div>
-      <div class="text-h7"> Starts auctions</div>
-      <q-btn @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="primary"
-        label="Start Auctions">
-        <q-tooltip class="bg-primary">changes items from pending to bidding</q-tooltip>
-      </q-btn>
-      <ExportToCSVButtonGroup />
+    <div class="text-h6">Auction controls</div>
+    <div class="text-h7"> Starts auctions</div>
+
+    <div class="row">
+      <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+        <q-btn class="full-width" @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="primary"
+          label="Start Auctions">
+          <q-tooltip class="bg-primary">changes items from pending to bidding</q-tooltip>
+        </q-btn>
+      </div>
+      <div  class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+        <ExportToCSVButtonGroup />
+      </div>
     </div>
   </div>
 </template>
