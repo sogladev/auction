@@ -70,10 +70,17 @@ export enum Status {
 }
 
 export enum Namespace {
-  Progression = 'static-classic-eu',
   Era = 'static-classic1x-eu',
+  Progression = 'static-classic-eu',
   Retail = 'static-eu',
 }
+
+export enum NamespaceImageSrc {
+  Era = '/src/assets/wow-logo/wow-classic_1_1_240.png',
+  Progression = '/src/assets/wow-logo/wow-wrath_1_1_240.png',
+  Retail = '/src/assets/wow-logo/wow-dragonflight_1_1_240.png',
+}
+
 export class Bids {
   public bids: { [key: string]: number } = {};
   public watch: { [key: string]: boolean } = {};

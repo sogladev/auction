@@ -18,15 +18,14 @@
 
       <div v-if="isValidRoom" class="room">
         <div class="row">
-          <div class="col-8">
+          <div class="col-10">
             <div class="text-h4" style="text-align:left">You are in Room</div>
             <div class="text-h5" style="text-align:left">{{ roomId }}</div>
           </div>
-          <div class="col-4">
-            <NamespaceImage style="max-width: 9em;" :namespace="Namespace.Era" />
+          <div class="col-2">
+            <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(settings.namespace)" spinner-color="white" />
           </div>
         </div>
-
 
         <div>
           <div>
@@ -93,18 +92,16 @@ import { useRoomStore } from 'src/stores/RoomStore';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
-import NamespaceImage from 'src/components/NamespaceImage.vue'
-import { Namespace } from 'src/components/models';
-
-
 const route = useRoute();
 const roomId = typeof route.params.id === 'string' ? route.params.id : route.params.id[0];
 const roomStore = useRoomStore();
 const { fetch } = roomStore;
 const isValidRoom = ref();
 
+import { getNamespaceImageSrc } from 'src/utils/GetNamespaceImgSrc';
+
 const adminKey = ref('this is some key'); // ajax bar
-const { isAdmin, isShowAdminControls } = storeToRefs(roomStore);
+const { settings, isAdmin, isShowAdminControls } = storeToRefs(roomStore);
 
 if (isAdmin.value) {
   // isAdmin and store is set from creation page, so we don't have to fetch

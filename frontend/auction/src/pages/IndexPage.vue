@@ -10,7 +10,7 @@
           <div class="row q-my-md">
             <div @click="onNamespaceSelection(Namespace.Era)" class="col-sm-4 col-xs-12">
               <div class="namespace-select q-mx-sm" :class="isEraSelected">
-                <q-img ratio="1" fit="contain" src="/src/assets/wow-logo/wow-classic_1_1_240.png" spinner-color="white"
+                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Era)" spinner-color="white"
                   img-class="img-namespace">
                 </q-img>
               </div>
@@ -18,14 +18,14 @@
 
             <div @click="onNamespaceSelection(Namespace.Progression)" class="col-sm-4 col-xs-12">
               <div class="namespace-select q-mx-sm" :class="isProgressionSelected">
-                <q-img ratio="1" fit="contain" src="/src/assets/wow-logo/wow-wrath_1_1_240.png" spinner-color="white"
+                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Era)" spinner-color="white"
                   img-class="img-namespace">
                 </q-img>
               </div>
             </div>
             <div @click="onNamespaceSelection(Namespace.Retail)" class="col-sm-4 col-xs-12">
               <div class="namespace-select q-mx-sm" :class="isRetailSelected">
-                <q-img ratio="1" fit="contain" src="/src/assets/wow-logo/wow-dragonflight_1_1_240.png"
+                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Era)" spinner-color="white"
                   spinner-color="white" img-class="img-namespace">
                 </q-img>
               </div>
@@ -46,9 +46,11 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
+import { ref } from 'vue';
+
 import { useRoomStore } from 'src/stores/RoomStore';
 import { Namespace } from 'src/components/models';
-import { ref } from 'vue';
+import { getNamespaceImageSrc } from 'src/utils/GetNamespaceImgSrc';
 
 const $q = useQuasar();
 const router = useRouter();
