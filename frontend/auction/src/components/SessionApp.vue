@@ -2,7 +2,6 @@
   <div>
     <div class="text-h6">Settings</div>
     <div class="row">
-
       <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
       <p v-if:="settings == null">Session is not loaded!</p>
     </div>
@@ -37,7 +36,7 @@
 
     <div class="text-h6">Auctions</div>
     <q-table :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="auctions"
-      v-model:columns="columns">
+      v-model:columns="columns" no-data-label="There are currently no active auctions">
       <template v-slot:body="props">
         <q-tr :props="props" v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
           <q-td key="watch" :props="props">
@@ -649,10 +648,17 @@ async function onSubmitBid(auction: Auction): Promise<void> {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '/src/css/app.scss';
+
 .auction-table {
-  td {
-    border-style: hidden !important;
-  }
-}
+  border-radius: 5px;
+  border: 1px solid $solarizedbase00;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
+  background: $solarizedbase03;
+};
+td {
+  border-style: hidden !important;
+};
 </style>
+
