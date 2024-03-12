@@ -5,36 +5,9 @@
 
       <!-- https://quasar.dev/vue-components/list-and-list-items#introduction -->
       <p v-if:="settings == null">Session is not loaded!</p>
-
     </div>
     <div v-if:="settings" class="row">
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div>name : {{ settings.name }}</div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> bidDurationInSeconds : {{ settings.bidDurationInSeconds }} </div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> countDownTimeInSeconds : {{ settings.countDownTimeInSeconds }} </div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> organiserFee : {{ settings.organiserFee }} </div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> minimumBid : {{ settings.minimumBidIncrement }} </div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> enableDiscordProtection : {{ settings.enableDiscordProtection }} </div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> restrictBidsToEquipable : {{ settings.restrictBidsToEquipable }} </div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> hideNameOfHighestBidder : {{ settings.hideNameOfHighestBidder }} </div>
-      </div>
-      <div class="q-px-sm col-lg-3 col-sm-6 col-xs-12">
-        <div> hidePayoutDetails : {{ settings.hidePayoutDetails }} </div>
-      </div>
+      <RoomSettingsReadOnly :settings="settings" />
     </div>
   </div>
 
@@ -229,6 +202,8 @@ import { Auction, BidRequest, Status, Bids } from 'src/components/models';
 import { useRoomStore } from 'src/stores/RoomStore';
 import { minimumAcceptableBid, getNextIncrement } from 'src/utils/BidMath';
 import { getWowheadImageURL, getWowheadItemURL } from 'src/utils/WowheadURLBuilder';
+
+import RoomSettingsReadOnly from './RoomSettingsReadOnly.vue';
 
 const bids = ref(new Bids());
 const isAutoFetch = ref(false);
