@@ -1,6 +1,8 @@
 <template>
+  <q-page padding>
   <h1>About page</h1>
   <p>This is the about page</p>
+</q-page>
 </template>
 
 <script lang="ts">

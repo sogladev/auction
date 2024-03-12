@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-center column">
+  <q-page padding>
     <div v-if="isValidRoom" class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
     <div>
       <div v-if="isValidRoom == null">
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-  </div>
+</q-page>
 </template>
 
 <script lang="ts" setup>
