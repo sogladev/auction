@@ -3,14 +3,14 @@
   <q-form ref="for" @submit.prevent="onSubmit">
     <div>
       <div class="text-h6">General</div>
-      <div class="justify-around" horizontal>
-        <q-input v-model="settings.name" color="warning" label="Name" :rules="[
+      <div class="row">
+        <q-input spellcheck="false" v-model="settings.name" color="warning" label="Name" :rules="[
     (val) => typeof val == 'string' || 'Name must be a string',
     (val) =>
       /^[a-zA-Z0-9]{0,12}$/.test(val) ||
       'Name can only contain alphanumeric characters and be max 12 chars',
   ]" />
-        <q-input v-model.number="settings.organiserFee" color="warning" type="number" label="Organiser fee (%)" prefix="%"
+        <q-input v-model.number="settings.organiserFee" color="warning" type="number" label="Org fee (%)" prefix="%"
           min="0" max="100" :rules="[
     (val) =>
       (!isNaN(val) && val <= 100 && val >= 0) ||

@@ -1,7 +1,9 @@
 <template>
-  <div class="flex-center column">
+  <q-page padding>
+  <div class="flex col-2"></div>
+  <div class="flex col-8">
     <div class="text-h6">Auction App</div>
-    <div class="index-card-section">
+    <div>
       <div class="text-h6">Room</div>
       <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
         <div>
@@ -51,6 +53,8 @@
       </q-form>
     </div>
   </div>
+  <div class="col-lg-2"></div>
+</q-page>
 </template>
 
 <script lang="ts" setup>
@@ -117,15 +121,6 @@ async function onSubmitCreateRoom() {
 </script>
 
 <style>
-.index-card-section {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  max-width: 66%;
-  min-width: 33em;
-  margin: auto;
-}
-
 .namespace-select {
   border-radius: 15px;
   cursor: pointer;
