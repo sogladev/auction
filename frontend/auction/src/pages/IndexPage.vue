@@ -18,14 +18,14 @@
 
             <div @click="onNamespaceSelection(Namespace.Progression)" class="col-sm-4 col-xs-12">
               <div class="namespace-select q-mx-sm" :class="isProgressionSelected">
-                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Era)" spinner-color="white"
+                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Progression)" spinner-color="white"
                   img-class="img-namespace">
                 </q-img>
               </div>
             </div>
             <div @click="onNamespaceSelection(Namespace.Retail)" class="col-sm-4 col-xs-12">
               <div class="namespace-select q-mx-sm" :class="isRetailSelected">
-                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Era)" spinner-color="white"
+                <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(Namespace.Retail)" spinner-color="white"
                   img-class="img-namespace">
                 </q-img>
               </div>
