@@ -89,6 +89,7 @@ export const useRoomStore = defineStore('RoomStore', {
           return false;
         });
     },
+    // TODO: not used
     async fetchSettings(roomId: string): Promise<boolean> {
       return api
         .get(`/api/rooms/${roomId}/settings`)
