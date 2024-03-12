@@ -1,4 +1,4 @@
 [submodule "addon"]
 	path = addon
-	url = git@github.com:Ella36/HLoot.git
-	branch = export-pending-items
+	url = git@github.com:jellemeeus/FLoot.git
+	branch = minimal-import-export
