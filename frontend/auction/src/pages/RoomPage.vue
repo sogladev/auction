@@ -29,7 +29,7 @@
         </div>
 
         <div class="row">
-          <div class="col-md-12 col-lg-12">
+          <div class="col-sm-6 col-xs-12">
             <q-field bg-color="green" filled>
               <template v-slot:prepend>
                 <q-icon name="check" />
@@ -44,19 +44,6 @@
         <div class="justify-left">
           <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" label="Show admin controls"
             size="lg" />
-          <q-field bg-color="primary" color="primary" filled label="Admin secret key" stack-label>
-            <template v-slot:prepend>
-              <q-icon name="key" />
-            </template>
-
-            <template v-slot:append>
-              <q-btn icon="content_copy" @click="copyToClipboard(adminKey)" />
-            </template>
-
-            <template v-slot:control>
-              <div class="self-center full-width no-outline" tabindex="0">{{ adminKey }}</div>
-            </template>
-          </q-field>
 
           <q-toggle v-model="isAdmin" color="primary" label="Test admin" size="lg" />
         </div>
@@ -64,8 +51,6 @@
         <div>
           <div>
             <div v-if="isAdmin && isShowAdminControls">
-              <div class="text-h6">Admin Settings</div>
-              <div class="text-h7">configure settings, click save to update to db</div>
               <AdminRoomSettings />
               <q-separator spaced inset />
             </div>
@@ -84,7 +69,6 @@
 </template>
 
 <script lang="ts" setup>
-import { copyToClipboard } from 'quasar';
 import { ref } from 'vue';
 
 import AdminRoomSettings from 'components/AdminRoomSettings.vue';
@@ -102,7 +86,6 @@ const isValidRoom = ref();
 
 import { getNamespaceImageSrc } from 'src/utils/GetNamespaceImgSrc';
 
-const adminKey = ref('this is some key'); // ajax bar
 const { settings, isAdmin, isShowAdminControls } = storeToRefs(roomStore);
 
 if (isAdmin.value) {

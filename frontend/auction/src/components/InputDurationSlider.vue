@@ -8,7 +8,7 @@
     <q-slider
       v-model="value"
       :min="0"
-      :max="720"
+      :max="1200"
       :step="5"
       label
       :label-value="formatTime(value)"
