@@ -21,27 +21,29 @@
           <div class="col-10">
             <div class="text-h4" style="text-align:left">You are in Room</div>
             <div class="text-h5" style="text-align:left">{{ roomId }}</div>
+
           </div>
           <div class="col-2">
-            <q-img ratio="1" fit="contain" :src="getNamespaceImageSrc(settings.namespace)" spinner-color="white" />
+            <q-img ratio="1" style="max-height: 80px" fit="contain" :src="getNamespaceImageSrc(settings.namespace)" spinner-color="white" />
           </div>
         </div>
 
-        <div>
-          <div>
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
             <q-field bg-color="green" filled>
               <template v-slot:prepend>
                 <q-icon name="check" />
               </template>
               <template v-slot:control>
-                <div class="self-center full-width no-outline text-h6" tabindex="0"> Valid Room </div>
+                <div class="text-h6"> Valid Room </div>
               </template>
             </q-field>
           </div>
         </div>
 
         <div class="justify-left">
-          <q-toggle  v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" label="Show admin controls" size="lg" />
+          <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" label="Show admin controls"
+            size="lg" />
           <q-field bg-color="primary" color="primary" filled label="Admin secret key" stack-label>
             <template v-slot:prepend>
               <q-icon name="key" />
