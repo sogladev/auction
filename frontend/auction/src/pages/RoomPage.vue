@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-center column">
     <div v-if="isValidRoom" class="text-h6" style="text-align:center">You are in Room {{ roomId }}</div>
-    <q-card-section>
+    <div>
       <div v-if="isValidRoom == null">
         <q-spinner color="primary" size="10em" />
       </div>
@@ -26,9 +26,9 @@
           </template>
         </q-field>
       </div>
-    </q-card-section>
+    </div>
 
-    <q-card-section v-if="isValidRoom" class="justify-left">
+    <div v-if="isValidRoom" class="justify-left">
       <q-toggle v-model="isShowAdminControls" color="warning" label="Show admin controls" size="lg" />
       <q-field bg-color="warning" color="warning" filled label="Admin secret key" stack-label>
         <template v-slot:prepend>
@@ -45,10 +45,10 @@
       </q-field>
 
       <q-toggle v-model="isAdmin" color="warning" label="Test admin" size="lg" />
-    </q-card-section>
+    </div>
 
     <div v-if="isValidRoom">
-      <q-card class="room-card">
+      <div class="room-card">
         <div v-if="isAdmin && isShowAdminControls" class="admin-room-settings">
           <div class="text-h6">Admin Settings</div>
           <div class="text-h7">configure settings, click save to update to db</div>
@@ -60,7 +60,7 @@
           <div class="text-h7">Shows settings, button to synchronize with database, auction displays auctions</div>
           <SessionApp />
         </div>
-      </q-card>
+      </div>
     </div>
   </div>
 </template>
