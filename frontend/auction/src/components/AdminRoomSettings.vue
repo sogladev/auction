@@ -1,5 +1,5 @@
 <template>
-  <q-field bg-color="primary" color="primary" filled label="Admin secret key" stack-label>
+  <q-field label-color="white" bg-color="primary" filled label="Admin secret key" stack-label>
     <template v-slot:prepend>
       <q-icon name="key" />
     </template>
@@ -7,7 +7,7 @@
       <q-btn icon="content_copy" @click="copyToClipboard(adminKey)" />
     </template>
     <template v-slot:control>
-      <div class="self-center full-width no-outline" tabindex="0">{{ adminKey }}</div>
+      <div>{{ adminKey }}</div>
     </template>
   </q-field>
 
@@ -104,7 +104,7 @@
       <div class="row justify-end">
         <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
           <q-btn class="full-width" icon="save" elevated type="submit" color="primary"
-            label="Save" />
+            label="Save to Database" />
         </div>
       </div>
     </q-form>
