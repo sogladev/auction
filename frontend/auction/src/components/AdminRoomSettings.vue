@@ -104,7 +104,7 @@
       <div class="row justify-end">
         <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
           <q-btn class="full-width" icon="save" elevated type="submit" color="primary"
-            label="Save settings to Database" />
+            label="Save" />
         </div>
       </div>
     </q-form>
@@ -123,11 +123,11 @@
           'Invalid import string. Copy all output from /hlm e!',
       ]" />
       </div>
-      <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+      <div class="col-sm-6 col-xs-12 q-pa-sm">
         <q-btn class="full-width" @click="onSubmitUpdateItems" icon="add" unelevated type="update" color="primary"
           label="Append items" />
       </div>
-      <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
+      <div class="col-sm-6 col-xs-12 q-pa-sm">
         <q-btn class="full-width" @click="onSubmitReplaceItems" icon="change_circle" unelevated type="replace"
           color="red" label="Replace items" />
       </div>
@@ -159,8 +159,6 @@
 
   <div class="q-my-md q-pa-md admin-border">
     <div class="text-h6">Auction controls</div>
-    <div class="text-h7"> Starts auctions</div>
-
     <div class="row">
       <div class="col-sm-6 col-xs-12 q-pt-sm q-px-sm">
         <q-btn class="full-width" @click="onButtonStartAuctions" icon="timer" unelevated type="update" color="primary"
