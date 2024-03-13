@@ -458,13 +458,12 @@ https://github.com/jellemeeus/auction/assets/46423958/9f43b2b5-2c2f-4bb8-9ca8-3c
 
 # Images
 
-![](./images/frontend_index_dark_selected.png)
-![](./images/frontend_room_dark_admin1.png)
-![](./images/frontend_room_dark_admin2.png)
-![](./images/frontend_room_dark_admin3.png)
-![](./images/frontend_room_dark_user1.png)
-![](./images/frontend_room_dark_user2.png)
-![](./images/frontend_room_dark_user3.png)
+![](./images/frontend_ui_screenshot1.png)
+![](./images/frontend_ui_screenshot2.png)
+![](./images/frontend_ui_screenshot3.png)
+![](./images/frontend_ui_screenshot4.png)
+![](./images/frontend_ui_screenshot5.png)
+
 
 [Python.org]: https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white
 [Python-url]: https://www.python.org/
