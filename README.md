@@ -67,8 +67,6 @@ see addon `./addon`
 `/hlm p` export Pending items
 `/hlm i` import auctioned items
 
-TODO
-
 ## Roadmap
 
 v0:
@@ -100,6 +98,8 @@ Style
 - [x] status bar with some content
 - [x] room settings form design
 - [x] form slider for fee %, bid duration, countdown
+- [ ] display item level on top of icon
+- [ ] wrap item name
 
 Data
 - [x] same data format addon
@@ -136,7 +136,6 @@ Items
 - [ ] add amount of items
 
 Session
-
 - [x] submit auction to db
 - [x] refresh auction data from db
 - [x] auto refreshing
@@ -258,9 +257,6 @@ item.guid = elements[7] -- Encode != Decode. Field is only needed to be decoded 
 rowID,itemId,status,minPrice,exp,winner,salePrice,guid
 1:12282,3,3000,1707706195,Anonuwu,3000:2:19137,3,3000,1707706195,Anonuwu,3100,Item-5827-0-40000000C90648DE
 ```
-
-1. Website
-   TODO: itemName, icon, rarity from wowhead API
 
 ```mermaid
 flowchart LR;
@@ -447,10 +443,7 @@ Document data format
 # Video
 
 
-
 https://github.com/jellemeeus/auction/assets/46423958/70c9ae1f-789a-4f53-8a7c-92931770f33a
-
-
 
 
 # Images
