@@ -304,7 +304,7 @@ onBeforeUnmount(() => {
 // Not reactive
 const myName = ref('DefaultAndy');
 const visibleColumns = ref([
-  'watch', 'rowId', 'itemId', 'itemName', 'bidderName', 'bid',
+  'watch', 'itemName', 'bidderName', 'bid',
   'myBid', 'minimum', 'increment', 'submit', 'status'
 ]);
 const columns = ref([
