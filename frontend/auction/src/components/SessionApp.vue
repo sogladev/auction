@@ -9,172 +9,188 @@
       <RoomSettingsReadOnly :settings="settings" />
     </div>
   </div>
-    <div class="user-card">
-      <div class="text-h6">User</div>
-      <div class="row">
-        <div class="q-px-sm col-md-6 col-sm-12">
-          <q-input ref="qinputMyNameRef" color="white" v-model="myName" label="UserName" :rules="[
+  <div>
+    <div class="text-h6">User</div>
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <q-input ref="qinputMyNameRef" color="white" v-model="myName" label="UserName" :rules="[
         (val) => typeof val == 'string' || 'Name must be a string',
         (val) =>
           /^[a-zA-Z0-9]{1,12}$/.test(val) ||
           'Name can only contain alphanumeric characters and be max 12 chars',
       ]" />
-        </div>
+      </div>
     </div>
     <div>
       <div class="text-h6">Synchronize Session</div>
       <div class="row">
-        <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
-          <q-btn class="full-width" icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
+        <div class="col-md-6 col-sm-12 col-xs-12 q-py-sm">
+          <q-btn class="full-width" icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary"
+            label="Synchronize" />
         </div>
       </div>
-      </div>
     </div>
+  </div>
 
-    <div class="text-h6">Auctions</div>
-    <q-table  :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="auctions"
-      v-model:columns="columns" no-data-label="There are currently no active auctions">
-      <template v-slot:body="props">
-        <q-tr no-hover :props="props" v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
-          <q-td auto-width key="watch" :props="props">
-            <!-- visibility_off-->
-            <q-btn size="md" :icon="bids.getWatchValue(props.row.itemId, props.row.rowId) ? 'visibility' : ''"
-              color="purple" @click="bids.toggleWatch(props.row.itemId, props.row.rowId)">
-            </q-btn>
+  <div class="text-h6">Auctions</div>
+  <q-table :visible-columns="visibleColumns" :rows-per-page-options="[0]" dense class="auction-table" flat bordered
+    v-model:rows="auctions" v-model:columns="columns" no-data-label="There are currently no active auctions">
+    <template v-slot:body="props">
+      <q-tr no-hover :props="props"
+        v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
+        <q-td auto-width key="watch" :props="props">
+          <!-- visibility_off-->
+          <q-btn size="md" :icon="bids.getWatchValue(props.row.itemId, props.row.rowId) ? 'visibility' : ''"
+            color="purple" @click="bids.toggleWatch(props.row.itemId, props.row.rowId)">
+          </q-btn>
 
-          </q-td>
-          <q-td auto-width key="rowId" :props="props">
-            <q-badge color="primary">
-              {{ props.row.rowId }}
-            </q-badge>
-          </q-td>
-          <q-td  key="itemId" :props="props">
-            <q-badge color="secondary">
-              {{ props.row.itemId }}
-            </q-badge>
-          </q-td>
-          <q-td key="itemName" :props="props">
-            <div style="text-align: left">
-              <a :href="getWowheadItemURL(props.row.itemId, settings.namespace)" target="_blank"
-                :class="`q${props.row.itemInfo.quality}`">
-                <img class="q-mx-sm" v-if:="props.row.itemInfo.icon"
-                  style="vertical-align: middle; box-shadow: 0 0 10px black"
-                  :src="getWowheadImageURL(props.row.itemInfo.icon)" />
-                <span style="vertical-align: baseline">
-                  {{ props.row.itemInfo.name.length > 23 ? props.row.itemInfo.name.substring(0, 20) + '...' :
+        </q-td>
+        <q-td auto-width key="rowId" :props="props">
+          <q-badge color="primary">
+            {{ props.row.rowId }}
+          </q-badge>
+        </q-td>
+        <q-td auto-width key="itemId" :props="props">
+          <q-badge color="secondary">
+            {{ props.row.itemId }}
+          </q-badge>
+        </q-td>
+        <q-td auto-width key="itemName" :props="props">
+          <div style="text-align: left">
+            <a :href="getWowheadItemURL(props.row.itemId, settings.namespace)" target="_blank"
+              :class="`q${props.row.itemInfo.quality}`">
+              <img class="q-mr-sm" v-if:="props.row.itemInfo.icon"
+                style="vertical-align: middle; box-shadow: 0 0 10px black"
+                :src="getWowheadImageURL(props.row.itemInfo.icon)" />
+              <span style="vertical-align: baseline">
+                {{ props.row.itemInfo.name.length > 23 ? props.row.itemInfo.name.substring(0, 20) + '...' :
         props.row.itemInfo.name }}
-                </span>
-              </a>
-            </div>
-          </q-td>
-          <q-td key="bidderName" :props="props">
-            {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName }}
-          </q-td>
-          <q-td key="bid" :props="props">
-            <q-badge color="secondary">
-              {{ props.row.bid ? props.row.bid : props.row.minimumPrice }}
-            </q-badge>
-          </q-td>
-          <q-td key="myBid" :props="props">
-            <q-badge color="purple">
-              {{ bids.getBid(props.row.itemId, props.row.rowId)
+              </span>
+            </a>
+          </div>
+        </q-td>
+        <q-td key="bidderName" :props="props">
+          {{ props.row.status == Status.Pending ? "Pending..." : props.row.bidderName }}
+        </q-td>
+        <q-td key="bid" :props="props">
+          <q-badge color="secondary">
+            {{ props.row.bid ? props.row.bid : props.row.minimumPrice }}
+          </q-badge>
+        </q-td>
+        <q-td key="myBid" :props="props">
+          <q-badge color="purple">
+            {{ bids.getBid(props.row.itemId, props.row.rowId)
         ? bids.getBid(props.row.itemId, props.row.rowId) : 'Click to bid' }}
-            </q-badge>
-            <q-popup-edit :props="props" v-model.number="bids.bids[`${props.row.itemId}-${props.row.rowId}`]" auto-save
-              autofocus v-slot="scope">
-              <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, settings)"
-                :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
-                :rules="[
+          </q-badge>
+          <q-popup-edit :props="props" v-model.number="bids.bids[`${props.row.itemId}-${props.row.rowId}`]" auto-save
+            autofocus v-slot="scope">
+            <q-input ref="qinputMyBidRef" type="number" :min="minimumAcceptableBid(props.row, settings)"
+              :step="props.row.minimumIncrement" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
+              :rules="[
         (val) =>
           (!isNaN(val) && val >= minimumAcceptableBid(props.row, settings)) ||
           `Minimum bid is ${minimumAcceptableBid(props.row, settings)}!`,
       ]
         " />
-            </q-popup-edit>
-          </q-td>
-          <q-td auto-width key="minimum" :props="props">
-            <q-btn icon="remove" @click="onMinimum(props.row)"></q-btn>
-          </q-td>
-          <q-td auto-width key="increment" :props="props">
-            <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
-          </q-td>
-          <q-td auto-width key="submit" :props="props">
-            <q-btn icon="shopping_cart" @click="onSubmitBid(props.row)"
-              :disable="props.row.status != Status.Bidding"></q-btn>
-          </q-td>
-          <q-td key="status" :props="props">
-            <q-badge v-if:="props.row.status === Status.Pending" color="primary">
-              Pending
-            </q-badge>
-            <q-badge v-if:="props.row.status === Status.Bidding" color="secondary">
-              Bidding
-            </q-badge>
-            <q-badge v-if:="props.row.status === Status.Assigned && !(props.row.bidderName === myName)" color="orange">
-              Assigned
-            </q-badge>
-            <q-badge v-if:="props.row.status === Status.Assigned && (props.row.bidderName === myName)" color="green">
-              Won
-            </q-badge>
-          </q-td>
-        </q-tr>
+          </q-popup-edit>
+        </q-td>
+        <q-td auto-width key="minimum" :props="props">
+          <q-btn icon="remove" @click="onMinimum(props.row)"></q-btn>
+        </q-td>
+        <q-td auto-width key="increment" :props="props">
+          <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
+        </q-td>
+        <q-td auto-width key="submit" :props="props">
+          <q-btn icon="shopping_cart" @click="onSubmitBid(props.row)"
+            :disable="props.row.status != Status.Bidding"></q-btn>
+        </q-td>
+        <q-td key="status" :props="props">
+          <q-badge v-if:="props.row.status === Status.Pending" color="primary">
+            Pending
+          </q-badge>
+          <q-badge v-if:="props.row.status === Status.Bidding" color="secondary">
+            Bidding
+          </q-badge>
+          <q-badge v-if:="props.row.status === Status.Assigned && !(props.row.bidderName === myName)" color="orange">
+            Assigned
+          </q-badge>
+          <q-badge v-if:="props.row.status === Status.Assigned && (props.row.bidderName === myName)" color="green">
+            Won
+          </q-badge>
+        </q-td>
+      </q-tr>
 
-        <q-tr no-hover :props="props" :key="`e_${props.row.index}_progressBar`" class="q-virtual-scroll--with-prev"
-          v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
-          <q-td colspan="100%">
-            <q-linear-progress :value="calcProgress(currentTimeInUnixTimeStamp, props.row)"
-              :color="calcColor(currentTimeInUnixTimeStamp, props.row)" />
-            <div class="row q-pt-sm q-pb-md" v-if:="roomStore.isAdmin && isShowAdminControls && !(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
-              <q-input color="primary" class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
-                v-model.number="props.row.minimumPrice" dense auto-save>
-                <template v-slot:before>
-                  <q-icon name="clear" @click="() => { props.row.minimumPrice = settings.minimumBid }"
-                    class="cursor-pointer"></q-icon>
-                </template>
-              </q-input>
-              <q-btn-group>
-                <q-btn color="primary" :disable="props.row.status != Status.Bidding" label="Award/Close" icon="check"
-                  @click="onClose(props.row)" />
-                <q-btn color="primary" :disable="props.row.status != Status.Bidding" label="Countdown" icon="more_time"
-                  @click="onCountdown(props.row)" />
-                <q-btn color="primary" :disable="props.row.status == Status.Pending" label="Restart" icon="history"
-                  @click="onRestart(props.row)" />
-                <q-btn color="primary" :disable="props.row.status != Status.Assigned" label="Reopen" icon="more_time"
-                  @click="onReopen(props.row)" />
-                <q-btn color="primary" label="Delete" icon="delete" @click="onDelete(props.row)" />
-              </q-btn-group>
-            </div>
-          </q-td>
-        </q-tr>
+      <q-tr no-hover :props="props" :key="`e_${props.row.index}_progressBar`" class="q-virtual-scroll--with-prev"
+        v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
+        <q-td colspan="100%">
+          <q-linear-progress :value="calcProgress(currentTimeInUnixTimeStamp, props.row)"
+            :color="calcColor(currentTimeInUnixTimeStamp, props.row)" />
+          <div class="row q-pt-sm q-pb-md"
+            v-if:="roomStore.isAdmin && isShowAdminControls && !(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
+            <q-input color="primary" class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
+              v-model.number="props.row.minimumPrice" dense auto-save>
+              <template v-slot:before>
+                <q-icon name="clear" @click="() => { props.row.minimumPrice = settings.minimumBid }"
+                  class="cursor-pointer"></q-icon>
+              </template>
+            </q-input>
+            <q-btn-group>
+              <q-btn color="primary" :disable="props.row.status != Status.Bidding" label="Award/Close" icon="check"
+                @click="onClose(props.row)" />
+              <q-btn color="primary" :disable="props.row.status != Status.Bidding" label="Countdown" icon="more_time"
+                @click="onCountdown(props.row)" />
+              <q-btn color="primary" :disable="props.row.status == Status.Pending" label="Restart" icon="history"
+                @click="onRestart(props.row)" />
+              <q-btn color="primary" :disable="props.row.status != Status.Assigned" label="Reopen" icon="more_time"
+                @click="onReopen(props.row)" />
+              <q-btn color="primary" label="Delete" icon="delete" @click="onDelete(props.row)" />
+            </q-btn-group>
+          </div>
+        </q-td>
+      </q-tr>
 
-      </template>
-      <!--total items: 28  pending: 5 filtered: 28    bid total: 13 my total: 5 -->
-      <template v-slot:bottom>
-        <div class="flex justify-around">
-          <div class="text-h8 q-px-md">total items: {{ Object.keys(auctions).length }}</div>
-          <div class="text-h8 q-px-md">pending items: {{ auctions.filter(auction => auction.status ==
+    </template>
+    <!--total items: 28  pending: 5 filtered: 28    bid total: 13 my total: 5 -->
+    <template v-slot:bottom>
+      <div class="flex justify-around">
+        <div class="text-h8 q-px-md">total items: {{ Object.keys(auctions).length }}</div>
+        <div class="text-h8 q-px-md">pending items: {{ auctions.filter(auction => auction.status ==
         Status.Pending).length }}</div>
-          <div class="text-h8 q-px-md">filtered items: ?TODO </div>
-          <div class="text-h8 q-px-md">bid total: {{ auctions.reduce((acc, auction) => acc + (auction.bid ?
+        <div class="text-h8 q-px-md">filtered items: ?TODO </div>
+        <div class="text-h8 q-px-md">bid total: {{ auctions.reduce((acc, auction) => acc + (auction.bid ?
         auction.bid : 0), 0) }}</div>
-          <div class="text-h8 q-px-md">my total: {{ auctions.filter(auction => auction.bidderName == myName).reduce(
+        <div class="text-h8 q-px-md">my total: {{ auctions.filter(auction => auction.bidderName == myName).reduce(
         (acc, auction) => acc + (auction.bid ? auction.bid : 0), 0) }}</div>
+      </div>
+    </template>
+
+    <template v-slot:top-right>
+      <q-toggle v-model="isShowOnlyWatched" icon="visibility" label="Show only watched" color="purple" size="lg"
+        :value="isShowOnlyWatched"></q-toggle>
+    </template>
+
+    <template v-slot:top-left>
+      <q-toggle v-model="isAutoFetch" icon="sync" label="Auto update table" color="secondary" size="lg"
+        :value="true"></q-toggle>
+      <div class="row">
+        <div class="column">
+          <q-toggle v-model="visibleColumns" color="secondary" icon="visibility" label="watch" size="sm"
+            val="watch"></q-toggle>
+          <q-toggle v-model="visibleColumns" color="secondary" icon="visibility" label="rowId" size="sm"
+            val="rowId"></q-toggle>
         </div>
-      </template>
+        <div class="column">
+          <q-toggle v-model="visibleColumns" color="secondary" icon="visibility" label="itemId" size="sm"
+            val="itemId"></q-toggle>
+          <q-toggle v-model="visibleColumns" color="secondary" icon="visibility" label="status" size="sm"
+            val="status"></q-toggle>
+        </div>
+      </div>
+      <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" icon="visibility"
+        label="Show admin controls" size="lg" :value="isShowAdminControls"></q-toggle>
 
-      <template v-slot:top-right>
-        <q-toggle v-model="isShowOnlyWatched" icon="visibility" label="Show only watched" color="purple" size="lg"
-          :value="isShowOnlyWatched"></q-toggle>
-      </template>
-
-      <template v-slot:top-left>
-
-        <q-toggle v-model="isAutoFetch" icon="sync" label="Auto update table" color="secondary" size="lg"
-          :value="true"></q-toggle>
-
-        <q-toggle v-if:="roomStore.isAdmin" v-model="isShowAdminControls" color="primary" icon="visibility"
-          label="Show admin controls" size="lg" :value="isShowAdminControls"></q-toggle>
-      </template>
-    </q-table>
+    </template>
+  </q-table>
 </template>
 
 <script lang="ts" setup>
@@ -287,10 +303,13 @@ onBeforeUnmount(() => {
 
 // Not reactive
 const myName = ref('DefaultAndy');
+const visibleColumns = ref([
+  'watch', 'rowId', 'itemId', 'itemName', 'bidderName', 'bid',
+  'myBid', 'minimum', 'increment', 'submit', 'status'
+]);
 const columns = ref([
   {
     name: 'watch',
-    required: true,
     label: 'Watch',
     align: 'left',
     field: 'watch',
@@ -298,7 +317,6 @@ const columns = ref([
   },
   {
     name: 'rowId',
-    required: true,
     label: 'Row Id',
     align: 'left',
     field: 'rowId',
@@ -306,7 +324,6 @@ const columns = ref([
   },
   {
     name: 'itemId',
-    required: true,
     label: 'Item Id',
     align: 'left',
     field: 'itemId',
@@ -314,6 +331,7 @@ const columns = ref([
   },
   {
     name: 'itemName',
+    required: true,
     align: 'center',
     label: 'Item Name',
     field: 'itemName',
@@ -321,6 +339,7 @@ const columns = ref([
   },
   {
     name: 'bidderName',
+    required: true,
     align: 'center',
     label: 'Top Bidder',
     field: 'bidderName',
@@ -328,6 +347,7 @@ const columns = ref([
   },
   {
     name: 'bid',
+    required: true,
     label: 'Bid',
     field: 'bid',
     sortable: true,
@@ -335,13 +355,14 @@ const columns = ref([
   },
   {
     name: 'myBid',
+    required: true,
     label: 'My Bid',
     field: 'myBid',
     sortable: false,
   },
   { name: 'minimum', label: 'Minimum' },
   { name: 'increment', label: 'Increment' },
-  { name: 'submit', label: 'Submit' },
+  { name: 'submit', label: 'Submit', required: true, },
   {
     name: 'status',
     label: 'Status',
@@ -638,12 +659,14 @@ async function onSubmitBid(auction: Auction): Promise<void> {
 
 <style lang="scss">
 @import '/src/css/app.scss';
+
 .auction-table {
   border-radius: 5px;
   border: 1px solid $solarizedbase00;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3);
   background: $solarizedbase03;
 };
+
 td {
   border-style: hidden !important;
   --no-hover: none;
@@ -651,9 +674,10 @@ td {
 
 table tr {
   --no-hover: none;
-}
+};
 
-table tr:nth-child(4n-1), table tr:nth-child(4n)  {
-    background: $solarizedbase02;
-}
+table tr:nth-child(4n-1),
+table tr:nth-child(4n) {
+  background: $solarizedbase02;
+};
 </style>

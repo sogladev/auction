@@ -1,6 +1,6 @@
 <template>
-  <q-page padding class="row">
-    <div class="col-lg-2 col-md-0 px-0"></div>
+  <q-page class="row">
+    <div class="col-lg-2 hidden-md px-0"></div>
     <div class="col-lg-8 col-md-12 q-mt-md">
       <div v-if="isValidRoom == null">
         <q-spinner color="primary" size="10em" />
@@ -48,7 +48,7 @@
       </div>
 
     </div>
-    <div class="col-lg-2 col-md-0 px-0"></div>
+    <div class="col-lg-2 hidden-md px-0"></div>
   </q-page>
 </template>
 

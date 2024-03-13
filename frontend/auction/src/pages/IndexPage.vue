@@ -1,7 +1,7 @@
 <template>
-  <q-page padding class="row">
-    <div class="col-2 px-0"></div>
-    <div class="col-8 q-mt-md">
+  <q-page class="row">
+    <div class="col-sm-2 hidden-xs px-0"></div>
+    <div class="col-sm-8 col-xs-12 q-mt-md">
       <div class="text-h4 text-center">Auction App</div>
       <div>
         <q-form ref="for" @submit.prevent="onSubmitCreateRoom">
@@ -41,7 +41,7 @@
         </q-form>
       </div>
     </div>
-    <div class="col-2 px-0"></div>
+    <div class="col-sm-2 hidden-xs px-0"></div>
   </q-page>
 </template>
 
