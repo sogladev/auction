@@ -9,8 +9,6 @@
       <RoomSettingsReadOnly :settings="settings" />
     </div>
   </div>
-
-  <div class="justify-around" horizontal>
     <div class="user-card">
       <div class="text-h6">User</div>
       <div class="row">
@@ -22,12 +20,11 @@
           'Name can only contain alphanumeric characters and be max 12 chars',
       ]" />
         </div>
-      </div>
     </div>
     <div>
       <div class="text-h6">Synchronize Session</div>
       <div class="row">
-        <div class="col-sm-6 col-xs-12 q-pa-sm">
+        <div class="col-md-6 col-sm-12 col-xs-12 q-pa-sm">
           <q-btn class="full-width" icon="sync" @click="onSubmitSyncRoom" type="submit" color="secondary" label="Synchronize" />
         </div>
       </div>
@@ -35,23 +32,23 @@
     </div>
 
     <div class="text-h6">Auctions</div>
-    <q-table :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="auctions"
+    <q-table  :rows-per-page-options="[0]" dense class="auction-table" flat bordered v-model:rows="auctions"
       v-model:columns="columns" no-data-label="There are currently no active auctions">
       <template v-slot:body="props">
-        <q-tr :props="props" v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
-          <q-td key="watch" :props="props">
+        <q-tr no-hover :props="props" v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
+          <q-td auto-width key="watch" :props="props">
             <!-- visibility_off-->
             <q-btn size="md" :icon="bids.getWatchValue(props.row.itemId, props.row.rowId) ? 'visibility' : ''"
               color="purple" @click="bids.toggleWatch(props.row.itemId, props.row.rowId)">
             </q-btn>
 
           </q-td>
-          <q-td key="rowId" :props="props">
+          <q-td auto-width key="rowId" :props="props">
             <q-badge color="primary">
               {{ props.row.rowId }}
             </q-badge>
           </q-td>
-          <q-td key="itemId" :props="props">
+          <q-td  key="itemId" :props="props">
             <q-badge color="secondary">
               {{ props.row.itemId }}
             </q-badge>
@@ -95,13 +92,13 @@
         " />
             </q-popup-edit>
           </q-td>
-          <q-td key="minimum" :props="props">
+          <q-td auto-width key="minimum" :props="props">
             <q-btn icon="remove" @click="onMinimum(props.row)"></q-btn>
           </q-td>
-          <q-td key="increment" :props="props">
+          <q-td auto-width key="increment" :props="props">
             <q-btn icon="keyboard_arrow_up" @click="onIncrement(props.row)"></q-btn>
           </q-td>
-          <q-td key="submit" :props="props">
+          <q-td auto-width key="submit" :props="props">
             <q-btn icon="shopping_cart" @click="onSubmitBid(props.row)"
               :disable="props.row.status != Status.Bidding"></q-btn>
           </q-td>
@@ -121,19 +118,12 @@
           </q-td>
         </q-tr>
 
-        <q-tr :props="props" :key="`e_${props.row.index}_progressBar`" class="q-virtual-scroll--with-prev"
+        <q-tr no-hover :props="props" :key="`e_${props.row.index}_progressBar`" class="q-virtual-scroll--with-prev"
           v-if:="!(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
           <q-td colspan="100%">
             <q-linear-progress :value="calcProgress(currentTimeInUnixTimeStamp, props.row)"
               :color="calcColor(currentTimeInUnixTimeStamp, props.row)" />
-            <br v-if:="!roomStore.isAdmin">
-          </q-td>
-        </q-tr>
-
-        <q-tr :props="props" :key="`e_${props.row.index}_adminControls`"
-          v-if:="roomStore.isAdmin && isShowAdminControls && !(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
-          <q-td colspan="100%">
-            <div class="row">
+            <div class="row q-pt-sm q-pb-md" v-if:="roomStore.isAdmin && isShowAdminControls && !(isShowOnlyWatched && !bids.watch[`${props.row.itemId}-${props.row.rowId}`])">
               <q-input color="primary" class="q-mx-xs" label="Set Minimum Price" type="number" min="0"
                 v-model.number="props.row.minimumPrice" dense auto-save>
                 <template v-slot:before>
@@ -153,8 +143,6 @@
                 <q-btn color="primary" label="Delete" icon="delete" @click="onDelete(props.row)" />
               </q-btn-group>
             </div>
-            <br>
-            <br>
           </q-td>
         </q-tr>
 
@@ -650,7 +638,6 @@ async function onSubmitBid(auction: Auction): Promise<void> {
 
 <style lang="scss">
 @import '/src/css/app.scss';
-
 .auction-table {
   border-radius: 5px;
   border: 1px solid $solarizedbase00;
@@ -659,6 +646,14 @@ async function onSubmitBid(auction: Auction): Promise<void> {
 };
 td {
   border-style: hidden !important;
+  --no-hover: none;
 };
-</style>
 
+table tr {
+  --no-hover: none;
+}
+
+table tr:nth-child(4n-1), table tr:nth-child(4n)  {
+    background: $solarizedbase02;
+}
+</style>
